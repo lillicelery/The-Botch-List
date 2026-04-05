@@ -1,0 +1,245 @@
+.compare-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.compare-page .site-header__link--compare {
+  color: var(--navy);
+  border-bottom-color: var(--navy);
+}
+
+.compare-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 32px 80px;
+}
+
+@media (min-width: 900px) {
+  .compare-main {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+.compare-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.compare-title-box {
+  width: 100%;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  background: #fff;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+
+.compare-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--navy);
+  text-align: center;
+}
+
+.compare-subtitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--gray-500);
+  text-align: center;
+  max-width: 420px;
+}
+
+.compare-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (min-width: 960px) {
+  .compare-grid {
+    display: grid;
+    grid-template-columns: minmax(180px, 390px) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+}
+
+.compare-labels {
+  display: none;
+}
+
+@media (min-width: 960px) {
+  .compare-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 217px;
+    width: 100%;
+  }
+}
+
+.compare-label-row {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 13px 0 15px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--gray-500);
+}
+
+.compare-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.compare-card-header {
+  position: relative;
+  min-height: 217px;
+  padding: 24px;
+  background: var(--input-bg);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.compare-card-header--tall {
+  min-height: 219px;
+}
+
+.compare-avatar {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  border-radius: 9999px;
+  background: var(--border);
+}
+
+.compare-card-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--navy);
+}
+
+.compare-card-role {
+  margin: 4px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--gray-500);
+}
+
+.compare-book {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 8px 16px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  box-sizing: border-box;
+}
+
+.compare-book--primary {
+  background: var(--navy);
+  color: #fff;
+}
+
+.compare-book--primary:hover {
+  filter: brightness(1.08);
+}
+
+.compare-book--outline {
+  background: #fff;
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+}
+
+.compare-book--outline:hover {
+  background: var(--input-bg);
+}
+
+.compare-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.compare-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding-bottom: 1px;
+  border-bottom: 1px solid var(--gray-100);
+  text-align: center;
+}
+
+.compare-metric:last-child {
+  border-bottom: none;
+}
+
+.compare-metric-label {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--gray-500);
+  margin-bottom: 4px;
+}
+
+@media (min-width: 960px) {
+  .compare-metric-label {
+    display: none;
+  }
+}
+
+.compare-metric-value {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--gray-700);
+}
+
+.compare-metric-value--strong {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.compare-metric-value--medium {
+  font-weight: 500;
+  color: var(--navy);
+}
+
+.compare-metric-value--muted {
+  color: var(--gray-400);
+}
