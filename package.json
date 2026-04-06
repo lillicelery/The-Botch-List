@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "apify:maps": "node --env-file=.env scripts/apify/run.mjs",
+    "apify:map": "node scripts/apify/map-to-providers.mjs"
   },
   "dependencies": {
+    "apify-client": "^2.22.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.14.0"

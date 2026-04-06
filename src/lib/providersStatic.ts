@@ -1,4 +1,5 @@
 import type { SearchProvider } from "../types/provider";
+import apifyProviders from "../data/apifyProviders.json";
 
 /** Slugs for `/provider/:slug` — use these in routes and links. */
 export const PROVIDER_SLUGS = {
@@ -10,7 +11,10 @@ export const PROVIDER_SLUGS = {
 
 const DEMO_ORIGIN = "https://example.org";
 
-export const ALL_SEARCH_PROVIDERS: SearchProvider[] = [
+/** Scraped Google Maps providers → run `npm run apify:map` after `npm run apify:maps`. */
+const FROM_APIFY: SearchProvider[] = apifyProviders as SearchProvider[];
+
+const DEMO_SEARCH_PROVIDERS: SearchProvider[] = [
   {
     slug: PROVIDER_SLUGS.sarahJenkins,
     name: "Dr. Sarah Jenkins, DPT",
@@ -223,6 +227,9 @@ export const ALL_SEARCH_PROVIDERS: SearchProvider[] = [
     ],
   },
 ];
+
+/** Apify-backed listings first, then hand-authored demos (compare / deep snippets). */
+export const ALL_SEARCH_PROVIDERS: SearchProvider[] = [...FROM_APIFY, ...DEMO_SEARCH_PROVIDERS];
 
 const bySlug = new Map(ALL_SEARCH_PROVIDERS.map((p) => [p.slug, p]));
 
