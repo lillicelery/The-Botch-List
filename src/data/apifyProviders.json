@@ -1,24 +1,25 @@
 [
   {
-    "slug": "gm-ChIJK0f7cwcVkFQRoB6WjEpPG_M",
-    "name": "MTI Physical Therapy (Fremont)",
-    "metaLine": "Physical therapy clinic - 158 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic, Pain control clinic, Physical rehabilitation center, Physical therapist. Showing 2 scraped review snippets.",
+    "slug": "gm-ChIJdX-eeYgUkFQRUsp6mG2eKdk",
+    "name": "Sound Plastic Surgery",
+    "metaLine": "Plastic surgeon - 92 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Cosmetic surgeon, Hair replacement service, Plastic surgery clinic, Skin care clinic. No scraped review snippets yet for this provider.",
     "cardSentiment": "Very Positive",
     "tags": [
-      "Physical therapy clinic",
-      "Pain control clinic",
-      "Physical rehabilitation center",
-      "Physical therapist"
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Hair replacement service",
+      "Plastic surgery clinic"
     ],
     "specialties": [
-      "orthopedics"
+      "cosmetic",
+      "surgery"
     ],
     "locationLabel": "Seattle, WA",
     "stats": {
-      "snippetsCollected": 2,
+      "snippetsCollected": 92,
       "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
+      "topConcern": "Cosmetic review themes still being extracted"
     },
     "sentimentBreakdown": {
       "negative": 8,
@@ -26,442 +27,126 @@
       "veryGood": 60
     },
     "defaultProcedureFilters": [
-      "Physical therapy clinic",
-      "Pain control clinic",
-      "Physical rehabilitation center"
-    ],
-    "snippets": [
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT25aa2NHbFRTMGxUYURkbFZsUk9TMnhLWTJZMVRXYxAB",
-        "authorLabel": "Public review",
-        "postedRelative": "3 days ago",
-        "sentiment": "Positive",
-        "excerpt": "Professional, caring and effective. What I like most is that you see your actual PT each time . At other places they hand you off to an assistant and only occasionally see the PT. We’ll run office. Easy check in . All in all a good experience when you need PT",
-        "procedureTags": [
-          "Physical therapy clinic",
-          "Pain control clinic",
-          "Physical rehabilitation center"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=MTI%20Physical%20Therapy%20(Fremont)&query_place_id=ChIJK0f7cwcVkFQRoB6WjEpPG_M"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pGSk5reElURU5vTFVaTVJYVnRNakJhWVVGbE5HYxAB",
-        "authorLabel": "Public review",
-        "postedRelative": "1 month ago",
-        "sentiment": "Positive",
-        "excerpt": "MTI is a great place. My family and I have experience with at least three of the PTs here and all have been exceptionally committed to helping our bodies work at their peak. I recommend MTI to all my friends and family (so now that includes you, too).",
-        "procedureTags": [
-          "Physical therapy clinic",
-          "Pain control clinic",
-          "Physical rehabilitation center"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=MTI%20Physical%20Therapy%20(Fremont)&query_place_id=ChIJK0f7cwcVkFQRoB6WjEpPG_M"
-      }
-    ]
-  },
-  {
-    "slug": "gm-ChIJczvs9g4VkFQRXzGW6NYmwyY",
-    "name": "HIDEF Sports & Physical Therapy",
-    "metaLine": "Physical therapist - 317 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Physical therapy clinic. Showing 3 scraped review snippets.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapist",
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 3,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapist",
-      "Physical therapy clinic"
-    ],
-    "snippets": [
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2xaWVExRmxaM1JhVVRnd2RHRnJiMVZHYkRWS1QwRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "3 days ago",
-        "sentiment": "Positive",
-        "excerpt": "Can’t recommend HIDEF enough!!! 🙌🏼 Noelle has been so incredible. I was looking around Seattle for a new PT after suffering from a tennis injury and decided to give this place a try... 6 months later, and she has given me tons of practical exercises to strengthen the muscle imbalance and work on stuff at home. She is super personable and takes great care with her patients, always listening to what you need to work...",
-        "procedureTags": [
-          "Sports injury"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=HIDEF%20Sports%20%26%20Physical%20Therapy&query_place_id=ChIJczvs9g4VkFQRXzGW6NYmwyY"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2xoMVVIZDRRVVkxVDBsVlJ6SlliMVIyVm1wMk5uYxAB",
-        "authorLabel": "Public review",
-        "postedRelative": "2 weeks ago",
-        "sentiment": "Positive",
-        "excerpt": "Highly recommend David. He helped me a lot with my shoulder and lower back pain.",
-        "procedureTags": [
-          "Shoulder",
-          "Back pain"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=HIDEF%20Sports%20%26%20Physical%20Therapy&query_place_id=ChIJczvs9g4VkFQRXzGW6NYmwyY"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2t0aGFrZENRM0ZhYTJkVU56VTJlbWhtWWxacFJFRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "4 weeks ago",
-        "sentiment": "Positive",
-        "excerpt": "Professional, friendly, and fun team that knows exactly what is needed to rebuild your strength and help speed your recovery. It is important to relax and openly share what you are feeling, including any pain or discomfort you may be experiencing. They genuinely care about your recovery and take care not to push you too hard at the beginning. I especially appreciate that the physical therapy takes place in a gym env...",
-        "procedureTags": [
-          "Physical therapist",
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=HIDEF%20Sports%20%26%20Physical%20Therapy&query_place_id=ChIJczvs9g4VkFQRXzGW6NYmwyY"
-      }
-    ]
-  },
-  {
-    "slug": "gm-ChIJmQq5r4YVkFQRSUA3l7Nw9m8",
-    "name": "Magnolia Physical Therapy",
-    "metaLine": "Physical therapy clinic - 61 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Showing 3 scraped review snippets.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 3,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapy clinic"
-    ],
-    "snippets": [
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tkTE5WQm5kbVZZZHpKWE9FbFBSekJQVDA5WmNWRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "5 days ago",
-        "sentiment": "Positive",
-        "excerpt": "Great experience. Easy to schedule. Front desk most friendly, personable and helpful. Molly is fantastic PT expert. Knowledgeable, easy to work with, inspires compliance in following up on PT exercises, and most importantly helps me achieve desired outcomes and results! I always recommend Molly whenever I am aware of one seeking PT care. Tom T.",
-        "procedureTags": [
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Magnolia%20Physical%20Therapy&query_place_id=ChIJmQq5r4YVkFQRSUA3l7Nw9m8"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT25sSVRuQXlkWFZTUVY5VFQxVjNSbnB0VUdOV1MzYxAB",
-        "authorLabel": "Public review",
-        "postedRelative": "1 month ago",
-        "sentiment": "Positive",
-        "excerpt": "I can’t say enough great things about our experience with Dr. Patrick Magno, PhD. From day one, he was professional, attentive, and genuinely invested in improving my 95 yr old mother’s mobility and strength. He took the time to explain each exercise and made sure she felt comfortable and confident throughout the process. His personalized approach and encouragement kept her motivated, and I saw steady improvement in...",
-        "procedureTags": [
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Magnolia%20Physical%20Therapy&query_place_id=ChIJmQq5r4YVkFQRSUA3l7Nw9m8"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT25OM2FYUXhNMDFZWlRKR1ZIaHFlRUpGZGxWM1ZVRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "1 month ago",
-        "sentiment": "Positive",
-        "excerpt": "Best PT experience ever, Kailey is amazing!",
-        "procedureTags": [
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Magnolia%20Physical%20Therapy&query_place_id=ChIJmQq5r4YVkFQRSUA3l7Nw9m8"
-      }
-    ]
-  },
-  {
-    "slug": "gm-ChIJrRiQcEMVkFQRhICUXG3pBsw",
-    "name": "Therapeutic Associates Queen Anne Physical Therapy",
-    "metaLine": "Physical therapy clinic - 102 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Showing 3 scraped review snippets.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 3,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapy clinic"
-    ],
-    "snippets": [
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT25vMFMyeFpabVYyWTFFM05rZzNjV0ZLZEZKQ2IxRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "1 month ago",
-        "sentiment": "Positive",
-        "excerpt": "Here’s a polished version that keeps your tone but reads smoothly and warmly: ⸻ My OB recommended this PT practice to me, and it has been amazing. I completed my postpartum sessions with them and have seen a huge improvement. The therapy helped me not only physically get back to where I was before pregnancy, but also mentally — giving me confidence that my body can recover and be strong again. Amanda and Sarah have...",
-        "procedureTags": [
-          "Back pain"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Therapeutic%20Associates%20Queen%20Anne%20Physical%20Therapy&query_place_id=ChIJrRiQcEMVkFQRhICUXG3pBsw"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT204dFVsRmhhakV3Tm1SRVVrTnZZVjlaY0c1Qk5IYxAB",
-        "authorLabel": "Public review",
-        "postedRelative": "2 months ago",
-        "sentiment": "Positive",
-        "excerpt": "I came in to see Amanda for pelvic floor rehabilitation after a very difficult pregnancy. She assessed me and set up a realistic plan for regular visits to the clinic as well as an at home program. It was easy to schedule all my appointments and all of the staff working with Amanda are so knowledgeable and kind. I truly felt taken care of there and feel stronger than ever! Highly highly recommend going in to see Ama...",
-        "procedureTags": [
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Therapeutic%20Associates%20Queen%20Anne%20Physical%20Therapy&query_place_id=ChIJrRiQcEMVkFQRhICUXG3pBsw"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tWRVFraG5SR3hDYzNKSU5ERmFZWHBoTUhOaWJsRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "3 months ago",
-        "sentiment": "Positive",
-        "excerpt": "I have loved coming here for my prenatal PT to address SI and low back pain. I love the functional exercises, I came in struggling with significant pregnancy-related aches, and the relief I’ve felt is incredible. My therapist Amanda and my exercise physiologist Sarah are incredibly knowledgeable and provided exercises that actually fit into my daily routine. I have enjoyed my sessions and have been filled with so mu...",
-        "procedureTags": [
-          "Back pain"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Therapeutic%20Associates%20Queen%20Anne%20Physical%20Therapy&query_place_id=ChIJrRiQcEMVkFQRhICUXG3pBsw"
-      }
-    ]
-  },
-  {
-    "slug": "gm-ChIJcTdsvD4VkFQRFOTwIT_NfDY",
-    "name": "RET Physical Therapy & Healthcare Specialists",
-    "metaLine": "Physical therapy clinic - 141 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Showing 3 scraped review snippets.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 3,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapy clinic"
-    ],
-    "snippets": [
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2twMVNYTkJkRU4xY0VOMVdVdHBNV0pWYmtseE5VRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "4 days ago",
-        "sentiment": "Positive",
-        "excerpt": "Excellent group of physical therapists that know their stuff. I've been under the very capable hands of Dr Tessa Dimock and her team for a few aliments and I'm more than satisfied with the results. Highly recommend them.",
-        "procedureTags": [
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=RET%20Physical%20Therapy%20%26%20Healthcare%20Specialists&query_place_id=ChIJcTdsvD4VkFQRFOTwIT_NfDY"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pCWGVsOUNWbUk0YjNWdFpFYzVWRXh3WjFoR1IxRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "4 days ago",
-        "sentiment": "Positive",
-        "excerpt": "I’ve had a great experience at RET! The PTs and staff are helpful, knowledgeable, and have developed a welcoming culture at the clinic.",
-        "procedureTags": [
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=RET%20Physical%20Therapy%20%26%20Healthcare%20Specialists&query_place_id=ChIJcTdsvD4VkFQRFOTwIT_NfDY"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT25kNlpYQjFOaTFKTTBwblEzTnhWRVZ6TlhsTVprRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "1 week ago",
-        "sentiment": "Positive",
-        "excerpt": "Linzy and the rest of the team at RET South Lake Union are all incredible! Everyone is knowledgeable and helpful at participating and showing how exercises are supposed to work, making suggestions for at home work and more. The staff is friendly with everyone and I feel welcome when I am here. Linzy is the most knowledgeable and hands down best therapist I have ever worked with. Kit & Jay at the front desk work tire...",
-        "procedureTags": [
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=RET%20Physical%20Therapy%20%26%20Healthcare%20Specialists&query_place_id=ChIJcTdsvD4VkFQRFOTwIT_NfDY"
-      }
-    ]
-  },
-  {
-    "slug": "gm-ChIJkTNwh2VBkFQRxgFfJfAhUVg",
-    "name": "Lake Washington Physical Therapy",
-    "metaLine": "Physical therapy clinic - 223 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Showing 3 scraped review snippets.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 3,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapy clinic"
-    ],
-    "snippets": [
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT25ZMlpYTXhVbXAxY1ZaTk0yeHBYMDlxV1d4blZVRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "1 week ago",
-        "sentiment": "Positive",
-        "excerpt": "Jordan Samford did an excellent job after two shoulder replacements bringing me back to better than previous capabilities. Highly recommend Jordan .",
-        "procedureTags": [
-          "Shoulder",
-          "Back pain"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Lake%20Washington%20Physical%20Therapy&query_place_id=ChIJkTNwh2VBkFQRxgFfJfAhUVg"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pGd1lXOU1kbFY0TkU4eE5rTTFWRVUwVHpoRFRIYxAB",
-        "authorLabel": "Public review",
-        "postedRelative": "1 week ago",
-        "sentiment": "Positive",
-        "excerpt": "Came here for a neck injury from a car crash and Ben was the best!! I would recommend Ben and the team to anyone needing physical therapy.",
-        "procedureTags": [
-          "Neck pain",
-          "Sports injury"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Lake%20Washington%20Physical%20Therapy&query_place_id=ChIJkTNwh2VBkFQRxgFfJfAhUVg"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tOSVFuUXlWelpUZVhaV1pUaHBUV05yUzNZMWVYYxAB",
-        "authorLabel": "Public review",
-        "postedRelative": "2 weeks ago",
-        "sentiment": "Positive",
-        "excerpt": "LWPT is definitely the best PT business I have used (and I have used several). The clinic is very clean, staff is super friendly, and the wonderful therapists are knowledgeable. They listen and respond to my questions in a positive and understanding manner. I needed to start ASAP and even though they were well booked up, they found spots for me to begin and continue my therapy. I’ve been encouraged and given many po...",
-        "procedureTags": [
-          "Physical therapy clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Lake%20Washington%20Physical%20Therapy&query_place_id=ChIJkTNwh2VBkFQRxgFfJfAhUVg"
-      }
-    ]
-  },
-  {
-    "slug": "gm-ChIJ31vhZk4VkFQRRd7LATIyid8",
-    "name": "Core Physical Therapy - Belltown",
-    "metaLine": "Physical therapist - 137 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Massage therapist, Physical therapy clinic. No scraped review snippets yet for this provider.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapist",
-      "Massage therapist",
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 137,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Review themes still being extracted"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapist",
-      "Massage therapist",
-      "Physical therapy clinic"
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Hair replacement service"
     ],
     "snippets": []
   },
   {
-    "slug": "gm-ChIJmVI--IAVkFQRvasSSV500wo",
-    "name": "MTI Physical Therapy (Magnolia)",
-    "metaLine": "Physical therapist - 171 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Pain control clinic, Physical rehabilitation center, Physical therapy clinic, Sports medicine clinic. Showing 2 scraped review snippets.",
+    "slug": "gm-ChIJ0fz4VnwQkFQRnzvMQKaNc9c",
+    "name": "Dr. Amit D. Bhrany, MD",
+    "metaLine": "Cosmetic surgeon - 11 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Cosmetic surgeon. Categories: Cosmetic surgeon. No scraped review snippets yet for this provider.",
     "cardSentiment": "Very Positive",
     "tags": [
-      "Physical therapist",
-      "Pain control clinic",
-      "Physical rehabilitation center",
-      "Physical therapy clinic"
+      "Cosmetic surgeon"
     ],
     "specialties": [
-      "orthopedics",
-      "sports"
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 11,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Cosmetic surgeon"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJ-bOmxMlqkFQRAl2J9GTVxqM",
+    "name": "The Seattle Facial Plastic Surgery Center",
+    "metaLine": "Plastic surgeon - 58 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Cosmetic surgeon, Plastic surgery clinic, Surgical center. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Plastic surgery clinic",
+      "Surgical center"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 58,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Plastic surgery clinic"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJb9omoclqkFQRrThu2i1whcQ",
+    "name": "The Polyclinic Plastic Surgery",
+    "metaLine": "Plastic surgery clinic - 16 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgery clinic. Categories: Plastic surgery clinic, Medical spa, Plastic surgeon. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgery clinic",
+      "Medical spa",
+      "Plastic surgeon"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 16,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgery clinic",
+      "Medical spa",
+      "Plastic surgeon"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJaa0lachqkFQRhHoIWjesn8o",
+    "name": "Larrabee Center For Plastic Surgery",
+    "metaLine": "Plastic surgeon - 198 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon. Showing 2 scraped review snippets.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
     ],
     "locationLabel": "Seattle, WA",
     "stats": {
       "snippetsCollected": 2,
       "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
+      "topConcern": "Recovery timeline and bedside manner"
     },
     "sentimentBreakdown": {
       "negative": 8,
@@ -469,61 +154,56 @@
       "veryGood": 60
     },
     "defaultProcedureFilters": [
-      "Physical therapist",
-      "Pain control clinic",
-      "Physical rehabilitation center"
+      "Plastic surgeon"
     ],
     "snippets": [
       {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tSbU0yeDNObU50YldsQlpHd3pVVzVsYWsxTWIxRRAB",
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2prMk1YaGpkSFEyVG1ZelpEbG9VbVZrTms1d05VRRAB",
         "authorLabel": "Public review",
         "postedRelative": "1 week ago",
         "sentiment": "Positive",
-        "excerpt": "Matt is very knowledgeable and his targeted exercises have helped me tremendously.",
+        "excerpt": "I’ve had such a great experience with Lauren Jackson Gross and can’t recommend her enough. She approaches treatments in a very thoughtful, customized way- she actually maps out different areas of the face and adjusts her technique accordingly, which I haven’t seen elsewhere. It makes a huge difference in both the experience and the results. I’ve done Sofwave, BBL, and Moxie with her, and the results have been subtle...",
         "procedureTags": [
-          "Physical therapist",
-          "Pain control clinic",
-          "Physical rehabilitation center"
+          "BBL"
         ],
         "sourceName": "Google Maps",
         "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=MTI%20Physical%20Therapy%20(Magnolia)&query_place_id=ChIJmVI--IAVkFQRvasSSV500wo"
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Larrabee%20Center%20For%20Plastic%20Surgery&query_place_id=ChIJaa0lachqkFQRhHoIWjesn8o"
       },
       {
-        "id": "ChdDSUhNMG9nS0VJQ0FnSUM1bElUMHJnRRAB",
+        "id": "ChZDSUhNMG9nS0VJQ0FnSURWaWRqaFBBEAE",
         "authorLabel": "Public review",
-        "postedRelative": "1 week ago",
+        "postedRelative": "2 weeks ago",
         "sentiment": "Positive",
-        "excerpt": "I have used MTI for several issues over the years and always come back. Cindy is excellent and very caring and always gets me back in working order.",
+        "excerpt": "I have seen both Faye and Lahna; both are highly skilled injectors paying great attention to detail and always aligning plans (realistically) to my goals. I highly recommend Larrabee for your aesthetic and injectable services.",
         "procedureTags": [
-          "Back pain"
+          "Plastic surgeon"
         ],
         "sourceName": "Google Maps",
         "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=MTI%20Physical%20Therapy%20(Magnolia)&query_place_id=ChIJmVI--IAVkFQRvasSSV500wo"
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Larrabee%20Center%20For%20Plastic%20Surgery&query_place_id=ChIJaa0lachqkFQRhHoIWjesn8o"
       }
     ]
   },
   {
-    "slug": "gm-ChIJB0cRcRIVkFQRWAas2lNTcIQ",
-    "name": "Seattle's Elite Physical Therapy",
-    "metaLine": "Physical therapist - 80 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Rehabilitation center, Sports medicine clinic. Showing 3 scraped review snippets.",
+    "slug": "gm-ChIJw6NDvclqkFQRiyt34FRk_QI",
+    "name": "Premier Cosmetic Surgery & Medispa",
+    "metaLine": "Plastic surgeon - 75 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Surgeon. No scraped review snippets yet for this provider.",
     "cardSentiment": "Very Positive",
     "tags": [
-      "Physical therapist",
-      "Rehabilitation center",
-      "Sports medicine clinic"
+      "Plastic surgeon",
+      "Surgeon"
     ],
     "specialties": [
-      "orthopedics",
-      "sports"
+      "cosmetic",
+      "surgery"
     ],
     "locationLabel": "Seattle, WA",
     "stats": {
-      "snippetsCollected": 3,
+      "snippetsCollected": 75,
       "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
+      "topConcern": "Cosmetic review themes still being extracted"
     },
     "sentimentBreakdown": {
       "negative": 8,
@@ -531,77 +211,145 @@
       "veryGood": 60
     },
     "defaultProcedureFilters": [
-      "Physical therapist",
-      "Rehabilitation center",
-      "Sports medicine clinic"
+      "Plastic surgeon",
+      "Surgeon"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJSxiQhNNckFQRmyifHywhsTs",
+    "name": "Allure Esthetic - Dr. Javad Sajan - Best Plastic Surgeon in Seattle",
+    "metaLine": "Plastic surgeon - 1081 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Cosmetic surgeon, Medical spa, Plastic surgery clinic. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Medical spa",
+      "Plastic surgery clinic"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 1081,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Medical spa"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJnSdxeDwVkFQRzSZMq_KkgdM",
+    "name": "Seattle Face and Skin",
+    "metaLine": "Plastic surgeon - 12 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Otolaryngologist. Showing 1 scraped review snippet.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Otolaryngologist"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 1,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Recovery timeline and bedside manner"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Otolaryngologist"
     ],
     "snippets": [
       {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT21GdldWZGFVMnBYWTJjMk9WWkdaM3BWV21oTlRuYxAB",
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2xaRFVGbG5NR2R1WWxsUFIwbENTVFZzYzNocVMwRRAB",
         "authorLabel": "Public review",
-        "postedRelative": "6 days ago",
-        "sentiment": "Negative",
-        "excerpt": "I had the worst experience with receptionist. Receptionist was a careless and provided no help. Hope the business owner reads the reviews and will resolve the issue",
-        "procedureTags": [
-          "Physical therapist",
-          "Rehabilitation center",
-          "Sports medicine clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle's%20Elite%20Physical%20Therapy&query_place_id=ChIJB0cRcRIVkFQRWAas2lNTcIQ"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT21wVWIxWlJjVFZUVGxKd1RsWk1Va3BVVlZvd1QxRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "6 days ago",
+        "postedRelative": "4 months ago",
         "sentiment": "Positive",
-        "excerpt": "Physical therapy is not anything you want, it means something has gone wrong. However when you do need it you want it to be done with competence and good communication. Both of those I found at Seattle's Elite Physical Therapy. My injury is on the way to healing and more important they are concerned with making sure I know what I need to do to prevent it from reoccurring.",
+        "excerpt": "Dr. Bhrany is an extraordinarily talented surgeon –truly at the top of his field! His surgical skill is a blend of precision, artfulness, and a customized approach. His expertise is matched by his integrity and compassion. He listens intently and explains the process so you know what to expect. I interviewed 4 different plastic surgeons before I chose Dr. Bhrany. He was the clear choice for me because of his deep kn...",
         "procedureTags": [
-          "Sports injury"
+          "Plastic surgeon",
+          "Otolaryngologist"
         ],
         "sourceName": "Google Maps",
         "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle's%20Elite%20Physical%20Therapy&query_place_id=ChIJB0cRcRIVkFQRWAas2lNTcIQ"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2xWWWVHVk5ZVVZNWWpKa05WWnNObkpYVjJFeFQxRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "1 week ago",
-        "sentiment": "Negative",
-        "excerpt": "I reached out to this clinic for help recovering after a recent C-section, as they are in-network, close to my home, and have great Google reviews. Unfortunately, I wasn’t able to get past the front desk, which made the entire experience frustrating. I called multiple times and also communicated via email with Connie. The process felt unnecessarily difficult and disorganized. Initially, I was told I could provide my...",
-        "procedureTags": [
-          "Physical therapist",
-          "Rehabilitation center",
-          "Sports medicine clinic"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle's%20Elite%20Physical%20Therapy&query_place_id=ChIJB0cRcRIVkFQRWAas2lNTcIQ"
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle%20Face%20and%20Skin&query_place_id=ChIJnSdxeDwVkFQRzSZMq_KkgdM"
       }
     ]
   },
   {
-    "slug": "gm-ChIJLeAJHU8VkFQRFy11FQdjRzY",
-    "name": "Avant Physical Therapy Seattle",
-    "metaLine": "Physical therapy clinic - 293 Google reviews - Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic, Orthopedic clinic, Physical therapist, Sports medicine clinic. Showing 3 scraped review snippets.",
-    "cardSentiment": "Very Positive",
+    "slug": "gm-ChIJrdhDMksVkFQRFiwKtzEkKjM",
+    "name": "The Stella Center for Facial Plastic Surgery",
+    "metaLine": "Plastic surgeon - 45 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Medical spa, Plastic surgery clinic. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Positive",
     "tags": [
-      "Physical therapy clinic",
-      "Orthopedic clinic",
-      "Physical therapist",
-      "Sports medicine clinic"
+      "Plastic surgeon",
+      "Medical spa",
+      "Plastic surgery clinic"
     ],
     "specialties": [
-      "orthopedics",
-      "sports"
+      "cosmetic",
+      "surgery"
     ],
     "locationLabel": "Seattle, WA",
     "stats": {
-      "snippetsCollected": 3,
+      "snippetsCollected": 45,
+      "avgSentimentLabel": "Mostly positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 15,
+      "good": 45,
+      "veryGood": 40
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Medical spa",
+      "Plastic surgery clinic"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJaa0lachqkFQRDXpAaHhgQfY",
+    "name": "Seattle Plastic Surgery",
+    "metaLine": "Plastic surgeon - 282 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Dermatologist, Doctor, Otolaryngologist. Showing 1 scraped review snippet.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Dermatologist",
+      "Doctor",
+      "Otolaryngologist"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 1,
       "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Wait times and communication"
+      "topConcern": "Recovery timeline and bedside manner"
     },
     "sentimentBreakdown": {
       "negative": 8,
@@ -609,51 +357,23 @@
       "veryGood": 60
     },
     "defaultProcedureFilters": [
-      "Physical therapy clinic",
-      "Orthopedic clinic",
-      "Physical therapist"
+      "Plastic surgeon",
+      "Dermatologist",
+      "Doctor"
     ],
     "snippets": [
       {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tWRWFFRm5XbkZJUVZCM1VVMUplVkJYWjFReU1FRRAB",
-        "authorLabel": "Public review",
-        "postedRelative": "4 days ago",
-        "sentiment": "Positive",
-        "excerpt": "Highly recommend receiving PT here! The staff is knowledgeable and it shows. All my sessions with Laura were great and I continue to do the training she taught me. I also tried dry needling with her and found it to be helpful for my lower back/targeted pain. Additionally, the early morning availability allowed me to come in before work.",
-        "procedureTags": [
-          "Back pain"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Avant%20Physical%20Therapy%20Seattle&query_place_id=ChIJLeAJHU8VkFQRFy11FQdjRzY"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT21WRFFraGFZamhUTVRCNFIzQmZkMXAzT1VSQ1RtYxAB",
-        "authorLabel": "Public review",
-        "postedRelative": "5 days ago",
-        "sentiment": "Positive",
-        "excerpt": "If you’re looking for physical therapy, I couldn’t recommend Avant enough! I worked with Michelle, and she was incredible truly there with me every step of the way. It’s such a kind and caring environment, and I’m so grateful for the help I received here :)",
-        "procedureTags": [
-          "Physical therapy clinic",
-          "Orthopedic clinic",
-          "Physical therapist"
-        ],
-        "sourceName": "Google Maps",
-        "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Avant%20Physical%20Therapy%20Seattle&query_place_id=ChIJLeAJHU8VkFQRFy11FQdjRzY"
-      },
-      {
-        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pkbFpYWlZkbEpEWkhSdGNGRkhkbTlsZDNGRE1rRRAB",
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pNeGFFOWZRemxyTW1VMlZVaGhVbVZFU0U5U00yYxAB",
         "authorLabel": "Public review",
         "postedRelative": "1 week ago",
         "sentiment": "Positive",
-        "excerpt": "10/10 fantastic experience with John! I had a bilateral wrist problem that I unsuccessfully tried to rehab at home with wrist strengthening and braces. John identified it was referred pain from my back and after 3 sessions I was fully healed! Would definitely recommend",
+        "excerpt": "Dr Jonav restored my faith in plastic surgery! I was botched a year ago and he just fixed me about a week ago in Lynwood and he did amazing. I had an extreme amount of anxiety from the previous botched surgery and he was so kind and nice to me, the whole team is amazing from front desk to OR everyone is kind! I can’t wait to have him do my tummy tuck next year; he also did my lower bleph and he did such a good job I...",
         "procedureTags": [
-          "Back pain"
+          "Tummy tuck"
         ],
         "sourceName": "Google Maps",
         "sourceLogo": "google",
-        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Avant%20Physical%20Therapy%20Seattle&query_place_id=ChIJLeAJHU8VkFQRFy11FQdjRzY"
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle%20Plastic%20Surgery&query_place_id=ChIJaa0lachqkFQRDXpAaHhgQfY"
       }
     ]
   }

@@ -1,26 +1,11 @@
 /**
  * Map curated Reddit post exports -> SearchProvider-shaped JSON.
- *
- * Input format (array) in scripts/reddit/output/reddit-*.json:
- * [
- *   {
- *     "providerSlug": "gm-ChIJ...",
- *     "providerName": "MTI Physical Therapy (Fremont)",
- *     "locationLabel": "Seattle, WA",
- *     "specialties": ["orthopedics"],
- *     "title": "...",
- *     "body": "...",
- *     "author": "u/example",
- *     "subreddit": "Seattle",
- *     "createdUtc": 1733011200,
- *     "url": "https://www.reddit.com/...",
- *     "score": 12
- *   }
- * ]
+ * Cosmetic-only filter is enforced for provider text and snippets.
  */
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { inferCosmeticTags, isCosmeticProviderText, isCosmeticSnippetText } from "../common/cosmeticFilters.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, "..", "..", "src", "data");
@@ -53,10 +38,7 @@ function scoreToSentiment(score) {
 }
 
 function cleanText(title, body) {
-  return `${title ?? ""} ${body ?? ""}`
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 420);
+  return `${title ?? ""} ${body ?? ""}`.replace(/\s+/g, " ").trim().slice(0, 420);
 }
 
 function resolveInputPath() {
@@ -89,20 +71,20 @@ for (const r of rows) {
 
   const providerName = String(r.providerName ?? providerSlug).trim();
   const locationLabel = String(r.locationLabel ?? FALLBACK_LOCATION).trim() || FALLBACK_LOCATION;
-  const specialties = Array.isArray(r.specialties) ? r.specialties.map(String) : ["orthopedics"];
+  const providerContext = `${providerName} ${r.title ?? ""} ${r.body ?? ""}`;
+  if (!isCosmeticProviderText(providerContext)) continue;
 
   const excerpt = cleanText(r.title, r.body);
-  if (!excerpt) continue;
+  if (!excerpt || !isCosmeticSnippetText(excerpt)) continue;
 
+  const inferredTags = inferCosmeticTags(excerpt);
   const snippet = {
     id: String(r.id ?? `${providerSlug}-${Math.random().toString(36).slice(2, 8)}`),
     authorLabel: String(r.author ?? "u/reddit-user"),
     postedRelative: toRelativeDateFromUtc(r.createdUtc),
     sentiment: scoreToSentiment(r.score),
     excerpt,
-    procedureTags: Array.isArray(r.procedureTags) && r.procedureTags.length
-      ? r.procedureTags.map(String).slice(0, 3)
-      : ["Patient discussion"],
+    procedureTags: inferredTags.length ? inferredTags : ["Cosmetic discussion"],
     sourceName: "Reddit",
     sourceLogo: "reddit",
     originalUrl: String(r.url ?? "https://www.reddit.com/"),
@@ -112,19 +94,19 @@ for (const r of rows) {
     grouped.set(providerSlug, {
       slug: providerSlug,
       name: providerName,
-      metaLine: `Community discussion • Reddit mentions • ${locationLabel}`,
-      summary: "Community posts from Reddit mapped into provider snippets.",
+      metaLine: `Cosmetic community discussion - Reddit mentions - ${locationLabel}`,
+      summary: "Cosmetic surgery posts from Reddit mapped into provider snippets.",
       cardSentiment: "Okay",
-      tags: ["Reddit"],
-      specialties,
+      tags: ["Reddit", "Cosmetic"],
+      specialties: ["cosmetic", "surgery"],
       locationLabel,
       stats: {
         snippetsCollected: 0,
-        avgSentimentLabel: "Mixed from community posts",
-        topConcern: "Themes still being summarized",
+        avgSentimentLabel: "Mixed from cosmetic community posts",
+        topConcern: "Results and recovery expectations",
       },
       sentimentBreakdown: { negative: 34, good: 33, veryGood: 33 },
-      defaultProcedureFilters: ["Patient discussion"],
+      defaultProcedureFilters: inferredTags.length ? inferredTags : ["Cosmetic discussion"],
       snippets: [],
     });
   }
@@ -139,5 +121,5 @@ const providers = [...grouped.values()].map((p) => {
 
 mkdirSync(OUT_DIR, { recursive: true });
 writeFileSync(OUT, JSON.stringify(providers, null, 2), "utf8");
-console.log(`Mapped ${providers.length} Reddit provider groups from ${inputPath}`);
+console.log(`Mapped ${providers.length} cosmetic Reddit provider groups from ${inputPath}`);
 console.log(`Wrote ${OUT}`);

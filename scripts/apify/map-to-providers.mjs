@@ -1,13 +1,11 @@
 /**
  * Map Apify Google Maps dataset items -> SearchProvider-shaped JSON for the app.
- *
- * Usage:
- *   node scripts/apify/map-to-providers.mjs [path/to/google-maps-*.json]
- * If omitted, uses the newest matching file in scripts/apify/output/.
+ * Cosmetic-only filter is enforced in provider + snippet mapping.
  */
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { inferCosmeticTags, isCosmeticProviderRow, isCosmeticSnippetText } from "../common/cosmeticFilters.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, "..", "..", "src", "data");
@@ -58,12 +56,9 @@ function avgSentimentLabelFromScore(score) {
 function specialtiesFromCategories(categories) {
   const blob = (categories ?? []).join(" ").toLowerCase();
   const out = new Set();
-  if (blob.includes("neurolog")) out.add("neurology");
-  if (blob.includes("physical") || blob.includes("orthopedic") || blob.includes("sports") || blob.includes("rehab")) {
-    out.add("orthopedics");
-  }
-  if (blob.includes("sports")) out.add("sports");
-  if (out.size === 0) out.add("orthopedics");
+  if (blob.includes("plastic") || blob.includes("cosmetic") || blob.includes("aesthetic")) out.add("cosmetic");
+  if (blob.includes("surgery") || blob.includes("surgeon")) out.add("surgery");
+  if (out.size === 0) out.add("cosmetic");
   return [...out];
 }
 
@@ -95,36 +90,10 @@ function toRelativeDate(value) {
 }
 
 function cleanExcerpt(rawText) {
-  const collapsed = String(rawText ?? "")
-    .replace(/\s+/g, " ")
-    .replace(/[\u0000-\u001f]+/g, " ")
-    .trim();
+  const collapsed = String(rawText ?? "").replace(/\s+/g, " ").replace(/[\u0000-\u001f]+/g, " ").trim();
   if (!collapsed) return "";
   if (collapsed.length <= MAX_EXCERPT_CHARS) return collapsed;
   return `${collapsed.slice(0, MAX_EXCERPT_CHARS - 1).trimEnd()}...`;
-}
-
-function inferProcedureTags(text, categoryTags) {
-  const t = text.toLowerCase();
-  const inferred = [];
-  const rules = [
-    ["knee", "Knee"],
-    ["shoulder", "Shoulder"],
-    ["back", "Back pain"],
-    ["hip", "Hip"],
-    ["ankle", "Ankle"],
-    ["neck", "Neck pain"],
-    ["sciatica", "Sciatica"],
-    ["acl", "ACL rehab"],
-    ["surgery", "Post-surgical rehab"],
-    ["injury", "Sports injury"],
-  ];
-  for (const [needle, label] of rules) {
-    if (t.includes(needle)) inferred.push(label);
-    if (inferred.length >= 3) break;
-  }
-  if (inferred.length === 0) return categoryTags.slice(0, 3);
-  return [...new Set(inferred)].slice(0, 3);
 }
 
 function shouldSkipReview(text) {
@@ -139,13 +108,14 @@ function mapReviewsToSnippets(row, slug, tags, fallbackUrl) {
   return rawReviews
     .map((r, idx) => {
       const excerpt = cleanExcerpt(r?.text ?? r?.textTranslated ?? r?.reviewText ?? "");
-      if (!excerpt || shouldSkipReview(excerpt)) return null;
+      if (!excerpt || shouldSkipReview(excerpt) || !isCosmeticSnippetText(excerpt)) return null;
 
       const stars = typeof r?.stars === "number" ? r.stars : typeof r?.rating === "number" ? r.rating : null;
       const dateCandidate = r?.publishedAtDate ?? r?.publishedAt ?? r?.date ?? null;
       const authorLabel = String(r?.name ?? r?.reviewerName ?? r?.authorName ?? "Public review").trim() || "Public review";
       const reviewId = String(r?.reviewId ?? `${slug}-google-${idx + 1}`);
       const originalUrl = String(r?.reviewUrl ?? r?.url ?? fallbackUrl ?? "");
+      const cosmeticTags = inferCosmeticTags(excerpt);
 
       return {
         id: reviewId,
@@ -153,7 +123,7 @@ function mapReviewsToSnippets(row, slug, tags, fallbackUrl) {
         postedRelative: toRelativeDate(dateCandidate),
         sentiment: snippetSentimentFromStars(stars),
         excerpt,
-        procedureTags: inferProcedureTags(excerpt, tags),
+        procedureTags: cosmeticTags.length ? cosmeticTags : tags.slice(0, 3),
         sourceName: "Google Maps",
         sourceLogo: "google",
         originalUrl,
@@ -164,6 +134,8 @@ function mapReviewsToSnippets(row, slug, tags, fallbackUrl) {
 }
 
 function mapRow(row) {
+  if (!isCosmeticProviderRow(row)) return null;
+
   const placeId = typeof row.placeId === "string" ? row.placeId : "";
   const slug = placeId ? `gm-${placeId}` : `gm-${hashSlug(String(row.title ?? "unknown"))}`;
   const title = String(row.title ?? "Unknown place");
@@ -200,10 +172,10 @@ function mapRow(row) {
     stats: {
       snippetsCollected: snippets.length > 0 ? snippets.length : reviewsCount,
       avgSentimentLabel: avgSentimentLabelFromScore(totalScore),
-      topConcern: snippets.length > 0 ? "Wait times and communication" : "Review themes still being extracted",
+      topConcern: snippets.length > 0 ? "Recovery timeline and bedside manner" : "Cosmetic review themes still being extracted",
     },
     sentimentBreakdown: breakdownFromScore(totalScore),
-    defaultProcedureFilters: tags.slice(0, 3),
+    defaultProcedureFilters: (inferCosmeticTags(`${title} ${categoryName}`).length ? inferCosmeticTags(`${title} ${categoryName}`) : tags).slice(0, 3),
     snippets,
   };
 }
@@ -230,9 +202,9 @@ function resolveInputPath() {
 const inputPath = resolveInputPath();
 const raw = JSON.parse(readFileSync(inputPath, "utf8"));
 const items = Array.isArray(raw.items) ? raw.items : [];
-const providers = items.map((row) => mapRow(row));
+const providers = items.map((row) => mapRow(row)).filter(Boolean);
 
 mkdirSync(OUT_DIR, { recursive: true });
 writeFileSync(OUT, JSON.stringify(providers, null, 2), "utf8");
-console.log(`Mapped ${providers.length} places from ${inputPath}`);
+console.log(`Mapped ${providers.length} cosmetic places from ${inputPath}`);
 console.log(`Wrote ${OUT}`);

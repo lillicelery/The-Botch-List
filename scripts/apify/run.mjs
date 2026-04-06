@@ -26,7 +26,7 @@ if (!token) {
 }
 
 const locationQuery = process.env.MAPS_LOCATION_QUERY?.trim() || "Seattle, WA, USA";
-const searchTerm = process.env.MAPS_SEARCH?.trim() || "physical therapist";
+const searchTerm = process.env.MAPS_SEARCH?.trim() || "plastic surgeon";
 const maxCrawledPlacesPerSearch = Math.max(1, Number(process.env.MAPS_MAX_PLACES || 10));
 
 // Review scraping knobs (cost/time sensitive)
@@ -99,3 +99,4 @@ const payload = {
 
 writeFileSync(outPath, JSON.stringify(payload, null, 2), "utf8");
 console.log(`Wrote ${items.length} items to ${outPath}`);
+

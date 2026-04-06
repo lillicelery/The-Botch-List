@@ -1,1 +1,136 @@
-[]
+[
+  {
+    "slug": "gm-cosmetic-dr-arias-seattle",
+    "name": "Arias Facial Plastic Surgery",
+    "metaLine": "Cosmetic community discussion - Reddit mentions - Seattle, WA",
+    "summary": "Cosmetic surgery posts from Reddit mapped into provider snippets.",
+    "cardSentiment": "Okay",
+    "tags": [
+      "Reddit",
+      "Cosmetic"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 1,
+      "avgSentimentLabel": "Mixed from cosmetic community posts",
+      "topConcern": "Results and recovery expectations"
+    },
+    "sentimentBreakdown": {
+      "negative": 34,
+      "good": 33,
+      "veryGood": 33
+    },
+    "defaultProcedureFilters": [
+      "Rhinoplasty"
+    ],
+    "snippets": [
+      {
+        "id": "reddit-cos-1",
+        "authorLabel": "u/seattle_rhino_journey",
+        "postedRelative": "2 years ago",
+        "sentiment": "Positive",
+        "excerpt": "Rhinoplasty recovery timeline and swelling I am 6 weeks post rhinoplasty and still had tip swelling, but breathing improved and shape settled gradually. Surgeon set realistic expectations and follow-ups were consistent.",
+        "procedureTags": [
+          "Rhinoplasty"
+        ],
+        "sourceName": "Reddit",
+        "sourceLogo": "reddit",
+        "originalUrl": "https://www.reddit.com/r/PlasticSurgery/comments/example_rhino_recovery/"
+      }
+    ]
+  },
+  {
+    "slug": "gm-cosmetic-dr-lin-bellevue",
+    "name": "Lin Aesthetic Surgery Center",
+    "metaLine": "Cosmetic community discussion - Reddit mentions - Bellevue, WA",
+    "summary": "Cosmetic surgery posts from Reddit mapped into provider snippets.",
+    "cardSentiment": "Okay",
+    "tags": [
+      "Reddit",
+      "Cosmetic"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Bellevue, WA",
+    "stats": {
+      "snippetsCollected": 1,
+      "avgSentimentLabel": "Mixed from cosmetic community posts",
+      "topConcern": "Results and recovery expectations"
+    },
+    "sentimentBreakdown": {
+      "negative": 34,
+      "good": 33,
+      "veryGood": 33
+    },
+    "defaultProcedureFilters": [
+      "Facelift",
+      "Neck lift"
+    ],
+    "snippets": [
+      {
+        "id": "reddit-cos-2",
+        "authorLabel": "u/pnw_aesthetic_notes",
+        "postedRelative": "1 years ago",
+        "sentiment": "Positive",
+        "excerpt": "Facelift and neck lift consult experience Consult covered facelift incision placement, neck lift scar care, and realistic downtime. I appreciated before-and-after discussion and risks explained clearly.",
+        "procedureTags": [
+          "Facelift",
+          "Neck lift"
+        ],
+        "sourceName": "Reddit",
+        "sourceLogo": "reddit",
+        "originalUrl": "https://www.reddit.com/r/PlasticSurgery/comments/example_facelift_consult/"
+      }
+    ]
+  },
+  {
+    "slug": "gm-cosmetic-dr-park-seattle",
+    "name": "Park Cosmetic & Reconstructive",
+    "metaLine": "Cosmetic community discussion - Reddit mentions - Seattle, WA",
+    "summary": "Cosmetic surgery posts from Reddit mapped into provider snippets.",
+    "cardSentiment": "Okay",
+    "tags": [
+      "Reddit",
+      "Cosmetic"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 1,
+      "avgSentimentLabel": "Mixed from cosmetic community posts",
+      "topConcern": "Results and recovery expectations"
+    },
+    "sentimentBreakdown": {
+      "negative": 34,
+      "good": 33,
+      "veryGood": 33
+    },
+    "defaultProcedureFilters": [
+      "Breast augmentation"
+    ],
+    "snippets": [
+      {
+        "id": "reddit-cos-3",
+        "authorLabel": "u/augment_update_wa",
+        "postedRelative": "1 years ago",
+        "sentiment": "Positive",
+        "excerpt": "Breast augmentation sizing feedback Post-op breast augmentation update at 3 months: implant size recommendation looked natural for my frame and recovery instructions reduced discomfort.",
+        "procedureTags": [
+          "Breast augmentation"
+        ],
+        "sourceName": "Reddit",
+        "sourceLogo": "reddit",
+        "originalUrl": "https://www.reddit.com/r/PlasticSurgery/comments/example_breast_aug_update/"
+      }
+    ]
+  }
+]
