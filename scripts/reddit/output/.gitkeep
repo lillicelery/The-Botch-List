@@ -1,0 +1,2 @@
+# Drop files named reddit-*.json here for mapping.
+# See scripts/reddit/map-to-providers.mjs for expected schema.

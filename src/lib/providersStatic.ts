@@ -1,5 +1,6 @@
 import type { SearchProvider } from "../types/provider";
 import apifyProviders from "../data/apifyProviders.json";
+import redditProviders from "../data/redditProviders.json";
 
 /** Slugs for `/provider/:slug` — use these in routes and links. */
 export const PROVIDER_SLUGS = {
@@ -13,6 +14,8 @@ const DEMO_ORIGIN = "https://example.org";
 
 /** Scraped Google Maps providers → run `npm run apify:map` after `npm run apify:maps`. */
 const FROM_APIFY: SearchProvider[] = apifyProviders as SearchProvider[];
+/** Optional second source: run `npm run reddit:map` to refresh this file. */
+const FROM_REDDIT: SearchProvider[] = redditProviders as SearchProvider[];
 
 const DEMO_SEARCH_PROVIDERS: SearchProvider[] = [
   {
@@ -229,7 +232,7 @@ const DEMO_SEARCH_PROVIDERS: SearchProvider[] = [
 ];
 
 /** Apify-backed listings first, then hand-authored demos (compare / deep snippets). */
-export const ALL_SEARCH_PROVIDERS: SearchProvider[] = [...FROM_APIFY, ...DEMO_SEARCH_PROVIDERS];
+export const ALL_SEARCH_PROVIDERS: SearchProvider[] = [...FROM_APIFY, ...FROM_REDDIT, ...DEMO_SEARCH_PROVIDERS];
 
 const bySlug = new Map(ALL_SEARCH_PROVIDERS.map((p) => [p.slug, p]));
 
@@ -250,3 +253,5 @@ function titleFromSlug(slug: string): string {
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(" ");
 }
+
+
