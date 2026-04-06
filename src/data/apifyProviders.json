@@ -1,25 +1,24 @@
 [
   {
-    "slug": "gm-ChIJLeAJHU8VkFQRFy11FQdjRzY",
-    "name": "Avant Physical Therapy Seattle",
-    "metaLine": "Physical therapist • 293 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Orthopedic clinic, Physical therapy clinic, Sports medicine clinic. Patient stories on The Botch List are not yet linked for this provider.",
+    "slug": "gm-ChIJK0f7cwcVkFQRoB6WjEpPG_M",
+    "name": "MTI Physical Therapy (Fremont)",
+    "metaLine": "Physical therapy clinic - 158 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic, Pain control clinic, Physical rehabilitation center, Physical therapist. Showing 2 scraped review snippets.",
     "cardSentiment": "Very Positive",
     "tags": [
-      "Physical therapist",
-      "Orthopedic clinic",
       "Physical therapy clinic",
-      "Sports medicine clinic"
+      "Pain control clinic",
+      "Physical rehabilitation center",
+      "Physical therapist"
     ],
     "specialties": [
-      "orthopedics",
-      "sports"
+      "orthopedics"
     ],
     "locationLabel": "Seattle, WA",
     "stats": {
-      "snippetsCollected": 293,
+      "snippetsCollected": 2,
       "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
+      "topConcern": "Wait times and communication"
     },
     "sentimentBreakdown": {
       "negative": 8,
@@ -27,32 +26,61 @@
       "veryGood": 60
     },
     "defaultProcedureFilters": [
-      "Physical therapist",
-      "Orthopedic clinic",
-      "Physical therapy clinic"
+      "Physical therapy clinic",
+      "Pain control clinic",
+      "Physical rehabilitation center"
     ],
-    "snippets": []
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT25aa2NHbFRTMGxUYURkbFZsUk9TMnhLWTJZMVRXYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "3 days ago",
+        "sentiment": "Positive",
+        "excerpt": "Professional, caring and effective. What I like most is that you see your actual PT each time . At other places they hand you off to an assistant and only occasionally see the PT. We’ll run office. Easy check in . All in all a good experience when you need PT",
+        "procedureTags": [
+          "Physical therapy clinic",
+          "Pain control clinic",
+          "Physical rehabilitation center"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=MTI%20Physical%20Therapy%20(Fremont)&query_place_id=ChIJK0f7cwcVkFQRoB6WjEpPG_M"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pGSk5reElURU5vTFVaTVJYVnRNakJhWVVGbE5HYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 month ago",
+        "sentiment": "Positive",
+        "excerpt": "MTI is a great place. My family and I have experience with at least three of the PTs here and all have been exceptionally committed to helping our bodies work at their peak. I recommend MTI to all my friends and family (so now that includes you, too).",
+        "procedureTags": [
+          "Physical therapy clinic",
+          "Pain control clinic",
+          "Physical rehabilitation center"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=MTI%20Physical%20Therapy%20(Fremont)&query_place_id=ChIJK0f7cwcVkFQRoB6WjEpPG_M"
+      }
+    ]
   },
   {
-    "slug": "gm-ChIJB0cRcRIVkFQRWAas2lNTcIQ",
-    "name": "Seattle's Elite Physical Therapy",
-    "metaLine": "Physical therapist • 80 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Rehabilitation center, Sports medicine clinic. Patient stories on The Botch List are not yet linked for this provider.",
+    "slug": "gm-ChIJczvs9g4VkFQRXzGW6NYmwyY",
+    "name": "HIDEF Sports & Physical Therapy",
+    "metaLine": "Physical therapist - 317 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Physical therapy clinic. Showing 3 scraped review snippets.",
     "cardSentiment": "Very Positive",
     "tags": [
       "Physical therapist",
-      "Rehabilitation center",
-      "Sports medicine clinic"
+      "Physical therapy clinic"
     ],
     "specialties": [
-      "orthopedics",
-      "sports"
+      "orthopedics"
     ],
     "locationLabel": "Seattle, WA",
     "stats": {
-      "snippetsCollected": 80,
+      "snippetsCollected": 3,
       "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
+      "topConcern": "Wait times and communication"
     },
     "sentimentBreakdown": {
       "negative": 8,
@@ -61,16 +89,331 @@
     },
     "defaultProcedureFilters": [
       "Physical therapist",
-      "Rehabilitation center",
-      "Sports medicine clinic"
+      "Physical therapy clinic"
     ],
-    "snippets": []
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2xaWVExRmxaM1JhVVRnd2RHRnJiMVZHYkRWS1QwRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "3 days ago",
+        "sentiment": "Positive",
+        "excerpt": "Can’t recommend HIDEF enough!!! 🙌🏼 Noelle has been so incredible. I was looking around Seattle for a new PT after suffering from a tennis injury and decided to give this place a try... 6 months later, and she has given me tons of practical exercises to strengthen the muscle imbalance and work on stuff at home. She is super personable and takes great care with her patients, always listening to what you need to work...",
+        "procedureTags": [
+          "Sports injury"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=HIDEF%20Sports%20%26%20Physical%20Therapy&query_place_id=ChIJczvs9g4VkFQRXzGW6NYmwyY"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2xoMVVIZDRRVVkxVDBsVlJ6SlliMVIyVm1wMk5uYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "2 weeks ago",
+        "sentiment": "Positive",
+        "excerpt": "Highly recommend David. He helped me a lot with my shoulder and lower back pain.",
+        "procedureTags": [
+          "Shoulder",
+          "Back pain"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=HIDEF%20Sports%20%26%20Physical%20Therapy&query_place_id=ChIJczvs9g4VkFQRXzGW6NYmwyY"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2t0aGFrZENRM0ZhYTJkVU56VTJlbWhtWWxacFJFRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "4 weeks ago",
+        "sentiment": "Positive",
+        "excerpt": "Professional, friendly, and fun team that knows exactly what is needed to rebuild your strength and help speed your recovery. It is important to relax and openly share what you are feeling, including any pain or discomfort you may be experiencing. They genuinely care about your recovery and take care not to push you too hard at the beginning. I especially appreciate that the physical therapy takes place in a gym env...",
+        "procedureTags": [
+          "Physical therapist",
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=HIDEF%20Sports%20%26%20Physical%20Therapy&query_place_id=ChIJczvs9g4VkFQRXzGW6NYmwyY"
+      }
+    ]
+  },
+  {
+    "slug": "gm-ChIJmQq5r4YVkFQRSUA3l7Nw9m8",
+    "name": "Magnolia Physical Therapy",
+    "metaLine": "Physical therapy clinic - 61 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Showing 3 scraped review snippets.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Physical therapy clinic"
+    ],
+    "specialties": [
+      "orthopedics"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 3,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Wait times and communication"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Physical therapy clinic"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tkTE5WQm5kbVZZZHpKWE9FbFBSekJQVDA5WmNWRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "5 days ago",
+        "sentiment": "Positive",
+        "excerpt": "Great experience. Easy to schedule. Front desk most friendly, personable and helpful. Molly is fantastic PT expert. Knowledgeable, easy to work with, inspires compliance in following up on PT exercises, and most importantly helps me achieve desired outcomes and results! I always recommend Molly whenever I am aware of one seeking PT care. Tom T.",
+        "procedureTags": [
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Magnolia%20Physical%20Therapy&query_place_id=ChIJmQq5r4YVkFQRSUA3l7Nw9m8"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT25sSVRuQXlkWFZTUVY5VFQxVjNSbnB0VUdOV1MzYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 month ago",
+        "sentiment": "Positive",
+        "excerpt": "I can’t say enough great things about our experience with Dr. Patrick Magno, PhD. From day one, he was professional, attentive, and genuinely invested in improving my 95 yr old mother’s mobility and strength. He took the time to explain each exercise and made sure she felt comfortable and confident throughout the process. His personalized approach and encouragement kept her motivated, and I saw steady improvement in...",
+        "procedureTags": [
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Magnolia%20Physical%20Therapy&query_place_id=ChIJmQq5r4YVkFQRSUA3l7Nw9m8"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT25OM2FYUXhNMDFZWlRKR1ZIaHFlRUpGZGxWM1ZVRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 month ago",
+        "sentiment": "Positive",
+        "excerpt": "Best PT experience ever, Kailey is amazing!",
+        "procedureTags": [
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Magnolia%20Physical%20Therapy&query_place_id=ChIJmQq5r4YVkFQRSUA3l7Nw9m8"
+      }
+    ]
+  },
+  {
+    "slug": "gm-ChIJrRiQcEMVkFQRhICUXG3pBsw",
+    "name": "Therapeutic Associates Queen Anne Physical Therapy",
+    "metaLine": "Physical therapy clinic - 102 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Showing 3 scraped review snippets.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Physical therapy clinic"
+    ],
+    "specialties": [
+      "orthopedics"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 3,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Wait times and communication"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Physical therapy clinic"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT25vMFMyeFpabVYyWTFFM05rZzNjV0ZLZEZKQ2IxRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 month ago",
+        "sentiment": "Positive",
+        "excerpt": "Here’s a polished version that keeps your tone but reads smoothly and warmly: ⸻ My OB recommended this PT practice to me, and it has been amazing. I completed my postpartum sessions with them and have seen a huge improvement. The therapy helped me not only physically get back to where I was before pregnancy, but also mentally — giving me confidence that my body can recover and be strong again. Amanda and Sarah have...",
+        "procedureTags": [
+          "Back pain"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Therapeutic%20Associates%20Queen%20Anne%20Physical%20Therapy&query_place_id=ChIJrRiQcEMVkFQRhICUXG3pBsw"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT204dFVsRmhhakV3Tm1SRVVrTnZZVjlaY0c1Qk5IYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "2 months ago",
+        "sentiment": "Positive",
+        "excerpt": "I came in to see Amanda for pelvic floor rehabilitation after a very difficult pregnancy. She assessed me and set up a realistic plan for regular visits to the clinic as well as an at home program. It was easy to schedule all my appointments and all of the staff working with Amanda are so knowledgeable and kind. I truly felt taken care of there and feel stronger than ever! Highly highly recommend going in to see Ama...",
+        "procedureTags": [
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Therapeutic%20Associates%20Queen%20Anne%20Physical%20Therapy&query_place_id=ChIJrRiQcEMVkFQRhICUXG3pBsw"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tWRVFraG5SR3hDYzNKSU5ERmFZWHBoTUhOaWJsRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "3 months ago",
+        "sentiment": "Positive",
+        "excerpt": "I have loved coming here for my prenatal PT to address SI and low back pain. I love the functional exercises, I came in struggling with significant pregnancy-related aches, and the relief I’ve felt is incredible. My therapist Amanda and my exercise physiologist Sarah are incredibly knowledgeable and provided exercises that actually fit into my daily routine. I have enjoyed my sessions and have been filled with so mu...",
+        "procedureTags": [
+          "Back pain"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Therapeutic%20Associates%20Queen%20Anne%20Physical%20Therapy&query_place_id=ChIJrRiQcEMVkFQRhICUXG3pBsw"
+      }
+    ]
+  },
+  {
+    "slug": "gm-ChIJcTdsvD4VkFQRFOTwIT_NfDY",
+    "name": "RET Physical Therapy & Healthcare Specialists",
+    "metaLine": "Physical therapy clinic - 141 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Showing 3 scraped review snippets.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Physical therapy clinic"
+    ],
+    "specialties": [
+      "orthopedics"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 3,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Wait times and communication"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Physical therapy clinic"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2twMVNYTkJkRU4xY0VOMVdVdHBNV0pWYmtseE5VRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "4 days ago",
+        "sentiment": "Positive",
+        "excerpt": "Excellent group of physical therapists that know their stuff. I've been under the very capable hands of Dr Tessa Dimock and her team for a few aliments and I'm more than satisfied with the results. Highly recommend them.",
+        "procedureTags": [
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=RET%20Physical%20Therapy%20%26%20Healthcare%20Specialists&query_place_id=ChIJcTdsvD4VkFQRFOTwIT_NfDY"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pCWGVsOUNWbUk0YjNWdFpFYzVWRXh3WjFoR1IxRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "4 days ago",
+        "sentiment": "Positive",
+        "excerpt": "I’ve had a great experience at RET! The PTs and staff are helpful, knowledgeable, and have developed a welcoming culture at the clinic.",
+        "procedureTags": [
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=RET%20Physical%20Therapy%20%26%20Healthcare%20Specialists&query_place_id=ChIJcTdsvD4VkFQRFOTwIT_NfDY"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT25kNlpYQjFOaTFKTTBwblEzTnhWRVZ6TlhsTVprRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Positive",
+        "excerpt": "Linzy and the rest of the team at RET South Lake Union are all incredible! Everyone is knowledgeable and helpful at participating and showing how exercises are supposed to work, making suggestions for at home work and more. The staff is friendly with everyone and I feel welcome when I am here. Linzy is the most knowledgeable and hands down best therapist I have ever worked with. Kit & Jay at the front desk work tire...",
+        "procedureTags": [
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=RET%20Physical%20Therapy%20%26%20Healthcare%20Specialists&query_place_id=ChIJcTdsvD4VkFQRFOTwIT_NfDY"
+      }
+    ]
+  },
+  {
+    "slug": "gm-ChIJkTNwh2VBkFQRxgFfJfAhUVg",
+    "name": "Lake Washington Physical Therapy",
+    "metaLine": "Physical therapy clinic - 223 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Showing 3 scraped review snippets.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Physical therapy clinic"
+    ],
+    "specialties": [
+      "orthopedics"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 3,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Wait times and communication"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Physical therapy clinic"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT25ZMlpYTXhVbXAxY1ZaTk0yeHBYMDlxV1d4blZVRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Positive",
+        "excerpt": "Jordan Samford did an excellent job after two shoulder replacements bringing me back to better than previous capabilities. Highly recommend Jordan .",
+        "procedureTags": [
+          "Shoulder",
+          "Back pain"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Lake%20Washington%20Physical%20Therapy&query_place_id=ChIJkTNwh2VBkFQRxgFfJfAhUVg"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pGd1lXOU1kbFY0TkU4eE5rTTFWRVUwVHpoRFRIYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Positive",
+        "excerpt": "Came here for a neck injury from a car crash and Ben was the best!! I would recommend Ben and the team to anyone needing physical therapy.",
+        "procedureTags": [
+          "Neck pain",
+          "Sports injury"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Lake%20Washington%20Physical%20Therapy&query_place_id=ChIJkTNwh2VBkFQRxgFfJfAhUVg"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tOSVFuUXlWelpUZVhaV1pUaHBUV05yUzNZMWVYYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "2 weeks ago",
+        "sentiment": "Positive",
+        "excerpt": "LWPT is definitely the best PT business I have used (and I have used several). The clinic is very clean, staff is super friendly, and the wonderful therapists are knowledgeable. They listen and respond to my questions in a positive and understanding manner. I needed to start ASAP and even though they were well booked up, they found spots for me to begin and continue my therapy. I’ve been encouraged and given many po...",
+        "procedureTags": [
+          "Physical therapy clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Lake%20Washington%20Physical%20Therapy&query_place_id=ChIJkTNwh2VBkFQRxgFfJfAhUVg"
+      }
+    ]
   },
   {
     "slug": "gm-ChIJ31vhZk4VkFQRRd7LATIyid8",
     "name": "Core Physical Therapy - Belltown",
-    "metaLine": "Physical therapist • 137 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Massage therapist, Physical therapy clinic. Patient stories on The Botch List are not yet linked for this provider.",
+    "metaLine": "Physical therapist - 137 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Massage therapist, Physical therapy clinic. No scraped review snippets yet for this provider.",
     "cardSentiment": "Very Positive",
     "tags": [
       "Physical therapist",
@@ -84,7 +427,7 @@
     "stats": {
       "snippetsCollected": 137,
       "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
+      "topConcern": "Review themes still being extracted"
     },
     "sentimentBreakdown": {
       "negative": 8,
@@ -94,182 +437,6 @@
     "defaultProcedureFilters": [
       "Physical therapist",
       "Massage therapist",
-      "Physical therapy clinic"
-    ],
-    "snippets": []
-  },
-  {
-    "slug": "gm-ChIJmQq5r4YVkFQRSUA3l7Nw9m8",
-    "name": "Magnolia Physical Therapy",
-    "metaLine": "Physical therapy clinic • 61 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Patient stories on The Botch List are not yet linked for this provider.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 61,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapy clinic"
-    ],
-    "snippets": []
-  },
-  {
-    "slug": "gm-ChIJcTdsvD4VkFQRFOTwIT_NfDY",
-    "name": "RET Physical Therapy & Healthcare Specialists",
-    "metaLine": "Physical therapy clinic • 141 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Patient stories on The Botch List are not yet linked for this provider.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 141,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapy clinic"
-    ],
-    "snippets": []
-  },
-  {
-    "slug": "gm-ChIJoxpcpuQVkFQR6mkDiBSFgws",
-    "name": "Therapydia Queen Anne Physical Therapy",
-    "metaLine": "Physical therapy clinic • 135 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Patient stories on The Botch List are not yet linked for this provider.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 135,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapy clinic"
-    ],
-    "snippets": []
-  },
-  {
-    "slug": "gm-ChIJczvs9g4VkFQRXzGW6NYmwyY",
-    "name": "HIDEF Sports & Physical Therapy",
-    "metaLine": "Physical therapist • 317 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Physical therapy clinic. Patient stories on The Botch List are not yet linked for this provider.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapist",
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 317,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapist",
-      "Physical therapy clinic"
-    ],
-    "snippets": []
-  },
-  {
-    "slug": "gm-ChIJpVNVozcVkFQRggBMy3jzR00",
-    "name": "Forefront Physical Therapy - Seattle",
-    "metaLine": "Physical therapist • 229 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Lymph drainage therapist, Massage therapist, Orthopedic clinic, Pain management physician. Patient stories on The Botch List are not yet linked for this provider.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapist",
-      "Lymph drainage therapist",
-      "Massage therapist",
-      "Orthopedic clinic"
-    ],
-    "specialties": [
-      "orthopedics",
-      "sports"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 229,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
-      "Physical therapist",
-      "Lymph drainage therapist",
-      "Massage therapist"
-    ],
-    "snippets": []
-  },
-  {
-    "slug": "gm-ChIJrRiQcEMVkFQRhICUXG3pBsw",
-    "name": "Therapeutic Associates Queen Anne Physical Therapy",
-    "metaLine": "Physical therapy clinic • 102 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic. Patient stories on The Botch List are not yet linked for this provider.",
-    "cardSentiment": "Very Positive",
-    "tags": [
-      "Physical therapy clinic"
-    ],
-    "specialties": [
-      "orthopedics"
-    ],
-    "locationLabel": "Seattle, WA",
-    "stats": {
-      "snippetsCollected": 102,
-      "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
-    },
-    "sentimentBreakdown": {
-      "negative": 8,
-      "good": 32,
-      "veryGood": 60
-    },
-    "defaultProcedureFilters": [
       "Physical therapy clinic"
     ],
     "snippets": []
@@ -277,8 +444,8 @@
   {
     "slug": "gm-ChIJmVI--IAVkFQRvasSSV500wo",
     "name": "MTI Physical Therapy (Magnolia)",
-    "metaLine": "Physical therapist • 171 Google reviews • Seattle, WA",
-    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Pain control clinic, Physical rehabilitation center, Physical therapy clinic, Sports medicine clinic. Patient stories on The Botch List are not yet linked for this provider.",
+    "metaLine": "Physical therapist - 171 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Pain control clinic, Physical rehabilitation center, Physical therapy clinic, Sports medicine clinic. Showing 2 scraped review snippets.",
     "cardSentiment": "Very Positive",
     "tags": [
       "Physical therapist",
@@ -292,9 +459,9 @@
     ],
     "locationLabel": "Seattle, WA",
     "stats": {
-      "snippetsCollected": 171,
+      "snippetsCollected": 2,
       "avgSentimentLabel": "Mostly very positive (Google)",
-      "topConcern": "Patient threads not aggregated yet"
+      "topConcern": "Wait times and communication"
     },
     "sentimentBreakdown": {
       "negative": 8,
@@ -306,6 +473,188 @@
       "Pain control clinic",
       "Physical rehabilitation center"
     ],
-    "snippets": []
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tSbU0yeDNObU50YldsQlpHd3pVVzVsYWsxTWIxRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Positive",
+        "excerpt": "Matt is very knowledgeable and his targeted exercises have helped me tremendously.",
+        "procedureTags": [
+          "Physical therapist",
+          "Pain control clinic",
+          "Physical rehabilitation center"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=MTI%20Physical%20Therapy%20(Magnolia)&query_place_id=ChIJmVI--IAVkFQRvasSSV500wo"
+      },
+      {
+        "id": "ChdDSUhNMG9nS0VJQ0FnSUM1bElUMHJnRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Positive",
+        "excerpt": "I have used MTI for several issues over the years and always come back. Cindy is excellent and very caring and always gets me back in working order.",
+        "procedureTags": [
+          "Back pain"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=MTI%20Physical%20Therapy%20(Magnolia)&query_place_id=ChIJmVI--IAVkFQRvasSSV500wo"
+      }
+    ]
+  },
+  {
+    "slug": "gm-ChIJB0cRcRIVkFQRWAas2lNTcIQ",
+    "name": "Seattle's Elite Physical Therapy",
+    "metaLine": "Physical therapist - 80 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapist. Categories: Physical therapist, Rehabilitation center, Sports medicine clinic. Showing 3 scraped review snippets.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Physical therapist",
+      "Rehabilitation center",
+      "Sports medicine clinic"
+    ],
+    "specialties": [
+      "orthopedics",
+      "sports"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 3,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Wait times and communication"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Physical therapist",
+      "Rehabilitation center",
+      "Sports medicine clinic"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT21GdldWZGFVMnBYWTJjMk9WWkdaM3BWV21oTlRuYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "6 days ago",
+        "sentiment": "Negative",
+        "excerpt": "I had the worst experience with receptionist. Receptionist was a careless and provided no help. Hope the business owner reads the reviews and will resolve the issue",
+        "procedureTags": [
+          "Physical therapist",
+          "Rehabilitation center",
+          "Sports medicine clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle's%20Elite%20Physical%20Therapy&query_place_id=ChIJB0cRcRIVkFQRWAas2lNTcIQ"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT21wVWIxWlJjVFZUVGxKd1RsWk1Va3BVVlZvd1QxRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "6 days ago",
+        "sentiment": "Positive",
+        "excerpt": "Physical therapy is not anything you want, it means something has gone wrong. However when you do need it you want it to be done with competence and good communication. Both of those I found at Seattle's Elite Physical Therapy. My injury is on the way to healing and more important they are concerned with making sure I know what I need to do to prevent it from reoccurring.",
+        "procedureTags": [
+          "Sports injury"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle's%20Elite%20Physical%20Therapy&query_place_id=ChIJB0cRcRIVkFQRWAas2lNTcIQ"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2xWWWVHVk5ZVVZNWWpKa05WWnNObkpYVjJFeFQxRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Negative",
+        "excerpt": "I reached out to this clinic for help recovering after a recent C-section, as they are in-network, close to my home, and have great Google reviews. Unfortunately, I wasn’t able to get past the front desk, which made the entire experience frustrating. I called multiple times and also communicated via email with Connie. The process felt unnecessarily difficult and disorganized. Initially, I was told I could provide my...",
+        "procedureTags": [
+          "Physical therapist",
+          "Rehabilitation center",
+          "Sports medicine clinic"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle's%20Elite%20Physical%20Therapy&query_place_id=ChIJB0cRcRIVkFQRWAas2lNTcIQ"
+      }
+    ]
+  },
+  {
+    "slug": "gm-ChIJLeAJHU8VkFQRFy11FQdjRzY",
+    "name": "Avant Physical Therapy Seattle",
+    "metaLine": "Physical therapy clinic - 293 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Physical therapy clinic. Categories: Physical therapy clinic, Orthopedic clinic, Physical therapist, Sports medicine clinic. Showing 3 scraped review snippets.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Physical therapy clinic",
+      "Orthopedic clinic",
+      "Physical therapist",
+      "Sports medicine clinic"
+    ],
+    "specialties": [
+      "orthopedics",
+      "sports"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 3,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Wait times and communication"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Physical therapy clinic",
+      "Orthopedic clinic",
+      "Physical therapist"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2tWRWFFRm5XbkZJUVZCM1VVMUplVkJYWjFReU1FRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "4 days ago",
+        "sentiment": "Positive",
+        "excerpt": "Highly recommend receiving PT here! The staff is knowledgeable and it shows. All my sessions with Laura were great and I continue to do the training she taught me. I also tried dry needling with her and found it to be helpful for my lower back/targeted pain. Additionally, the early morning availability allowed me to come in before work.",
+        "procedureTags": [
+          "Back pain"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Avant%20Physical%20Therapy%20Seattle&query_place_id=ChIJLeAJHU8VkFQRFy11FQdjRzY"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT21WRFFraGFZamhUTVRCNFIzQmZkMXAzT1VSQ1RtYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "5 days ago",
+        "sentiment": "Positive",
+        "excerpt": "If you’re looking for physical therapy, I couldn’t recommend Avant enough! I worked with Michelle, and she was incredible truly there with me every step of the way. It’s such a kind and caring environment, and I’m so grateful for the help I received here :)",
+        "procedureTags": [
+          "Physical therapy clinic",
+          "Orthopedic clinic",
+          "Physical therapist"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Avant%20Physical%20Therapy%20Seattle&query_place_id=ChIJLeAJHU8VkFQRFy11FQdjRzY"
+      },
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pkbFpYWlZkbEpEWkhSdGNGRkhkbTlsZDNGRE1rRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Positive",
+        "excerpt": "10/10 fantastic experience with John! I had a bilateral wrist problem that I unsuccessfully tried to rehab at home with wrist strengthening and braces. John identified it was referred pain from my back and after 3 sessions I was fully healed! Would definitely recommend",
+        "procedureTags": [
+          "Back pain"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Avant%20Physical%20Therapy%20Seattle&query_place_id=ChIJLeAJHU8VkFQRFy11FQdjRzY"
+      }
+    ]
   }
 ]

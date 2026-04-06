@@ -1,6 +1,6 @@
 /**
- * Run Apify Google Maps Scraper once for a single city/region and save the raw dataset as JSON.
- * Actor: compass/crawler-google-places (📍 Google Maps Scraper)
+ * Run Apify Google Maps Scraper once for a single city/region and save raw output JSON.
+ * Actor: compass/crawler-google-places (Google Maps Scraper)
  *
  * Usage (from repo root):
  *   npm run apify:maps
@@ -21,24 +21,31 @@ const ACTOR_ID = "compass/crawler-google-places";
 
 const token = process.env.APIFY_TOKEN?.trim();
 if (!token) {
-  console.error(
-    "Missing APIFY_TOKEN. Add it to your .env file (see .env.example)."
-  );
+  console.error("Missing APIFY_TOKEN. Add it to your .env file (see .env.example).");
   process.exit(1);
 }
 
-const locationQuery =
-  process.env.MAPS_LOCATION_QUERY?.trim() || "Seattle, WA, USA";
+const locationQuery = process.env.MAPS_LOCATION_QUERY?.trim() || "Seattle, WA, USA";
 const searchTerm = process.env.MAPS_SEARCH?.trim() || "physical therapist";
-const maxCrawledPlacesPerSearch = Math.max(
-  1,
-  Number(process.env.MAPS_MAX_PLACES || 10)
-);
+const maxCrawledPlacesPerSearch = Math.max(1, Number(process.env.MAPS_MAX_PLACES || 10));
+
+// Review scraping knobs (cost/time sensitive)
+const maxReviews = Math.max(0, Number(process.env.MAPS_MAX_REVIEWS || 3));
+const reviewsSort = (process.env.MAPS_REVIEWS_SORT || "newest").trim();
+const reviewsOrigin = (process.env.MAPS_REVIEWS_ORIGIN || "google").trim();
+const reviewsStartDate = process.env.MAPS_REVIEWS_START_DATE?.trim();
+const reviewsFilterString = process.env.MAPS_REVIEWS_FILTER_STRING?.trim();
 
 const input = {
   searchStringsArray: [searchTerm],
   locationQuery,
   maxCrawledPlacesPerSearch,
+  maxReviews,
+  reviewsSort,
+  reviewsOrigin,
+  scrapeReviewsPersonalData: false,
+  ...(reviewsStartDate ? { reviewsStartDate } : {}),
+  ...(reviewsFilterString ? { reviewsFilterString } : {}),
 };
 
 const client = new ApifyClient({ token });
@@ -48,10 +55,7 @@ async function listAllDatasetItems(datasetId) {
   const limit = 1000;
   let offset = 0;
   for (;;) {
-    const { items, total } = await client.dataset(datasetId).listItems({
-      offset,
-      limit,
-    });
+    const { items, total } = await client.dataset(datasetId).listItems({ offset, limit });
     all.push(...items);
     if (!items.length) break;
     if (total != null && all.length >= total) break;
@@ -61,7 +65,7 @@ async function listAllDatasetItems(datasetId) {
   return all;
 }
 
-console.log(`Calling actor ${ACTOR_ID} …`);
+console.log(`Calling actor ${ACTOR_ID} ...`);
 console.log(JSON.stringify(input, null, 2));
 
 const run = await client.actor(ACTOR_ID).call(input);
@@ -79,10 +83,7 @@ const items = await listAllDatasetItems(datasetId);
 const outDir = join(__dirname, "output");
 mkdirSync(outDir, { recursive: true });
 
-const slug = locationQuery
-  .toLowerCase()
-  .replace(/[^a-z0-9]+/g, "-")
-  .replace(/^-|-$/g, "");
+const slug = locationQuery.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
 const outPath = join(outDir, `google-maps-${slug}-${stamp}.json`);
 
