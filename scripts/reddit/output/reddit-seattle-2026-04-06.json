@@ -1,0 +1,47 @@
+[
+  {
+    "id": "reddit-cos-1",
+    "providerSlug": "gm-cosmetic-dr-arias-seattle",
+    "providerName": "Arias Facial Plastic Surgery",
+    "locationLabel": "Seattle, WA",
+    "specialties": ["cosmetic", "surgery"],
+    "title": "Rhinoplasty recovery timeline and swelling",
+    "body": "I am 6 weeks post rhinoplasty and still had tip swelling, but breathing improved and shape settled gradually. Surgeon set realistic expectations and follow-ups were consistent.",
+    "author": "u/seattle_rhino_journey",
+    "subreddit": "PlasticSurgery",
+    "createdUtc": 1712380800,
+    "url": "https://www.reddit.com/r/PlasticSurgery/comments/example_rhino_recovery/",
+    "score": 21,
+    "procedureTags": ["Rhinoplasty"]
+  },
+  {
+    "id": "reddit-cos-2",
+    "providerSlug": "gm-cosmetic-dr-lin-bellevue",
+    "providerName": "Lin Aesthetic Surgery Center",
+    "locationLabel": "Bellevue, WA",
+    "specialties": ["cosmetic", "surgery"],
+    "title": "Facelift and neck lift consult experience",
+    "body": "Consult covered facelift incision placement, neck lift scar care, and realistic downtime. I appreciated before-and-after discussion and risks explained clearly.",
+    "author": "u/pnw_aesthetic_notes",
+    "subreddit": "PlasticSurgery",
+    "createdUtc": 1714972800,
+    "url": "https://www.reddit.com/r/PlasticSurgery/comments/example_facelift_consult/",
+    "score": 13,
+    "procedureTags": ["Facelift", "Neck lift"]
+  },
+  {
+    "id": "reddit-cos-3",
+    "providerSlug": "gm-cosmetic-dr-park-seattle",
+    "providerName": "Park Cosmetic & Reconstructive",
+    "locationLabel": "Seattle, WA",
+    "specialties": ["cosmetic", "surgery"],
+    "title": "Breast augmentation sizing feedback",
+    "body": "Post-op breast augmentation update at 3 months: implant size recommendation looked natural for my frame and recovery instructions reduced discomfort.",
+    "author": "u/augment_update_wa",
+    "subreddit": "PlasticSurgery",
+    "createdUtc": 1717564800,
+    "url": "https://www.reddit.com/r/PlasticSurgery/comments/example_breast_aug_update/",
+    "score": 11,
+    "procedureTags": ["Breast augmentation"]
+  }
+]

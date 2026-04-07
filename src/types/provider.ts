@@ -9,7 +9,7 @@ export type ResultSentiment =
 /** Per-snippet tone (subset used in UI). */
 export type SnippetSentiment = "Positive" | "Okay" | "Negative";
 
-export type SourceLogo = "reddit" | "facebook";
+export type SourceLogo = "reddit" | "facebook" | "google";
 
 export interface PatientSnippet {
   id: string;

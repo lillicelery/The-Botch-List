@@ -1,0 +1,380 @@
+[
+  {
+    "slug": "gm-ChIJdX-eeYgUkFQRUsp6mG2eKdk",
+    "name": "Sound Plastic Surgery",
+    "metaLine": "Plastic surgeon - 92 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Cosmetic surgeon, Hair replacement service, Plastic surgery clinic, Skin care clinic. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Hair replacement service",
+      "Plastic surgery clinic"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 92,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Hair replacement service"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJ0fz4VnwQkFQRnzvMQKaNc9c",
+    "name": "Dr. Amit D. Bhrany, MD",
+    "metaLine": "Cosmetic surgeon - 11 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Cosmetic surgeon. Categories: Cosmetic surgeon. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Cosmetic surgeon"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 11,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Cosmetic surgeon"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJ-bOmxMlqkFQRAl2J9GTVxqM",
+    "name": "The Seattle Facial Plastic Surgery Center",
+    "metaLine": "Plastic surgeon - 58 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Cosmetic surgeon, Plastic surgery clinic, Surgical center. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Plastic surgery clinic",
+      "Surgical center"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 58,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Plastic surgery clinic"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJb9omoclqkFQRrThu2i1whcQ",
+    "name": "The Polyclinic Plastic Surgery",
+    "metaLine": "Plastic surgery clinic - 16 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgery clinic. Categories: Plastic surgery clinic, Medical spa, Plastic surgeon. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgery clinic",
+      "Medical spa",
+      "Plastic surgeon"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 16,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgery clinic",
+      "Medical spa",
+      "Plastic surgeon"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJaa0lachqkFQRhHoIWjesn8o",
+    "name": "Larrabee Center For Plastic Surgery",
+    "metaLine": "Plastic surgeon - 198 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon. Showing 2 scraped review snippets.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 2,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Recovery timeline and bedside manner"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2prMk1YaGpkSFEyVG1ZelpEbG9VbVZrTms1d05VRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Positive",
+        "excerpt": "I’ve had such a great experience with Lauren Jackson Gross and can’t recommend her enough. She approaches treatments in a very thoughtful, customized way- she actually maps out different areas of the face and adjusts her technique accordingly, which I haven’t seen elsewhere. It makes a huge difference in both the experience and the results. I’ve done Sofwave, BBL, and Moxie with her, and the results have been subtle...",
+        "procedureTags": [
+          "BBL"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Larrabee%20Center%20For%20Plastic%20Surgery&query_place_id=ChIJaa0lachqkFQRhHoIWjesn8o"
+      },
+      {
+        "id": "ChZDSUhNMG9nS0VJQ0FnSURWaWRqaFBBEAE",
+        "authorLabel": "Public review",
+        "postedRelative": "2 weeks ago",
+        "sentiment": "Positive",
+        "excerpt": "I have seen both Faye and Lahna; both are highly skilled injectors paying great attention to detail and always aligning plans (realistically) to my goals. I highly recommend Larrabee for your aesthetic and injectable services.",
+        "procedureTags": [
+          "Plastic surgeon"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Larrabee%20Center%20For%20Plastic%20Surgery&query_place_id=ChIJaa0lachqkFQRhHoIWjesn8o"
+      }
+    ]
+  },
+  {
+    "slug": "gm-ChIJw6NDvclqkFQRiyt34FRk_QI",
+    "name": "Premier Cosmetic Surgery & Medispa",
+    "metaLine": "Plastic surgeon - 75 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Surgeon. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Surgeon"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 75,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Surgeon"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJSxiQhNNckFQRmyifHywhsTs",
+    "name": "Allure Esthetic - Dr. Javad Sajan - Best Plastic Surgeon in Seattle",
+    "metaLine": "Plastic surgeon - 1081 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Cosmetic surgeon, Medical spa, Plastic surgery clinic. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Medical spa",
+      "Plastic surgery clinic"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 1081,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Cosmetic surgeon",
+      "Medical spa"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJnSdxeDwVkFQRzSZMq_KkgdM",
+    "name": "Seattle Face and Skin",
+    "metaLine": "Plastic surgeon - 12 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Otolaryngologist. Showing 1 scraped review snippet.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Otolaryngologist"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 1,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Recovery timeline and bedside manner"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Otolaryngologist"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2xaRFVGbG5NR2R1WWxsUFIwbENTVFZzYzNocVMwRRAB",
+        "authorLabel": "Public review",
+        "postedRelative": "4 months ago",
+        "sentiment": "Positive",
+        "excerpt": "Dr. Bhrany is an extraordinarily talented surgeon –truly at the top of his field! His surgical skill is a blend of precision, artfulness, and a customized approach. His expertise is matched by his integrity and compassion. He listens intently and explains the process so you know what to expect. I interviewed 4 different plastic surgeons before I chose Dr. Bhrany. He was the clear choice for me because of his deep kn...",
+        "procedureTags": [
+          "Plastic surgeon",
+          "Otolaryngologist"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle%20Face%20and%20Skin&query_place_id=ChIJnSdxeDwVkFQRzSZMq_KkgdM"
+      }
+    ]
+  },
+  {
+    "slug": "gm-ChIJrdhDMksVkFQRFiwKtzEkKjM",
+    "name": "The Stella Center for Facial Plastic Surgery",
+    "metaLine": "Plastic surgeon - 45 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Medical spa, Plastic surgery clinic. No scraped review snippets yet for this provider.",
+    "cardSentiment": "Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Medical spa",
+      "Plastic surgery clinic"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 45,
+      "avgSentimentLabel": "Mostly positive (Google)",
+      "topConcern": "Cosmetic review themes still being extracted"
+    },
+    "sentimentBreakdown": {
+      "negative": 15,
+      "good": 45,
+      "veryGood": 40
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Medical spa",
+      "Plastic surgery clinic"
+    ],
+    "snippets": []
+  },
+  {
+    "slug": "gm-ChIJaa0lachqkFQRDXpAaHhgQfY",
+    "name": "Seattle Plastic Surgery",
+    "metaLine": "Plastic surgeon - 282 Google reviews - Seattle, WA",
+    "summary": "Google Maps listing. Plastic surgeon. Categories: Plastic surgeon, Dermatologist, Doctor, Otolaryngologist. Showing 1 scraped review snippet.",
+    "cardSentiment": "Very Positive",
+    "tags": [
+      "Plastic surgeon",
+      "Dermatologist",
+      "Doctor",
+      "Otolaryngologist"
+    ],
+    "specialties": [
+      "cosmetic",
+      "surgery"
+    ],
+    "locationLabel": "Seattle, WA",
+    "stats": {
+      "snippetsCollected": 1,
+      "avgSentimentLabel": "Mostly very positive (Google)",
+      "topConcern": "Recovery timeline and bedside manner"
+    },
+    "sentimentBreakdown": {
+      "negative": 8,
+      "good": 32,
+      "veryGood": 60
+    },
+    "defaultProcedureFilters": [
+      "Plastic surgeon",
+      "Dermatologist",
+      "Doctor"
+    ],
+    "snippets": [
+      {
+        "id": "Ci9DQUlRQUNvZENodHljRjlvT2pNeGFFOWZRemxyTW1VMlZVaGhVbVZFU0U5U00yYxAB",
+        "authorLabel": "Public review",
+        "postedRelative": "1 week ago",
+        "sentiment": "Positive",
+        "excerpt": "Dr Jonav restored my faith in plastic surgery! I was botched a year ago and he just fixed me about a week ago in Lynwood and he did amazing. I had an extreme amount of anxiety from the previous botched surgery and he was so kind and nice to me, the whole team is amazing from front desk to OR everyone is kind! I can’t wait to have him do my tummy tuck next year; he also did my lower bleph and he did such a good job I...",
+        "procedureTags": [
+          "Tummy tuck"
+        ],
+        "sourceName": "Google Maps",
+        "sourceLogo": "google",
+        "originalUrl": "https://www.google.com/maps/search/?api=1&query=Seattle%20Plastic%20Surgery&query_place_id=ChIJaa0lachqkFQRDXpAaHhgQfY"
+      }
+    ]
+  }
+]
