@@ -8,14 +8,14 @@ import {
   RATING_FILTER_OPTIONS,
   type SidebarFilterState,
 } from "../lib/searchFilters";
-import { resultsHeadline } from "../lib/searchHeadline";
 import "./SearchResults.css";
 
 function sentimentBadgeClass(sentiment: string): string {
   const base = "sentiment-badge";
-  if (sentiment === "Very Positive" || sentiment === "Positive") return `${base} ${base}--positive`;
-  if (sentiment === "Very Negative" || sentiment === "Negative") return `${base} ${base}--negative`;
-  if (sentiment === "Okay") return `${base} ${base}--okay`;
+  if (sentiment === "Very Positive") return `${base} sentiment-very-positive`;
+  if (sentiment === "Positive") return `${base} sentiment-positive`;
+  if (sentiment === "Very Negative" || sentiment === "Negative") return `${base} sentiment-negative`;
+  if (sentiment === "Okay") return `${base} sentiment-okay`;
   return base;
 }
 
@@ -76,19 +76,17 @@ export default function SearchResults() {
       <SiteHeader activeNav="search" />
 
       <main className="search-results-main">
-        <h1 className="results-page-title" data-node-id="6:124">
-          {resultsHeadline(qParam, locParam)}
-        </h1>
-
-        <SearchBar
-          query={query}
-          location={location}
-          onQueryChange={setQuery}
-          onLocationChange={setLocation}
-          onSubmit={onSearch}
-          queryPlaceholder="Condition, procedure, or doctor name"
-          dataNodeId="6:250"
-        />
+        <div className="search-header-wrap">
+          <SearchBar
+            query={query}
+            location={location}
+            onQueryChange={setQuery}
+            onLocationChange={setLocation}
+            onSubmit={onSearch}
+            queryPlaceholder="Condition, procedure, clinic, or doctor"
+            dataNodeId="6:250"
+          />
+        </div>
 
         <div className="results-layout">
           <aside className="filters-panel" data-name="Aside - Filters Sidebar" data-node-id="6:74">
@@ -142,6 +140,18 @@ export default function SearchResults() {
                     Neurology
                   </label>
                 </li>
+                <li>
+                  <label className="filter-option">
+                    <input
+                      type="checkbox"
+                      name="specialty"
+                      value="cosmetic"
+                      checked={sidebarFilters.specialties.includes("cosmetic")}
+                      onChange={() => toggleSpecialty("cosmetic")}
+                    />
+                    Cosmetic Surgery
+                  </label>
+                </li>
               </ul>
             </div>
 
@@ -149,15 +159,7 @@ export default function SearchResults() {
               <p className="filter-label" id="filter-rating">
                 Review rating
               </p>
-              <p className="filter-section-hint" id="filter-rating-hint">
-                Select one or more; leave all unchecked to show every rating.
-              </p>
-              <ul
-                className="filter-options"
-                role="group"
-                aria-labelledby="filter-rating"
-                aria-describedby="filter-rating-hint"
-              >
+              <ul className="filter-options" role="group" aria-labelledby="filter-rating">
                 {RATING_FILTER_OPTIONS.map((option) => (
                   <li key={option}>
                     <label className="filter-option">
@@ -184,10 +186,9 @@ export default function SearchResults() {
                 className="distance-slider"
                 min={1}
                 max={100}
-                defaultValue={50}
+                defaultValue={40}
                 aria-labelledby="filter-distance"
                 disabled
-                title="Distance filter is not available in the static preview"
               />
               <div className="distance-labels">
                 <span>1 mi</span>
@@ -197,9 +198,14 @@ export default function SearchResults() {
           </aside>
 
           <div className="results-list" data-name="Results Grid" data-node-id="6:128">
+            <div className="results-header">
+              <h1 className="results-title">Search results</h1>
+              <span className="results-count">{filteredProviders.length} providers found</span>
+            </div>
+
             {filteredProviders.length === 0 ? (
               <p className="results-empty" role="status">
-                No providers match your search and filters. Try different keywords, location, or reset filters.
+                No providers match your search and filters.
               </p>
             ) : (
               filteredProviders.map((p) => (
@@ -212,7 +218,6 @@ export default function SearchResults() {
                           <h2 className="result-name">{p.name}</h2>
                           <p className="result-meta">{p.metaLine}</p>
                         </div>
-                        <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
                       </div>
                       <p className="result-desc">{p.summary}</p>
                       <div className="result-footer">
@@ -223,10 +228,13 @@ export default function SearchResults() {
                             </span>
                           ))}
                         </div>
-                        <Link to={`/provider/${p.slug}`} className="result-view">
-                          View
-                        </Link>
                       </div>
+                    </div>
+                    <div className="provider-actions">
+                      <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
+                      <Link to={`/provider/${p.slug}`} className="result-view">
+                        View
+                      </Link>
                     </div>
                   </div>
                 </article>

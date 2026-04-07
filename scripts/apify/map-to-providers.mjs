@@ -105,10 +105,16 @@ function shouldSkipReview(text) {
 
 function mapReviewsToSnippets(row, slug, tags, fallbackUrl) {
   const rawReviews = Array.isArray(row.reviews) ? row.reviews : [];
+  const providerContext = `${row?.title ?? ""} ${row?.categoryName ?? ""} ${(row?.categories ?? []).join(" ")}`;
+  const providerIsCosmetic = isCosmeticProviderRow(row);
+
   return rawReviews
     .map((r, idx) => {
       const excerpt = cleanExcerpt(r?.text ?? r?.textTranslated ?? r?.reviewText ?? "");
-      if (!excerpt || shouldSkipReview(excerpt) || !isCosmeticSnippetText(excerpt)) return null;
+      if (!excerpt || shouldSkipReview(excerpt)) return null;
+
+      const snippetLooksCosmetic = isCosmeticSnippetText(excerpt) || inferCosmeticTags(excerpt).length > 0;
+      if (!snippetLooksCosmetic && !providerIsCosmetic) return null;
 
       const stars = typeof r?.stars === "number" ? r.stars : typeof r?.rating === "number" ? r.rating : null;
       const dateCandidate = r?.publishedAtDate ?? r?.publishedAt ?? r?.date ?? null;
@@ -116,6 +122,7 @@ function mapReviewsToSnippets(row, slug, tags, fallbackUrl) {
       const reviewId = String(r?.reviewId ?? `${slug}-google-${idx + 1}`);
       const originalUrl = String(r?.reviewUrl ?? r?.url ?? fallbackUrl ?? "");
       const cosmeticTags = inferCosmeticTags(excerpt);
+      const fallbackTags = inferCosmeticTags(providerContext);
 
       return {
         id: reviewId,
@@ -123,7 +130,7 @@ function mapReviewsToSnippets(row, slug, tags, fallbackUrl) {
         postedRelative: toRelativeDate(dateCandidate),
         sentiment: snippetSentimentFromStars(stars),
         excerpt,
-        procedureTags: cosmeticTags.length ? cosmeticTags : tags.slice(0, 3),
+        procedureTags: cosmeticTags.length ? cosmeticTags : fallbackTags.length ? fallbackTags : tags.slice(0, 3),
         sourceName: "Google Maps",
         sourceLogo: "google",
         originalUrl,
@@ -180,31 +187,83 @@ function mapRow(row) {
   };
 }
 
+function mergeProvidersBySlug(providers) {
+  const bySlug = new Map();
+  for (const provider of providers) {
+    const existing = bySlug.get(provider.slug);
+    if (!existing) {
+      bySlug.set(provider.slug, provider);
+      continue;
+    }
+
+    const mergedTags = [...new Set([...(existing.tags ?? []), ...(provider.tags ?? [])])].slice(0, 6);
+    const mergedSpecialties = [...new Set([...(existing.specialties ?? []), ...(provider.specialties ?? [])])];
+    const mergedFilters = [...new Set([...(existing.defaultProcedureFilters ?? []), ...(provider.defaultProcedureFilters ?? [])])].slice(0, 4);
+
+    const snippetMap = new Map();
+    for (const snippet of [...(existing.snippets ?? []), ...(provider.snippets ?? [])]) {
+      snippetMap.set(snippet.id, snippet);
+    }
+    const mergedSnippets = [...snippetMap.values()].slice(0, 12);
+
+    bySlug.set(provider.slug, {
+      ...existing,
+      summary:
+        mergedSnippets.length > 0
+          ? existing.summary.replace("No scraped review snippets yet for this provider.", `Showing ${mergedSnippets.length} scraped review snippets.`)
+          : existing.summary,
+      tags: mergedTags,
+      specialties: mergedSpecialties,
+      defaultProcedureFilters: mergedFilters,
+      stats: {
+        ...existing.stats,
+        snippetsCollected:
+          mergedSnippets.length > 0
+            ? mergedSnippets.length
+            : Math.max(existing.stats?.snippetsCollected ?? 0, provider.stats?.snippetsCollected ?? 0),
+        topConcern:
+          mergedSnippets.length > 0
+            ? "Recovery timeline and bedside manner"
+            : "Cosmetic review themes still being extracted",
+      },
+      snippets: mergedSnippets,
+    });
+  }
+  return [...bySlug.values()];
+}
+
 function hashSlug(s) {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
   return Math.abs(h).toString(36);
 }
 
-function resolveInputPath() {
+function resolveInputPaths() {
   const arg = process.argv[2];
-  if (arg) return arg;
+  if (arg) return [arg];
+
   const dir = join(__dirname, "output");
   const files = readdirSync(dir).filter((f) => f.startsWith("google-maps-") && f.endsWith(".json"));
   if (!files.length) {
     console.error("No google-maps-*.json in scripts/apify/output/. Run npm run apify:maps first.");
     process.exit(1);
   }
+
   files.sort();
-  return join(dir, files[files.length - 1]);
+  return files.map((f) => join(dir, f));
 }
 
-const inputPath = resolveInputPath();
-const raw = JSON.parse(readFileSync(inputPath, "utf8"));
-const items = Array.isArray(raw.items) ? raw.items : [];
-const providers = items.map((row) => mapRow(row)).filter(Boolean);
+const inputPaths = resolveInputPaths();
+const allItems = [];
+for (const inputPath of inputPaths) {
+  const raw = JSON.parse(readFileSync(inputPath, "utf8"));
+  const items = Array.isArray(raw.items) ? raw.items : [];
+  allItems.push(...items);
+}
+
+const providers = mergeProvidersBySlug(allItems.map((row) => mapRow(row)).filter(Boolean));
 
 mkdirSync(OUT_DIR, { recursive: true });
 writeFileSync(OUT, JSON.stringify(providers, null, 2), "utf8");
-console.log(`Mapped ${providers.length} cosmetic places from ${inputPath}`);
+console.log(`Mapped ${providers.length} cosmetic places from ${inputPaths.length} Apify file(s)`);
 console.log(`Wrote ${OUT}`);
