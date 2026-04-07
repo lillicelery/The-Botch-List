@@ -153,7 +153,10 @@ export default function Landing() {
       </main>
 
       <footer className="footer">
-        <span className="footer-logo">The Botch List</span>
+        <span className="footer-logo" aria-label="The Botch List">
+          <span className="site-header__logo-script">The</span>
+          <span className="site-header__logo-main">Botch List</span>
+        </span>
         <div className="footer-links">
           <a href="#about">About</a>
           <Link to="/search">Search Providers</Link>

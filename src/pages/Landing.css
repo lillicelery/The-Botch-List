@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:wght@600;700&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap");
 
 * {
   box-sizing: border-box;
@@ -257,9 +257,19 @@
 }
 
 .footer-logo {
-  font-family: "DM Serif Display", serif;
-  font-size: 16px;
-  color: rgba(240, 237, 230, 0.4);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  color: rgba(240, 237, 230, 0.78);
+}
+
+.footer-logo .site-header__logo-script {
+  font-size: 30px;
+  transform: translateY(-2px);
+}
+
+.footer-logo .site-header__logo-main {
+  font-size: 24px;
 }
 
 .footer-links {
@@ -301,6 +311,7 @@
 }
 
 @media (max-width: 720px) {
+
   .nav,
   .hero,
   .features,
@@ -329,5 +340,3 @@
     width: 100%;
   }
 }
-
-
