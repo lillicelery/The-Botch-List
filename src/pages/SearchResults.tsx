@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SiteHeader from "../components/SiteHeader";
 import { ALL_SEARCH_PROVIDERS } from "../lib/providersStatic";
+import { COSMETIC_PROCEDURE_FILTER_OPTIONS } from "../lib/cosmeticProcedureFilters";
 import {
   filterSearchProviders,
   RATING_FILTER_OPTIONS,
@@ -99,59 +100,33 @@ export default function SearchResults() {
               </button>
             </div>
 
-            <div className="filter-section" data-node-id="6:82">
-              <p className="filter-label" id="filter-specialty">
-                Specialty
+            <div className="filter-section filter-section--procedures" data-node-id="6:82">
+              <p className="filter-label" id="filter-procedure">
+                Cosmetic procedure
               </p>
-              <ul className="filter-options" role="group" aria-labelledby="filter-specialty">
-                <li>
-                  <label className="filter-option">
-                    <input
-                      type="checkbox"
-                      name="specialty"
-                      value="orthopedics"
-                      checked={sidebarFilters.specialties.includes("orthopedics")}
-                      onChange={() => toggleSpecialty("orthopedics")}
-                    />
-                    Orthopedics
-                  </label>
-                </li>
-                <li>
-                  <label className="filter-option">
-                    <input
-                      type="checkbox"
-                      name="specialty"
-                      value="sports"
-                      checked={sidebarFilters.specialties.includes("sports")}
-                      onChange={() => toggleSpecialty("sports")}
-                    />
-                    Sports Medicine
-                  </label>
-                </li>
-                <li>
-                  <label className="filter-option">
-                    <input
-                      type="checkbox"
-                      name="specialty"
-                      value="neurology"
-                      checked={sidebarFilters.specialties.includes("neurology")}
-                      onChange={() => toggleSpecialty("neurology")}
-                    />
-                    Neurology
-                  </label>
-                </li>
-                <li>
-                  <label className="filter-option">
-                    <input
-                      type="checkbox"
-                      name="specialty"
-                      value="cosmetic"
-                      checked={sidebarFilters.specialties.includes("cosmetic")}
-                      onChange={() => toggleSpecialty("cosmetic")}
-                    />
-                    Cosmetic Surgery
-                  </label>
-                </li>
+              <p className="filter-section-hint" id="filter-procedure-hint">
+                Select one or more; leave all unchecked to show every procedure.
+              </p>
+              <ul
+                className="filter-options filter-options--scroll"
+                role="group"
+                aria-labelledby="filter-procedure"
+                aria-describedby="filter-procedure-hint"
+              >
+                {COSMETIC_PROCEDURE_FILTER_OPTIONS.map((label) => (
+                  <li key={label}>
+                    <label className="filter-option">
+                      <input
+                        type="checkbox"
+                        name="procedure"
+                        value={label}
+                        checked={sidebarFilters.specialties.includes(label)}
+                        onChange={() => toggleSpecialty(label)}
+                      />
+                      {label}
+                    </label>
+                  </li>
+                ))}
               </ul>
             </div>
 

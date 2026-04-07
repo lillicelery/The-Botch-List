@@ -1,7 +1,7 @@
 import type { ResultSentiment, SearchProvider } from "../types/provider";
 
 export interface SidebarFilterState {
-  /** Checkbox `value`s from the filters panel (e.g. orthopedics). */
+  /** Selected cosmetic procedure filter labels (see `COSMETIC_PROCEDURE_FILTER_OPTIONS`). */
   specialties: string[];
   /** Selected card sentiments; empty means include all ratings. */
   ratings: ResultSentiment[];
@@ -43,9 +43,37 @@ function matchesRatings(provider: SearchProvider, selected: ResultSentiment[]): 
   return selected.includes(provider.cardSentiment);
 }
 
-function matchesSpecialties(provider: SearchProvider, selected: string[]): boolean {
+function norm(s: string): string {
+  return s.toLowerCase().trim();
+}
+
+/** Procedure/topic filters: match tags, snippet procedure tags, defaults, specialties, and listing text. */
+function matchesProcedureFilters(provider: SearchProvider, selected: string[]): boolean {
   if (selected.length === 0) return true;
-  return selected.some((s) => provider.specialties.includes(s));
+
+  const tagLike = new Set(
+    [
+      ...provider.tags,
+      ...provider.defaultProcedureFilters,
+      ...provider.specialties,
+      ...provider.snippets.flatMap((s) => s.procedureTags),
+    ].map(norm)
+  );
+
+  const textBlob = norm(
+    [provider.name, provider.metaLine, provider.summary, ...provider.tags].join(" ")
+  );
+
+  return selected.some((sel) => {
+    const n = norm(sel);
+    if (!n) return false;
+    for (const t of tagLike) {
+      if (!t) continue;
+      if (t === n || t.includes(n) || n.includes(t)) return true;
+    }
+    if (textBlob.includes(n)) return true;
+    return false;
+  });
 }
 
 export function filterSearchProviders(
@@ -58,7 +86,7 @@ export function filterSearchProviders(
     (p) =>
       matchesQuery(p, q) &&
       matchesLocation(p, loc) &&
-      matchesSpecialties(p, filters.specialties) &&
+      matchesProcedureFilters(p, filters.specialties) &&
       matchesRatings(p, filters.ratings)
   );
 }

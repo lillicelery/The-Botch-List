@@ -40,7 +40,7 @@ export interface SentimentBreakdownPct {
 export interface SearchProvider {
   slug: string;
   name: string;
-  /** e.g. "Orthopedic Specialist • 12 years experience" */
+  /** e.g. "Cosmetic surgeon • Bellevue, WA" */
   metaLine: string;
   summary: string;
   cardSentiment: ResultSentiment;
