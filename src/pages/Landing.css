@@ -7,8 +7,8 @@
 .page {
   min-height: 100vh;
   font-family: "DM Sans", sans-serif;
-  background: #0e1117;
-  color: #f0ede6;
+  background: var(--page-bg);
+  color: var(--text-primary);
 }
 
 .hero,
@@ -25,13 +25,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 48px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid var(--header-border);
 }
 
 .nav-logo {
   font-family: "DM Serif Display", serif;
   font-size: 20px;
-  color: #f0ede6;
+  color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
@@ -42,21 +42,21 @@
 
 .nav-links a {
   font-size: 14px;
-  color: rgba(240, 237, 230, 0.55);
+  color: var(--text-muted);
   text-decoration: none;
   font-weight: 300;
   letter-spacing: 0.02em;
 }
 
 .nav-links a:hover {
-  color: #b8e0b0;
+  color: var(--accent);
 }
 
 .nav-cta {
   font-size: 13px;
   font-weight: 500;
-  color: #0e1117;
-  background: #b8e0b0;
+  color: var(--accent-contrast);
+  background: var(--accent);
   border: none;
   padding: 8px 20px;
   border-radius: 6px;
@@ -97,7 +97,7 @@
   font-weight: 400;
   line-height: 1;
   letter-spacing: -0.03em;
-  color: #f0ede6;
+  color: var(--text-primary);
   max-width: 760px;
   margin: 0 auto 24px;
 }
@@ -105,12 +105,12 @@
 .hero-headline em {
   font-style: italic;
   font-weight: 400;
-  color: #86b88a;
+  color: var(--accent-strong);
 }
 
 .hero-sub {
   font-size: 17px;
-  color: rgba(240, 237, 230, 0.5);
+  color: var(--text-muted);
   font-weight: 300;
   line-height: 1.65;
   max-width: 480px;
@@ -120,8 +120,8 @@
 .search-wrap {
   display: flex;
   gap: 0;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
   border-radius: 10px;
   padding: 6px;
   max-width: 680px;
@@ -137,7 +137,7 @@
 }
 
 .search-field svg {
-  color: #f0ede6;
+  color: var(--text-primary);
   opacity: 0.35;
   flex-shrink: 0;
 }
@@ -147,25 +147,25 @@
   border: none;
   outline: none;
   font-size: 15px;
-  color: #f0ede6;
+  color: var(--text-primary);
   font-family: "DM Sans", sans-serif;
   font-weight: 300;
   width: 100%;
 }
 
 .search-field input::placeholder {
-  color: rgba(240, 237, 230, 0.3);
+  color: var(--text-soft);
 }
 
 .search-divider {
   width: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--panel-border);
   margin: 8px 0;
 }
 
 .search-btn {
-  background: #b8e0b0;
-  color: #0e1117;
+  background: var(--accent);
+  color: var(--accent-contrast);
   border: none;
   border-radius: 6px;
   padding: 12px 28px;
@@ -183,20 +183,20 @@
   justify-content: center;
   margin-top: 52px;
   padding-top: 52px;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-top: 1px solid var(--header-border);
 }
 
 .stat-num {
   font-family: "DM Serif Display", serif;
   font-size: 36px;
-  color: #f0ede6;
+  color: var(--text-primary);
   line-height: 1;
   margin-bottom: 4px;
 }
 
 .stat-label {
   font-size: 12px;
-  color: rgba(240, 237, 230, 0.4);
+  color: var(--text-soft);
   font-weight: 300;
   letter-spacing: 0.04em;
 }
@@ -209,8 +209,8 @@
 }
 
 .feat-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
   border-radius: 12px;
   padding: 28px;
   transition: border-color 0.2s, background 0.2s;
@@ -218,8 +218,8 @@
 }
 
 .feat-card:hover {
-  border-color: rgba(184, 224, 176, 0.3);
-  background: rgba(184, 224, 176, 0.04);
+  border-color: var(--panel-hover-border);
+  background: var(--panel-hover-bg);
 }
 
 .feat-icon {
@@ -236,21 +236,21 @@
 .feat-title {
   font-size: 16px;
   font-weight: 500;
-  color: #f0ede6;
+  color: var(--text-primary);
   margin-bottom: 10px;
   letter-spacing: -0.01em;
 }
 
 .feat-desc {
   font-size: 13px;
-  color: rgba(240, 237, 230, 0.45);
+  color: var(--text-muted);
   font-weight: 300;
   line-height: 1.6;
 }
 
 .footer {
   padding: 28px 48px;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-top: 1px solid var(--header-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -259,7 +259,7 @@
 .footer-logo {
   font-family: "DM Serif Display", serif;
   font-size: 16px;
-  color: rgba(240, 237, 230, 0.4);
+  color: var(--text-soft);
 }
 
 .footer-links {
@@ -269,13 +269,13 @@
 
 .footer-links a {
   font-size: 12px;
-  color: rgba(240, 237, 230, 0.3);
+  color: var(--text-soft);
   text-decoration: none;
   font-weight: 300;
 }
 
 .footer-links a:hover {
-  color: #f0ede6;
+  color: var(--text-primary);
 }
 
 @media (max-width: 960px) {
