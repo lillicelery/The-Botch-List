@@ -26,7 +26,8 @@ export default function SiteHeader({ activeNav }: SiteHeaderProps) {
     <header className="site-header" data-name="Navigation (Global)" data-node-id="23:602">
       <div className="site-header__inner">
         <Link to="/" className="site-header__logo">
-          The Botch List
+          <span className="site-header__logo-script">The</span>
+          <span className="site-header__logo-main">Botch List</span>
         </Link>
         <nav className="site-header__links" aria-label="Primary">
           <Link

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
-import { dashboardMap, dashboardSourceFacebook, dashboardSourceReddit } from "../lib/figma-assets";
+import { dashboardSourceFacebook, dashboardSourceReddit } from "../lib/figma-assets";
 import { getProviderBySlug, getProviderDisplayName } from "../lib/providersStatic";
 import type { PatientSnippet, SnippetSentiment } from "../types/provider";
 import "./ProviderDashboard.css";
@@ -187,6 +187,8 @@ export default function ProviderDashboard() {
 
   const { stats } = provider;
   const [pctNeg, pctGood, pctVeryGood] = legendPercents;
+  const providerMapQuery = `${provider.name} ${provider.locationLabel}`;
+  const providerMapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(providerMapQuery)}&output=embed`;
 
   const pieLegendRows = [
     { key: "neg", pct: pctNeg, label: "Negative", swatch: "pie-swatch--negative" as const },
@@ -283,7 +285,13 @@ export default function ProviderDashboard() {
           </div>
 
           <div className="map-panel" data-name="image 4" data-node-id="23:663">
-            <img src={dashboardMap} alt={`Map near ${provider.locationLabel}`} />
+            <iframe
+              title={`Map for ${provider.name}`}
+              src={providerMapEmbedUrl}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
 
