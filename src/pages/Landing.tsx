@@ -1,12 +1,6 @@
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SearchBar from "../components/SearchBar";
 import SiteHeader from "../components/SiteHeader";
-import {
-  iconCompare,
-  iconDoctorReviews,
-  iconRecovery,
-} from "../lib/figma-assets";
 import "./Landing.css";
 
 export default function Landing() {
@@ -24,98 +18,147 @@ export default function Landing() {
   }
 
   return (
-    <div className="landing" data-name="home/landing" data-node-id="7:417">
+    <div className="page">
       <SiteHeader />
 
-      <main className="landing__hero">
-        <h1 className="landing__title" data-node-id="7:653">
-          Many patient experiences aggregated in one place.
-        </h1>
-        <p className="landing__sub" data-node-id="7:656">
-          Search publicly available reviews and recovery stories for medical and cosmetic procedures
-        </p>
+      <main>
+        <section className="hero">
+          <h1 className="hero-headline">
+            Find the right surgeon.
+            <br />
+            <em>Not just the closest one.</em>
+          </h1>
+          <p className="hero-sub">
+            Search verified reviews and recovery stories from real patients across Google,
+            Reddit, and more - before you book a consultation.
+          </p>
 
-        <SearchBar
-          query={query}
-          location={location}
-          onQueryChange={setQuery}
-          onLocationChange={setLocation}
-          onSubmit={onSearch}
-          dataNodeId="7:658"
-        />
-
-        <div className="landing__feature-grid" data-name="Feature Cards" data-node-id="7:677">
-          <article className="landing__feature-card" data-node-id="7:678">
-            <div className="landing__feature-icon-wrap">
-              <img src={iconDoctorReviews} alt="" width={24} height={24} />
+          <form className="search-wrap" onSubmit={onSearch}>
+            <div className="search-field">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.2" />
+                <path d="M11 11L14 14" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+              </svg>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Condition, procedure, clinic, or doctor"
+              />
             </div>
-            <h2 className="landing__feature-title">Doctor Reviews</h2>
-            <p className="landing__feature-desc">
-              See patient feedback across multiple sources
+            <div className="search-divider" />
+            <div className="search-field">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path
+                  d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6C3.5 9 8 14.5 8 14.5C8 14.5 12.5 9 12.5 6C12.5 3.5 10.5 1.5 8 1.5Z"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                />
+                <circle cx="8" cy="6" r="1.5" stroke="currentColor" strokeWidth="1.2" />
+              </svg>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="City, state, or zip"
+              />
+            </div>
+            <button className="search-btn" type="submit">
+              Search
+            </button>
+          </form>
+
+          <div className="stats">
+            <div>
+              <div className="stat-num">12k+</div>
+              <div className="stat-label">Provider reviews</div>
+            </div>
+            <div>
+              <div className="stat-num">340+</div>
+              <div className="stat-label">Verified providers</div>
+            </div>
+            <div>
+              <div className="stat-num">8</div>
+              <div className="stat-label">Procedure categories</div>
+            </div>
+          </div>
+        </section>
+
+        <section className="features" id="compare">
+          <article className="feat-card">
+            <div className="feat-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path
+                  d="M9 2L11 7H16L12 10.5L13.5 16L9 13L4.5 16L6 10.5L2 7H7L9 2Z"
+                  stroke="#b8e0b0"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <h2 className="feat-title">Doctor Reviews</h2>
+            <p className="feat-desc">
+              See aggregated patient feedback pulled from Google, Reddit, and more - all
+              in one profile.
             </p>
           </article>
-          <article className="landing__feature-card" data-node-id="7:686">
-            <div className="landing__feature-icon-wrap">
-              <img src={iconRecovery} alt="" width={24} height={24} />
+          <article className="feat-card">
+            <div className="feat-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <rect x="2" y="5" width="14" height="10" rx="2" stroke="#b8e0b0" strokeWidth="1.2" />
+                <path
+                  d="M5 5V4C5 2.9 5.9 2 7 2H11C12.1 2 13 2.9 13 4V5"
+                  stroke="#b8e0b0"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M6 9H12M6 12H10"
+                  stroke="#b8e0b0"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+              </svg>
             </div>
-            <h2 className="landing__feature-title">Recovery Experiences</h2>
-            <p className="landing__feature-desc">View common concerns and outcomes</p>
-          </article>
-          <article
-            className="landing__feature-card"
-            id="compare"
-            data-node-id="7:694"
-          >
-            <div className="landing__feature-icon-wrap">
-              <img src={iconCompare} alt="" width={24} height={24} />
-            </div>
-            <h2 className="landing__feature-title">Provider Comparison</h2>
-            <p className="landing__feature-desc">
-              Side-by-side comparison tools to help you choose the best specialist for your needs.
+            <h2 className="feat-title">Recovery Experiences</h2>
+            <p className="feat-desc">
+              Read real recovery stories filtered by procedure type - outcomes,
+              timelines, and what to expect.
             </p>
           </article>
-        </div>
+          <article className="feat-card">
+            <div className="feat-icon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path
+                  d="M3 14V6L7 3L11 6V14"
+                  stroke="#b8e0b0"
+                  strokeWidth="1.2"
+                  strokeLinejoin="round"
+                />
+                <path d="M11 9L15 7V14" stroke="#b8e0b0" strokeWidth="1.2" strokeLinejoin="round" />
+                <path
+                  d="M6 8H8M6 11H8"
+                  stroke="#b8e0b0"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+            <h2 className="feat-title">Provider Comparison</h2>
+            <p className="feat-desc">
+              Compare providers side by side - ratings, procedures, locations, and
+              patient sentiment scores.
+            </p>
+          </article>
+        </section>
       </main>
 
-      <footer className="landing__footer" data-name="Footer" data-node-id="10:2">
-        <div className="landing__footer-inner">
-          <div className="landing__footer-grid">
-            <div className="landing__footer-brand">
-              <p className="landing__footer-logo">The Botch List</p>
-              <p className="landing__footer-tagline">
-                Empowering patients with transparent healthcare data to make better recovery
-                decisions.
-              </p>
-            </div>
-            <div className="landing__footer-col">
-              <h3 className="landing__footer-heading">Platform</h3>
-              <ul className="landing__footer-list">
-                <li>
-                  <Link to="/search">Search Providers</Link>
-                </li>
-                <li>
-                  <a href="#review">Write a Review</a>
-                </li>
-              </ul>
-            </div>
-            <div className="landing__footer-col">
-              <h3 className="landing__footer-heading">Company</h3>
-              <ul className="landing__footer-list">
-                <li>
-                  <a href="#about">About Us</a>
-                </li>
-                <li>
-                  <a href="#privacy">Privacy Policy</a>
-                </li>
-                <li>
-                  <a href="#contact">Contact</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="landing__footer-rule">
-            <p className="landing__footer-copy">© 2026 The Botch List. All rights reserved.</p>
-          </div>
+      <footer className="footer">
+        <span className="footer-logo">The Botch List</span>
+        <div className="footer-links">
+          <a href="#about">About</a>
+          <Link to="/search">Search Providers</Link>
+          <a href="#review">Write a Review</a>
+          <a href="#privacy">Privacy Policy</a>
         </div>
       </footer>
     </div>

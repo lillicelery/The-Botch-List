@@ -6,8 +6,7 @@
 }
 
 .compare-page .site-header__link--compare {
-  color: var(--navy);
-  border-bottom-color: var(--navy);
+  color: #b8e0b0;
 }
 
 .compare-main {
