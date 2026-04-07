@@ -62,7 +62,7 @@ export default function Landing() {
             <p className="landing__feature-desc">View common concerns and outcomes</p>
           </article>
           <article
-            className="landing__feature-card landing__feature-card--accent"
+            className="landing__feature-card"
             id="compare"
             data-node-id="7:694"
           >
@@ -121,3 +121,4 @@ export default function Landing() {
     </div>
   );
 }
+
