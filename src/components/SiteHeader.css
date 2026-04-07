@@ -31,7 +31,7 @@
   font-family: "Allura", cursive;
   font-size: 44px;
   font-weight: 400;
-  color: rgba(240, 237, 230, 0.95);
+  color: var(--text-secondary);
   letter-spacing: 0.01em;
   transform: translateY(-4px);
 }
@@ -40,7 +40,7 @@
   font-family: "Playfair Display", serif;
   font-size: 40px;
   font-weight: 700;
-  color: #f0ede6;
+  color: var(--text-primary);
   letter-spacing: -0.015em;
   text-rendering: optimizeLegibility;
 }
