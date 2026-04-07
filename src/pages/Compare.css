@@ -1,207 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
 .compare-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: #0e1117;
+  color: #f0ede6;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.compare-page .site-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.compare-page .site-header__logo,
+.compare-page .site-header__link,
+.compare-page .site-header__signin {
+  color: #f0ede6;
+}
+
+.compare-page .site-header__link {
+  color: rgba(240, 237, 230, 0.55);
+  font-weight: 300;
 }
 
 .compare-page .site-header__link--compare {
   color: #b8e0b0;
+  border-bottom-color: #b8e0b0;
 }
 
 .compare-main {
   flex: 1;
   width: 100%;
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 32px 32px 80px;
-}
-
-@media (min-width: 900px) {
-  .compare-main {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
+  padding: 48px 48px 56px;
 }
 
 .compare-intro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-  margin-bottom: 32px;
-}
-
-.compare-title-box {
-  width: 100%;
-  min-height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 16px;
-  background: #fff;
-  border: 1px solid #000;
-  box-sizing: border-box;
+  margin-bottom: 28px;
 }
 
 .compare-title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 32px;
-  color: var(--navy);
-  text-align: center;
+  margin: 0 0 8px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: #f0ede6;
+  letter-spacing: -0.02em;
 }
 
 .compare-subtitle {
   margin: 0;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: var(--gray-500);
-  text-align: center;
-  max-width: 420px;
+  font-size: 14px;
+  color: rgba(240, 237, 230, 0.4);
+  font-weight: 300;
 }
 
 .compare-grid {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-@media (min-width: 960px) {
-  .compare-grid {
-    display: grid;
-    grid-template-columns: minmax(180px, 390px) minmax(0, 1fr) minmax(0, 1fr);
-    gap: 24px;
-    align-items: start;
-  }
+  gap: 0;
 }
 
 .compare-labels {
-  display: none;
-}
-
-@media (min-width: 960px) {
-  .compare-labels {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-top: 217px;
-    width: 100%;
-  }
+  width: 220px;
+  flex-shrink: 0;
+  padding-top: 200px;
 }
 
 .compare-label-row {
+  height: 64px;
   display: flex;
   align-items: center;
-  min-height: 48px;
-  padding: 13px 0 15px;
-  border-bottom: 1px solid var(--border);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  color: var(--gray-500);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.compare-label-row span {
+  font-size: 13px;
+  color: rgba(240, 237, 230, 0.4);
+  font-weight: 300;
+}
+
+.compare-cards-wrap {
+  display: flex;
+  gap: 16px;
+  flex: 1;
 }
 
 .compare-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  transition: border-color 0.2s;
+}
+
+.compare-card:hover {
+  border-color: rgba(184, 224, 176, 0.2);
+}
+
+.compare-card--featured {
+  border-color: rgba(184, 224, 176, 0.3);
+  background: rgba(184, 224, 176, 0.03);
 }
 
 .compare-card-header {
-  position: relative;
-  min-height: 217px;
-  padding: 24px;
-  background: var(--input-bg);
-  border-bottom: 1px solid var(--border);
+  padding: 28px 24px;
   text-align: center;
-}
-
-.compare-card-header--tall {
-  min-height: 219px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .compare-avatar {
   width: 64px;
   height: 64px;
-  margin: 0 auto 12px;
-  border-radius: 9999px;
-  background: var(--border);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0 auto 16px;
 }
 
 .compare-card-name {
-  margin: 0;
   font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-  color: var(--navy);
+  font-weight: 500;
+  color: #f0ede6;
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
 }
 
 .compare-card-role {
-  margin: 4px 0 0;
   font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-  color: var(--gray-500);
+  color: rgba(240, 237, 230, 0.4);
+  font-weight: 300;
+  margin: 0 0 20px;
 }
 
 .compare-book {
-  display: block;
   width: 100%;
-  margin-top: 16px;
-  padding: 8px 16px;
-  font: inherit;
-  font-size: 14px;
+  padding: 10px;
+  border-radius: 7px;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 20px;
-  text-align: center;
-  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
   cursor: pointer;
-  border: none;
-  box-sizing: border-box;
+  transition: all 0.2s;
 }
 
 .compare-book--primary {
-  background: var(--navy);
-  color: #fff;
+  background: #b8e0b0;
+  color: #0e1117;
+  border: none;
 }
 
 .compare-book--primary:hover {
-  filter: brightness(1.08);
+  background: #a0d498;
 }
 
 .compare-book--outline {
-  background: #fff;
-  color: var(--gray-700);
-  border: 1px solid var(--gray-300);
+  background: transparent;
+  color: rgba(240, 237, 230, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .compare-book--outline:hover {
-  background: var(--input-bg);
+  border-color: rgba(184, 224, 176, 0.35);
+  color: #b8e0b0;
 }
 
 .compare-card-body {
-  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .compare-metric {
+  height: 64px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding-bottom: 1px;
-  border-bottom: 1px solid var(--gray-100);
-  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0 24px;
 }
 
 .compare-metric:last-child {
@@ -209,36 +187,103 @@
 }
 
 .compare-metric-label {
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  color: var(--gray-500);
-  margin-bottom: 4px;
-}
-
-@media (min-width: 960px) {
-  .compare-metric-label {
-    display: none;
-  }
+  display: none;
 }
 
 .compare-metric-value {
+  font-size: 14px;
+  color: #f0ede6;
+  font-weight: 400;
+  text-align: center;
   margin: 0;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--gray-700);
 }
 
 .compare-metric-value--strong {
-  font-weight: 700;
-  color: var(--navy);
+  font-weight: 500;
+  color: #b8e0b0;
 }
 
 .compare-metric-value--medium {
-  font-weight: 500;
-  color: var(--navy);
+  color: #f0ede6;
 }
 
 .compare-metric-value--muted {
-  color: var(--gray-400);
+  color: rgba(240, 237, 230, 0.3);
+}
+
+.compare-add {
+  flex: 1;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 400px;
+  background: transparent;
+  color: rgba(240, 237, 230, 0.3);
+}
+
+.compare-add:hover {
+  border-color: rgba(184, 224, 176, 0.3);
+  background: rgba(184, 224, 176, 0.02);
+  color: rgba(184, 224, 176, 0.7);
+}
+
+.compare-add-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compare-add:hover .compare-add-icon {
+  border-color: rgba(184, 224, 176, 0.4);
+}
+
+.compare-add-label {
+  font-size: 13px;
+  font-weight: 300;
+}
+
+@media (max-width: 1100px) {
+  .compare-main {
+    padding: 32px 24px 48px;
+  }
+
+  .compare-grid {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .compare-labels {
+    width: 100%;
+    padding-top: 0;
+    display: none;
+  }
+
+  .compare-cards-wrap {
+    flex-direction: column;
+  }
+
+  .compare-add {
+    min-height: 160px;
+  }
+
+  .compare-metric {
+    justify-content: space-between;
+  }
+
+  .compare-metric-label {
+    display: inline;
+    font-size: 12px;
+    color: rgba(240, 237, 230, 0.5);
+    margin-right: 12px;
+  }
 }
