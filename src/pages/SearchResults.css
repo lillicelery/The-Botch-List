@@ -6,8 +6,7 @@
 }
 
 .search-results-page .site-header__link--search {
-  color: var(--navy);
-  border-bottom-color: var(--navy);
+  color: #b8e0b0;
 }
 
 .search-results-main {
