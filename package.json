@@ -10,10 +10,13 @@
     "apify:maps": "node --env-file=.env scripts/apify/run.mjs",
     "apify:map": "node scripts/apify/map-to-providers.mjs",
     "reddit:map": "node scripts/reddit/map-to-providers.mjs",
-    "data:prune-cosmetic-snippets": "node scripts/prune-non-cosmetic-snippets.mjs"
+    "data:prune-cosmetic-snippets": "node scripts/prune-non-cosmetic-snippets.mjs",
+    "sqlite:import:apify": "node scripts/sqlite/import-apify-providers.mjs",
+    "sqlite:query:providers": "node scripts/sqlite/query-providers.mjs"
   },
   "dependencies": {
     "apify-client": "^2.22.3",
+    "better-sqlite3": "^12.9.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.14.0"

@@ -1,0 +1,146 @@
+import { mkdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import Database from "better-sqlite3";
+
+// build stable paths so the script works no matter where it is run from
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const projectRoot = join(__dirname, "..", "..");
+const dbDir = join(projectRoot, "data");
+const dbPath = join(dbDir, "botch.db");
+// optional cli arg lets you import a different json file when needed!!!!!!!!
+const inputPath = process.argv[2] ?? join(projectRoot, "src", "data", "apifyProviders.json");
+
+// load the provider list from json and fail early if the shape is unexpected
+const providers = JSON.parse(readFileSync(inputPath, "utf8"));
+if (!Array.isArray(providers)) {
+  throw new Error("Input JSON must be an array of providers.");
+}
+
+// ensure database folder exists, then open/create sqlite database file
+mkdirSync(dbDir, { recursive: true });
+const db = new Database(dbPath);
+
+// pragmas are sqlite settings:
+// - wal improves write reliability/performance for many workflows
+// - foreign_keys enforces parent/child relationships
+db.pragma("journal_mode = WAL");
+db.pragma("foreign_keys = ON");
+
+// create tables (if missing) and helpful indexes for common lookups
+db.exec(`
+  CREATE TABLE IF NOT EXISTS providers (
+    slug TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    location_label TEXT,
+    card_sentiment TEXT,
+    tags_json TEXT NOT NULL,
+    specialties_json TEXT NOT NULL,
+    snippet_count INTEGER NOT NULL DEFAULT 0,
+    raw_json TEXT NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS snippets (
+    id TEXT PRIMARY KEY,
+    provider_slug TEXT NOT NULL,
+    author_label TEXT,
+    posted_relative TEXT,
+    sentiment TEXT,
+    excerpt TEXT NOT NULL,
+    source_name TEXT,
+    original_url TEXT,
+    procedure_tags_json TEXT NOT NULL,
+    raw_json TEXT NOT NULL,
+    FOREIGN KEY (provider_slug) REFERENCES providers(slug) ON DELETE CASCADE
+  );
+
+  CREATE INDEX IF NOT EXISTS idx_providers_name ON providers(name);
+  CREATE INDEX IF NOT EXISTS idx_providers_location ON providers(location_label);
+  CREATE INDEX IF NOT EXISTS idx_snippets_provider_slug ON snippets(provider_slug);
+`);
+
+// prepared statement for inserting or updating a provider by slug
+const insertProvider = db.prepare(`
+  INSERT INTO providers (
+    slug, name, location_label, card_sentiment, tags_json, specialties_json, snippet_count, raw_json
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  ON CONFLICT(slug) DO UPDATE SET
+    name = excluded.name,
+    location_label = excluded.location_label,
+    card_sentiment = excluded.card_sentiment,
+    tags_json = excluded.tags_json,
+    specialties_json = excluded.specialties_json,
+    snippet_count = excluded.snippet_count,
+    raw_json = excluded.raw_json
+`);
+
+// prepared statement for inserting or updating one snippet row by id
+const insertSnippet = db.prepare(`
+  INSERT INTO snippets (
+    id, provider_slug, author_label, posted_relative, sentiment, excerpt, source_name, original_url, procedure_tags_json, raw_json
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  ON CONFLICT(id) DO UPDATE SET
+    provider_slug = excluded.provider_slug,
+    author_label = excluded.author_label,
+    posted_relative = excluded.posted_relative,
+    sentiment = excluded.sentiment,
+    excerpt = excluded.excerpt,
+    source_name = excluded.source_name,
+    original_url = excluded.original_url,
+    procedure_tags_json = excluded.procedure_tags_json,
+    raw_json = excluded.raw_json
+`);
+
+// before re-importing, remove old snippets for a provider to avoid stale data
+const clearSnippetsForProvider = db.prepare("DELETE FROM snippets WHERE provider_slug = ?");
+
+// run the full import in one transaction so it is fast and all-or-nothing
+const importTx = db.transaction((rows) => {
+  for (const provider of rows) {
+    // every provider must have a slug; skip invalid rows safely
+    const slug = String(provider?.slug ?? "").trim();
+    if (!slug) continue;
+
+    // normalize optional arrays so inserts never fail on missing fields
+    const snippets = Array.isArray(provider?.snippets) ? provider.snippets : [];
+    insertProvider.run(
+      slug,
+      String(provider?.name ?? "Unknown"),
+      provider?.locationLabel ? String(provider.locationLabel) : null,
+      provider?.cardSentiment ? String(provider.cardSentiment) : null,
+      JSON.stringify(Array.isArray(provider?.tags) ? provider.tags : []),
+      JSON.stringify(Array.isArray(provider?.specialties) ? provider.specialties : []),
+      snippets.length,
+      JSON.stringify(provider)
+    );
+
+    // replace this provider's snippet set with the latest snapshot
+    clearSnippetsForProvider.run(slug);
+    for (const snippet of snippets) {
+      // snippet id is the primary key; skip snippet rows without one
+      const id = String(snippet?.id ?? "").trim();
+      if (!id) continue;
+      insertSnippet.run(
+        id,
+        slug,
+        snippet?.authorLabel ? String(snippet.authorLabel) : null,
+        snippet?.postedRelative ? String(snippet.postedRelative) : null,
+        snippet?.sentiment ? String(snippet.sentiment) : null,
+        String(snippet?.excerpt ?? ""),
+        snippet?.sourceName ? String(snippet.sourceName) : null,
+        snippet?.originalUrl ? String(snippet.originalUrl) : null,
+        JSON.stringify(Array.isArray(snippet?.procedureTags) ? snippet.procedureTags : []),
+        JSON.stringify(snippet)
+      );
+    }
+  }
+});
+
+// execute import transaction and then print a quick sanity-check count
+importTx(providers);
+
+const providerCount = db.prepare("SELECT COUNT(*) AS count FROM providers").get().count;
+const snippetCount = db.prepare("SELECT COUNT(*) AS count FROM snippets").get().count;
+db.close();
+
+console.log(`Imported ${providerCount} providers and ${snippetCount} snippets into ${dbPath}`);
