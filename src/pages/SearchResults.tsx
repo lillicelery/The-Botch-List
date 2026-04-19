@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SiteHeader from "../components/SiteHeader";
-import { ALL_SEARCH_PROVIDERS } from "../lib/providersStatic";
+import { useProvidersData } from "../lib/ProvidersDataContext";
 import { COSMETIC_PROCEDURE_FILTER_OPTIONS } from "../lib/cosmeticProcedureFilters";
 import {
   filterSearchProviders,
@@ -21,6 +21,7 @@ function sentimentBadgeClass(sentiment: string): string {
 }
 
 export default function SearchResults() {
+  const { providers, status } = useProvidersData();
   const [searchParams, setSearchParams] = useSearchParams();
   const qParam = searchParams.get("q") ?? "";
   const locParam = searchParams.get("loc") ?? "";
@@ -38,8 +39,11 @@ export default function SearchResults() {
   }, [qParam, locParam]);
 
   const filteredProviders = useMemo(
-    () => filterSearchProviders(ALL_SEARCH_PROVIDERS, qParam, locParam, sidebarFilters),
-    [qParam, locParam, sidebarFilters]
+    () =>
+      status === "loading"
+        ? []
+        : filterSearchProviders(providers, qParam, locParam, sidebarFilters),
+    [status, providers, qParam, locParam, sidebarFilters]
   );
 
   function onSearch(e: FormEvent) {
@@ -175,10 +179,16 @@ export default function SearchResults() {
           <div className="results-list" data-name="Results Grid" data-node-id="6:128">
             <div className="results-header">
               <h1 className="results-title">Search results</h1>
-              <span className="results-count">{filteredProviders.length} providers found</span>
+              <span className="results-count">
+                {status === "loading" ? "…" : `${filteredProviders.length} providers found`}
+              </span>
             </div>
 
-            {filteredProviders.length === 0 ? (
+            {status === "loading" ? (
+              <p className="results-empty" role="status">
+                Loading providers…
+              </p>
+            ) : filteredProviders.length === 0 ? (
               <p className="results-empty" role="status">
                 No providers match your search and filters.
               </p>
