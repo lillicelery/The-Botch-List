@@ -2,6 +2,13 @@
  * Run Apify Google Maps Scraper once for a single city/region and save raw output JSON.
  * Actor: compass/crawler-google-places (Google Maps Scraper)
  *
+ * Legal: Apify's Google Places actor fetches publicly visible business data from Google Maps.
+ * Google Maps ToS (§3.2.3) restricts unauthorized scraping; Apify operates as a third-party
+ * service — review Apify's ToS at https://apify.com/terms-of-service before commercial use.
+ * We scrape: business name, category, rating, and public review text only (no PII).
+ * We set scrapeReviewsPersonalData=false and respect rate limits via maxCrawledPlacesPerSearch.
+ * Prefer Google Places API (official) at scale: https://developers.google.com/maps/documentation/places
+ *
  * Usage (from repo root):
  *   npm run apify:maps
  *

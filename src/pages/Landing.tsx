@@ -90,7 +90,7 @@ export default function Landing() {
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                 <path
                   d="M9 2L11 7H16L12 10.5L13.5 16L9 13L4.5 16L6 10.5L2 7H7L9 2Z"
-                  stroke="#b8e0b0"
+                  stroke="currentColor"
                   strokeWidth="1.2"
                   strokeLinejoin="round"
                 />
@@ -105,15 +105,15 @@ export default function Landing() {
           <article className="feat-card">
             <div className="feat-icon">
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                <rect x="2" y="5" width="14" height="10" rx="2" stroke="#b8e0b0" strokeWidth="1.2" />
+                <rect x="2" y="5" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.2" />
                 <path
                   d="M5 5V4C5 2.9 5.9 2 7 2H11C12.1 2 13 2.9 13 4V5"
-                  stroke="#b8e0b0"
+                  stroke="currentColor"
                   strokeWidth="1.2"
                 />
                 <path
                   d="M6 9H12M6 12H10"
-                  stroke="#b8e0b0"
+                  stroke="currentColor"
                   strokeWidth="1.2"
                   strokeLinecap="round"
                 />
@@ -130,14 +130,14 @@ export default function Landing() {
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                 <path
                   d="M3 14V6L7 3L11 6V14"
-                  stroke="#b8e0b0"
+                  stroke="currentColor"
                   strokeWidth="1.2"
                   strokeLinejoin="round"
                 />
-                <path d="M11 9L15 7V14" stroke="#b8e0b0" strokeWidth="1.2" strokeLinejoin="round" />
+                <path d="M11 9L15 7V14" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
                 <path
                   d="M6 8H8M6 11H8"
-                  stroke="#b8e0b0"
+                  stroke="currentColor"
                   strokeWidth="1.2"
                   strokeLinecap="round"
                 />
