@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
 import { dashboardSourceFacebook, dashboardSourceReddit } from "../lib/figma-assets";
-import { getProviderBySlug, getProviderDisplayName } from "../lib/providersStatic";
+import { useProvidersData } from "../lib/ProvidersDataContext";
+import { getProviderDisplayName } from "../lib/providersStatic";
 import type { PatientSnippet, SnippetSentiment } from "../types/provider";
 import "./ProviderDashboard.css";
 
@@ -138,8 +139,9 @@ function SourceLogo({ snippet }: { snippet: PatientSnippet }) {
 
 export default function ProviderDashboard() {
   const { slug } = useParams<{ slug: string }>();
-  const provider = useMemo(() => getProviderBySlug(slug), [slug]);
-  const displayName = getProviderDisplayName(slug);
+  const { bySlug, status } = useProvidersData();
+  const provider = useMemo(() => (slug ? bySlug.get(slug) : undefined), [bySlug, slug]);
+  const displayName = provider?.name ?? getProviderDisplayName(slug);
 
   const [filterTags, setFilterTags] = useState<string[]>([]);
 
@@ -171,13 +173,26 @@ export default function ProviderDashboard() {
     setFilterTags((prev) => prev.filter((t) => t !== tag));
   }
 
+  if (status === "loading") {
+    return (
+      <div className="provider-dashboard">
+        <SiteHeader />
+        <main className="provider-main">
+          <p className="provider-not-found" role="status">
+            Loading provider…
+          </p>
+        </main>
+      </div>
+    );
+  }
+
   if (!provider) {
     return (
       <div className="provider-dashboard">
         <SiteHeader />
         <main className="provider-main">
           <p className="provider-not-found">
-            We don&apos;t have a profile for <strong>{displayName}</strong> in the static demo yet.{" "}
+            We don&apos;t have a profile for <strong>{displayName}</strong> yet.{" "}
             <Link to="/search">Back to search</Link>
           </p>
         </main>

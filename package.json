@@ -5,18 +5,27 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server:dev": "node --watch server/index.mjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "apify:maps": "node --env-file=.env scripts/apify/run.mjs",
     "apify:map": "node scripts/apify/map-to-providers.mjs",
+    "yelp:fetch": "node --env-file=.env scripts/yelp/run.mjs",
+    "yelp:map": "node scripts/yelp/map-to-providers.mjs",
+    "reddit:fetch": "node --env-file=.env scripts/reddit/fetch.mjs",
     "reddit:map": "node scripts/reddit/map-to-providers.mjs",
     "data:prune-cosmetic-snippets": "node scripts/prune-non-cosmetic-snippets.mjs",
+    "data:deduplicate": "node scripts/common/deduplicate.mjs",
+    "sqlite:import": "node scripts/sqlite/import-providers.mjs",
     "sqlite:import:apify": "node scripts/sqlite/import-apify-providers.mjs",
+    "sqlite:migrate:fts": "node scripts/sqlite/migrate-add-fts.mjs",
     "sqlite:query:providers": "node scripts/sqlite/query-providers.mjs"
   },
   "dependencies": {
+    "@hono/node-server": "^1.19.14",
     "apify-client": "^2.22.3",
     "better-sqlite3": "^12.9.0",
+    "hono": "^4.12.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.14.0"

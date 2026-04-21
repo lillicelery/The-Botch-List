@@ -77,8 +77,8 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #b8e0b0;
-  border: 1px solid rgba(184, 224, 176, 0.3);
+  color: var(--accent);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
   padding: 6px 14px;
   border-radius: 99px;
   margin-bottom: 36px;
@@ -88,7 +88,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #b8e0b0;
+  background: var(--accent);
 }
 
 .hero-headline {
@@ -226,11 +226,15 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: rgba(184, 224, 176, 0.12);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+}
+
+.feat-icon svg {
+  color: var(--accent);
 }
 
 .feat-title {

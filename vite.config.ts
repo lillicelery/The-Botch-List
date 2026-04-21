@@ -8,5 +8,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     watch: isWsl ? { usePolling: true, interval: 300 } : undefined,
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:8787",
+        changeOrigin: true,
+      },
+    },
   },
 });
