@@ -1,5 +1,4 @@
 import { FormEvent } from "react";
-import { iconLocation, iconSearch } from "../lib/figma-assets";
 import "./SearchBar.css";
 
 export interface SearchBarProps {
@@ -33,9 +32,6 @@ export default function SearchBar({
       {...(dataNodeId ? { "data-node-id": dataNodeId } : {})}
     >
       <div className="search-bar-form__field">
-        <span className="search-bar-form__icon" aria-hidden>
-          <img src={iconSearch} alt="" width={20} height={20} />
-        </span>
         <input
           type="search"
           className="search-bar-form__input"
@@ -47,9 +43,6 @@ export default function SearchBar({
       </div>
       <div className="search-bar-form__divider" aria-hidden />
       <div className="search-bar-form__field">
-        <span className="search-bar-form__icon" aria-hidden>
-          <img src={iconLocation} alt="" width={20} height={20} />
-        </span>
         <input
           type="text"
           className="search-bar-form__input"

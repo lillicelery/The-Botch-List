@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SiteHeader from "../components/SiteHeader";
 import { useProvidersData } from "../lib/ProvidersDataContext";
@@ -21,6 +21,7 @@ function sentimentBadgeClass(sentiment: string): string {
 }
 
 export default function SearchResults() {
+  const navigate = useNavigate();
   const { providers, status } = useProvidersData();
   const [searchParams, setSearchParams] = useSearchParams();
   const qParam = searchParams.get("q") ?? "";
@@ -183,7 +184,6 @@ export default function SearchResults() {
                 {status === "loading" ? "…" : `${filteredProviders.length} providers found`}
               </span>
             </div>
-
             {status === "loading" ? (
               <p className="results-empty" role="status">
                 Loading providers…
@@ -194,7 +194,21 @@ export default function SearchResults() {
               </p>
             ) : (
               filteredProviders.map((p) => (
-                <article key={p.slug} className="result-card" data-name="Result Card">
+                <article
+                  key={p.slug}
+                  className="result-card"
+                  data-name="Result Card"
+                  role="link"
+                  tabIndex={0}
+                  title="View provider"
+                  onClick={() => navigate(`/provider/${p.slug}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      navigate(`/provider/${p.slug}`);
+                    }
+                  }}
+                >
                   <div className="result-card-inner">
                     <div className="result-thumb" aria-hidden />
                     <div className="result-body">
@@ -217,9 +231,6 @@ export default function SearchResults() {
                     </div>
                     <div className="provider-actions">
                       <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
-                      <Link to={`/provider/${p.slug}`} className="result-view">
-                        View
-                      </Link>
                     </div>
                   </div>
                 </article>
