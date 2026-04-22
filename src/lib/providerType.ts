@@ -11,6 +11,9 @@ const PLACE_TAGS = new Set([
   "clinic",
   "health clinic",
   "cosmetic surgery clinic",
+  "plastic surgery clinic",
+  "skin care clinic",
+  "surgical center",
   "medical center",
   "nail salon",
   "laser hair removal service",
@@ -20,6 +23,10 @@ const PLACE_TAGS = new Set([
   "hair salon",
   "wellness center",
   "health and wellness centre",
+  "facial spa",
+  "health and beauty shop",
+  "weight loss service",
+  "iv therapy service",
 ]);
 
 const PRACTITIONER_TAGS = new Set([

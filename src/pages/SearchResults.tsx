@@ -59,6 +59,7 @@ export default function SearchResults() {
     const next = new URLSearchParams();
     if (query.trim()) next.set("q", query.trim());
     if (location.trim()) next.set("loc", location.trim());
+    next.set("type", typeParam);
     setSearchParams(next);
   }
 
