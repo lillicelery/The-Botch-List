@@ -26,6 +26,8 @@ function parsePollIntervalMs(): number {
 export type ProvidersDataContextValue = {
   providers: SearchProvider[];
   bySlug: Map<string, SearchProvider>;
+  /** Practitioners grouped by their workplace_slug — used to list doctors at a place. */
+  byWorkplace: Map<string, SearchProvider[]>;
   status: "loading" | "ready";
   dataSource: ProvidersDataSource;
   /** Re-runs the same load logic as mount / poll (e.g. after you re-import SQLite). */
@@ -94,9 +96,20 @@ export function ProvidersDataProvider({ children }: { children: ReactNode }) {
 
   const bySlug = useMemo(() => new Map(providers.map((p) => [p.slug, p])), [providers]);
 
+  const byWorkplace = useMemo(() => {
+    const map = new Map<string, SearchProvider[]>();
+    for (const p of providers) {
+      if (!p.workplaceSlug) continue;
+      const list = map.get(p.workplaceSlug) ?? [];
+      list.push(p);
+      map.set(p.workplaceSlug, list);
+    }
+    return map;
+  }, [providers]);
+
   const value = useMemo<ProvidersDataContextValue>(
-    () => ({ providers, bySlug, status, dataSource, refetch }),
-    [providers, bySlug, status, dataSource, refetch]
+    () => ({ providers, bySlug, byWorkplace, status, dataSource, refetch }),
+    [providers, bySlug, byWorkplace, status, dataSource, refetch]
   );
 
   return <ProvidersDataContext.Provider value={value}>{children}</ProvidersDataContext.Provider>;

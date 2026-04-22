@@ -204,6 +204,38 @@
   flex: 1;
 }
 
+.search-type-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--header-border);
+  margin-bottom: 20px;
+}
+
+.search-type-tab {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-soft);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 16px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.search-type-tab--active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 500;
+}
+
+.search-type-tab:not(.search-type-tab--active):hover {
+  color: var(--text-primary);
+}
+
 .results-header {
   display: flex;
   align-items: baseline;

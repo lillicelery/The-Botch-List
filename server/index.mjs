@@ -72,11 +72,15 @@ app.get("/api/providers", (c) => {
   try {
     const rows = db
       .prepare(
-        `SELECT raw_json FROM providers
+        `SELECT raw_json, workplace_slug FROM providers
          ORDER BY snippet_count DESC, name COLLATE NOCASE ASC`
       )
       .all();
-    const providers = rows.map((r) => JSON.parse(r.raw_json));
+    const providers = rows.map((r) => {
+      const p = JSON.parse(r.raw_json);
+      if (r.workplace_slug) p.workplaceSlug = r.workplace_slug;
+      return p;
+    });
     return c.json(providers);
   } catch (e) {
     return c.json({ error: e instanceof Error ? e.message : String(e) }, 500);
@@ -90,11 +94,13 @@ app.get("/api/providers/:slug", (c) => {
   }
   const slug = c.req.param("slug");
   try {
-    const row = db.prepare("SELECT raw_json FROM providers WHERE slug = ?").get(slug);
+    const row = db.prepare("SELECT raw_json, workplace_slug FROM providers WHERE slug = ?").get(slug);
     if (!row) {
       return c.json({ error: "Not found" }, 404);
     }
-    return c.json(JSON.parse(row.raw_json));
+    const p = JSON.parse(row.raw_json);
+    if (row.workplace_slug) p.workplaceSlug = row.workplace_slug;
+    return c.json(p);
   } catch (e) {
     return c.json({ error: e instanceof Error ? e.message : String(e) }, 500);
   }
