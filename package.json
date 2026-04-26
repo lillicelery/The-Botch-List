@@ -23,8 +23,10 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.19.14",
+    "@paper-design/shaders-react": "^0.0.76",
     "apify-client": "^2.22.3",
     "better-sqlite3": "^12.9.0",
+    "framer-motion": "^12.38.0",
     "hono": "^4.12.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
