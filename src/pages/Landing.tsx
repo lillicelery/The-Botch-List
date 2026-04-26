@@ -3,18 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
 import "./Landing.css";
 
+type SearchType = "places" | "practitioners";
+
 export default function Landing() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState("Florida");
+  const [searchType, setSearchType] = useState<SearchType>("places");
 
   function onSearch(e: FormEvent) {
     e.preventDefault();
     const params = new URLSearchParams();
     if (query.trim()) params.set("q", query.trim());
     if (location.trim()) params.set("loc", location.trim());
-    const qs = params.toString();
-    navigate(qs ? `/search?${qs}` : "/search");
+    params.set("type", searchType);
+    navigate(`/search?${params.toString()}`);
   }
 
   return (
@@ -32,6 +35,23 @@ export default function Landing() {
             Search verified reviews and recovery stories from real patients across Google,
             Reddit, and more - before you book a consultation.
           </p>
+
+          <div className="search-type-toggle" role="group" aria-label="Search mode">
+            <button
+              type="button"
+              className={`search-type-btn${searchType === "places" ? " search-type-btn--active" : ""}`}
+              onClick={() => setSearchType("places")}
+            >
+              Places
+            </button>
+            <button
+              type="button"
+              className={`search-type-btn${searchType === "practitioners" ? " search-type-btn--active" : ""}`}
+              onClick={() => setSearchType("practitioners")}
+            >
+              Surgeons &amp; Practitioners
+            </button>
+          </div>
 
           <form className="search-wrap" onSubmit={onSearch}>
             <div className="search-field">

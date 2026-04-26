@@ -4,8 +4,54 @@ import SiteHeader from "../components/SiteHeader";
 import { dashboardSourceFacebook, dashboardSourceReddit } from "../lib/figma-assets";
 import { useProvidersData } from "../lib/ProvidersDataContext";
 import { getProviderDisplayName } from "../lib/providersStatic";
-import type { PatientSnippet, SnippetSentiment } from "../types/provider";
+import { getProviderType } from "../lib/providerType";
+import type { PatientSnippet, SearchProvider, SnippetSentiment } from "../types/provider";
 import "./ProviderDashboard.css";
+
+const MOCK_DOCTORS = [
+  { name: "Dr. Sarah Linton, MD", specialty: "Cosmetic Surgery" },
+  { name: "Dr. Marcus Webb, DO", specialty: "Dermatology" },
+  { name: "Dr. Priya Kaur, MD", specialty: "Plastic Surgery" },
+];
+
+function DoctorsAtLocation({ doctors }: { doctors: SearchProvider[] }) {
+  const hasReal = doctors.length > 0;
+
+  return (
+    <section className="doctors-section" aria-labelledby="doctors-heading">
+      <div className="doctors-header">
+        <h2 className="doctors-title" id="doctors-heading">Doctors at this location</h2>
+        {!hasReal && <span className="doctors-badge">Coming soon</span>}
+      </div>
+      {!hasReal && (
+        <p className="doctors-lead">
+          Individual practitioner profiles will be linked here once our doctor dataset is available.
+        </p>
+      )}
+      <div className="doctors-grid">
+        {hasReal
+          ? doctors.map((doc) => (
+              <Link key={doc.slug} to={`/provider/${doc.slug}`} className="doctor-card">
+                <div className="doctor-avatar" aria-hidden />
+                <div className="doctor-info">
+                  <p className="doctor-name">{doc.name}</p>
+                  <p className="doctor-specialty">{doc.metaLine}</p>
+                </div>
+              </Link>
+            ))
+          : MOCK_DOCTORS.map((doc) => (
+              <div key={doc.name} className="doctor-card doctor-card--placeholder">
+                <div className="doctor-avatar" aria-hidden />
+                <div className="doctor-info">
+                  <p className="doctor-name">{doc.name}</p>
+                  <p className="doctor-specialty">{doc.specialty}</p>
+                </div>
+              </div>
+            ))}
+      </div>
+    </section>
+  );
+}
 
 function snippetSentimentClass(s: SnippetSentiment): string {
   if (s === "Positive") return "review-meta-positive";
@@ -139,7 +185,7 @@ function SourceLogo({ snippet }: { snippet: PatientSnippet }) {
 
 export default function ProviderDashboard() {
   const { slug } = useParams<{ slug: string }>();
-  const { bySlug, status } = useProvidersData();
+  const { bySlug, byWorkplace, status } = useProvidersData();
   const provider = useMemo(() => (slug ? bySlug.get(slug) : undefined), [bySlug, slug]);
   const displayName = provider?.name ?? getProviderDisplayName(slug);
 
@@ -200,6 +246,7 @@ export default function ProviderDashboard() {
     );
   }
 
+  const providerType = getProviderType(provider);
   const { stats } = provider;
   const [pctNeg, pctGood, pctVeryGood] = legendPercents;
   const providerMapQuery = `${provider.name} ${provider.locationLabel}`;
@@ -386,6 +433,10 @@ export default function ProviderDashboard() {
             ))
           )}
         </section>
+
+        {providerType === "place" && (
+          <DoctorsAtLocation doctors={byWorkplace.get(provider.slug) ?? []} />
+        )}
 
         <p className="dashboard-disclaimer" data-node-id="23:510">
           This preview aggregates publicly available patient experiences for research convenience. It does not replace
