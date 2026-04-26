@@ -126,42 +126,6 @@
 
 .search-type-toggle {
   display: inline-flex;
-  gap: 4px;
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
-  border-radius: 8px;
-  padding: 4px;
-  margin-bottom: 20px;
-}
-
-.search-type-btn {
-  font-family: "DM Sans", sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--text-muted);
-  background: transparent;
-  border: none;
-  border-radius: 5px;
-  padding: 7px 16px;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-
-.search-type-btn:hover {
-  color: var(--text-primary);
-}
-
-.search-type-btn--active {
-  background: var(--accent);
-  color: var(--accent-contrast);
-}
-
-.search-type-btn--active:hover {
-  color: var(--accent-contrast);
-}
-
-.search-type-toggle {
-  display: inline-flex;
   gap: 6px;
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);

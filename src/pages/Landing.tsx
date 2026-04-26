@@ -4,8 +4,6 @@ import { MeshGradient } from "@paper-design/shaders-react";
 import SiteHeader from "../components/SiteHeader";
 import "./Landing.css";
 
-type SearchType = "places" | "practitioners";
-
 export default function Landing() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
@@ -53,57 +51,6 @@ export default function Landing() {
               Search verified reviews and recovery stories from real patients across Google,
               Reddit, and more - before you book a consultation.
             </p>
-          <div className="search-type-toggle" role="group" aria-label="Search mode">
-            <button
-              type="button"
-              className={`search-type-btn${searchType === "places" ? " search-type-btn--active" : ""}`}
-              onClick={() => setSearchType("places")}
-            >
-              Places
-            </button>
-            <button
-              type="button"
-              className={`search-type-btn${searchType === "practitioners" ? " search-type-btn--active" : ""}`}
-              onClick={() => setSearchType("practitioners")}
-            >
-              Surgeons &amp; Practitioners
-            </button>
-          </div>
-
-          <form className="search-wrap" onSubmit={onSearch}>
-            <div className="search-field">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.2" />
-                <path d="M11 11L14 14" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-              </svg>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Condition, procedure, clinic, or doctor"
-              />
-            </div>
-            <div className="search-divider" />
-            <div className="search-field">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path
-                  d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6C3.5 9 8 14.5 8 14.5C8 14.5 12.5 9 12.5 6C12.5 3.5 10.5 1.5 8 1.5Z"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                />
-                <circle cx="8" cy="6" r="1.5" stroke="currentColor" strokeWidth="1.2" />
-              </svg>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="City, state, or zip"
-              />
-            </div>
-            <button className="search-btn" type="submit">
-              Search
-            </button>
-          </form>
 
             <div className="search-type-toggle" role="group" aria-label="Search mode">
               <button
