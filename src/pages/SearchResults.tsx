@@ -195,7 +195,7 @@ export default function SearchResults() {
             ) : (
               filteredProviders.map((p) => (
                 <article key={p.slug} className="result-card" data-name="Result Card">
-                  <div className="result-card-inner">
+                  <Link to={`/provider/${p.slug}`} className="result-card-inner">
                     <div className="result-thumb" aria-hidden />
                     <div className="result-body">
                       <div className="result-row-top">
@@ -217,11 +217,8 @@ export default function SearchResults() {
                     </div>
                     <div className="provider-actions">
                       <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
-                      <Link to={`/provider/${p.slug}`} className="result-view">
-                        View
-                      </Link>
                     </div>
-                  </div>
+                  </Link>
                 </article>
               ))
             )}
