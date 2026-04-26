@@ -53,4 +53,6 @@ export interface SearchProvider {
   sentimentBreakdown: SentimentBreakdownPct;
   defaultProcedureFilters: string[];
   snippets: PatientSnippet[];
+  /** Slug of the place this practitioner works at, if known. */
+  workplaceSlug?: string;
 }

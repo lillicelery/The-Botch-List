@@ -31,12 +31,21 @@ const RATE_LIMIT_MS = 600;
 const MAX_RESULTS_PER_TERM = 200;
 
 const SEARCH_CONFIGS = [
-  { term: "plastic surgeon", location: "Seattle, WA" },
-  { term: "cosmetic surgeon", location: "Seattle, WA" },
-  { term: "aesthetic clinic", location: "Seattle, WA" },
-  { term: "medical spa", location: "Seattle, WA" },
-  { term: "facial plastic surgeon", location: "Bellevue, WA" },
-  { term: "plastic surgeon", location: "Bellevue, WA" },
+  { term: "plastic surgeon",     location: "Miami, FL" },
+  { term: "cosmetic surgeon",    location: "Miami, FL" },
+  { term: "medical spa",         location: "Miami, FL" },
+  { term: "aesthetic clinic",    location: "Miami, FL" },
+  { term: "plastic surgeon",     location: "Fort Lauderdale, FL" },
+  { term: "medical spa",         location: "Fort Lauderdale, FL" },
+  { term: "plastic surgeon",     location: "Boca Raton, FL" },
+  { term: "medical spa",         location: "Boca Raton, FL" },
+  { term: "plastic surgeon",     location: "Tampa, FL" },
+  { term: "medical spa",         location: "Tampa, FL" },
+  { term: "plastic surgeon",     location: "Orlando, FL" },
+  { term: "medical spa",         location: "Orlando, FL" },
+  { term: "plastic surgeon",     location: "Naples, FL" },
+  { term: "plastic surgeon",     location: "West Palm Beach, FL" },
+  { term: "medical spa",         location: "West Palm Beach, FL" },
 ];
 
 function sleep(ms) {
@@ -116,7 +125,7 @@ const businesses = [...allBusinesses.values()];
 const outDir = join(__dirname, "output");
 mkdirSync(outDir, { recursive: true });
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-const outPath = join(outDir, `yelp-seattle-${stamp}.json`);
+const outPath = join(outDir, `yelp-florida-${stamp}.json`);
 
 writeFileSync(
   outPath,

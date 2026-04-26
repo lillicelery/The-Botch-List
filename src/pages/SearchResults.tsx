@@ -9,7 +9,10 @@ import {
   RATING_FILTER_OPTIONS,
   type SidebarFilterState,
 } from "../lib/searchFilters";
+import { getProviderType } from "../lib/providerType";
 import "./SearchResults.css";
+
+type SearchType = "places" | "practitioners";
 
 function sentimentBadgeClass(sentiment: string): string {
   const base = "sentiment-badge";
@@ -26,9 +29,10 @@ export default function SearchResults() {
   const [searchParams, setSearchParams] = useSearchParams();
   const qParam = searchParams.get("q") ?? "";
   const locParam = searchParams.get("loc") ?? "";
+  const typeParam = (searchParams.get("type") ?? "places") as SearchType;
 
   const [query, setQuery] = useState(qParam);
-  const [location, setLocation] = useState(locParam);
+  const [location, setLocation] = useState(locParam || "Florida");
   const [sidebarFilters, setSidebarFilters] = useState<SidebarFilterState>({
     specialties: [],
     ratings: [],
@@ -36,22 +40,27 @@ export default function SearchResults() {
 
   useEffect(() => {
     setQuery(qParam);
-    setLocation(locParam);
+    setLocation(locParam || "Florida");
   }, [qParam, locParam]);
 
-  const filteredProviders = useMemo(
-    () =>
-      status === "loading"
-        ? []
-        : filterSearchProviders(providers, qParam, locParam, sidebarFilters),
-    [status, providers, qParam, locParam, sidebarFilters]
-  );
+  const filteredProviders = useMemo(() => {
+    if (status === "loading") return [];
+    const base = filterSearchProviders(providers, qParam, locParam, sidebarFilters);
+    return base.filter((p) => getProviderType(p) === (typeParam === "practitioners" ? "practitioner" : "place"));
+  }, [status, providers, qParam, locParam, sidebarFilters, typeParam]);
+
+  function switchType(type: SearchType) {
+    const next = new URLSearchParams(searchParams);
+    next.set("type", type);
+    setSearchParams(next);
+  }
 
   function onSearch(e: FormEvent) {
     e.preventDefault();
     const next = new URLSearchParams();
     if (query.trim()) next.set("q", query.trim());
     if (location.trim()) next.set("loc", location.trim());
+    next.set("type", typeParam);
     setSearchParams(next);
   }
 
@@ -178,10 +187,33 @@ export default function SearchResults() {
           </aside>
 
           <div className="results-list" data-name="Results Grid" data-node-id="6:128">
+            <div className="search-type-tabs" role="tablist" aria-label="Search mode">
+              <button
+                role="tab"
+                type="button"
+                aria-selected={typeParam === "places"}
+                className={`search-type-tab${typeParam === "places" ? " search-type-tab--active" : ""}`}
+                onClick={() => switchType("places")}
+              >
+                Places
+              </button>
+              <button
+                role="tab"
+                type="button"
+                aria-selected={typeParam === "practitioners"}
+                className={`search-type-tab${typeParam === "practitioners" ? " search-type-tab--active" : ""}`}
+                onClick={() => switchType("practitioners")}
+              >
+                Surgeons &amp; Practitioners
+              </button>
+            </div>
+
             <div className="results-header">
-              <h1 className="results-title">Search results</h1>
+              <h1 className="results-title">
+                {typeParam === "practitioners" ? "Surgeons & Practitioners" : "Places"}
+              </h1>
               <span className="results-count">
-                {status === "loading" ? "…" : `${filteredProviders.length} providers found`}
+                {status === "loading" ? "…" : `${filteredProviders.length} found`}
               </span>
             </div>
 

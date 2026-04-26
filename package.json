@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:all": "concurrently --names \"api,vite\" --prefix-colors \"cyan,green\" \"node --watch server/index.mjs\" \"vite\"",
     "server:dev": "node --watch server/index.mjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
@@ -19,6 +20,8 @@
     "sqlite:import": "node scripts/sqlite/import-providers.mjs",
     "sqlite:import:apify": "node scripts/sqlite/import-apify-providers.mjs",
     "sqlite:migrate:fts": "node scripts/sqlite/migrate-add-fts.mjs",
+    "sqlite:migrate:workplace-slug": "node scripts/sqlite/migrate-add-workplace-slug.mjs",
+    "sqlite:populate:workplace-slug": "node scripts/sqlite/populate-workplace-slug.mjs",
     "sqlite:query:providers": "node scripts/sqlite/query-providers.mjs"
   },
   "dependencies": {
@@ -36,6 +39,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.2.1",
     "typescript": "~5.7.2",
     "vite": "^6.0.3"
   }
