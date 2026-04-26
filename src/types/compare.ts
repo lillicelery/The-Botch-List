@@ -1,8 +1,8 @@
 export type CompareRowKey =
   | "sentiment"
-  | "experience"
-  | "insurance"
-  | "telehealth";
+  | "snippets"
+  | "topConcern"
+  | "location";
 
 export type CompareMetricTone = "strong" | "medium" | "default" | "muted";
 
@@ -15,6 +15,7 @@ export interface CompareProvider {
   nodeId: string;
   name: string;
   role: string;
+  bookingUrl: string;
   bookVariant: "primary" | "outline";
   values: Record<CompareRowKey, CompareMetricCell>;
 }
