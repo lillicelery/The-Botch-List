@@ -11,6 +11,12 @@ import {
 } from "../lib/searchFilters";
 import "./SearchResults.css";
 
+function getInitials(name: string): string {
+  const words = name.trim().split(/\s+/);
+  if (words.length === 1) return words[0][0].toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+
 function sentimentBadgeClass(sentiment: string): string {
   const base = "sentiment-badge";
   if (sentiment === "Very Positive") return `${base} sentiment-very-positive`;
@@ -204,7 +210,9 @@ export default function SearchResults() {
                   data-name="Result Card"
                 >
                   <div className="result-card-inner">
-                    <div className="result-thumb" aria-hidden />
+                    <div className="result-thumb" aria-hidden>
+                      <span className="result-thumb-initials">{getInitials(p.name)}</span>
+                    </div>
                     <div className="result-body">
                       <div className="result-row-top">
                         <div>
