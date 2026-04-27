@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import { ProvidersDataProvider } from "./lib/ProvidersDataContext";
+import { AuthProvider } from "./lib/auth";
 import { initializeTheme } from "./lib/theme";
 
 initializeTheme();
@@ -11,9 +12,11 @@ initializeTheme();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <ProvidersDataProvider>
-        <App />
-      </ProvidersDataProvider>
+      <AuthProvider>
+        <ProvidersDataProvider>
+          <App />
+        </ProvidersDataProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>
 );

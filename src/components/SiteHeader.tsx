@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { applyTheme, getPreferredTheme, type ThemeMode } from "../lib/theme";
+import { useAuth } from "../lib/auth";
 import "./SiteHeader.css";
 
 export type SiteHeaderActiveNav = "search" | "compare";
@@ -11,6 +12,7 @@ export interface SiteHeaderProps {
 
 export default function SiteHeader({ activeNav }: SiteHeaderProps) {
   const [theme, setTheme] = useState<ThemeMode>("light");
+  const { status, signOut } = useAuth();
 
   useEffect(() => {
     setTheme(getPreferredTheme());
@@ -51,9 +53,15 @@ export default function SiteHeader({ activeNav }: SiteHeaderProps) {
             Compare
           </Link>
         </nav>
-        <a href="#sign-in" className="site-header__signin">
-          Sign In
-        </a>
+        {status === "authenticated" ? (
+          <button type="button" className="site-header__signin site-header__signout-btn" onClick={signOut}>
+            Sign Out
+          </button>
+        ) : (
+          <Link to="/auth" className="site-header__signin">
+            Sign In
+          </Link>
+        )}
         <button type="button" className="site-header__theme-toggle" onClick={toggleTheme}>
           {theme === "dark" ? "Light" : "Dark"} Mode
         </button>

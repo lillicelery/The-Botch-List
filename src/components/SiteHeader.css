@@ -71,12 +71,15 @@
   font-weight: 500;
   color: var(--accent-contrast);
   background: var(--accent);
+  border: 1px solid var(--accent);
   padding: 8px 20px;
   border-radius: 6px;
   letter-spacing: 0.01em;
   text-decoration: none;
   line-height: 1;
   justify-self: end;
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
 }
 
 .site-header__theme-toggle {
@@ -99,6 +102,10 @@
 
 .site-header__signin:hover {
   filter: brightness(0.95);
+}
+
+.site-header__signout-btn {
+  appearance: none;
 }
 
 @media (max-width: 640px) {
