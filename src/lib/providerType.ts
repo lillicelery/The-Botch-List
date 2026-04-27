@@ -45,12 +45,13 @@ const PRACTITIONER_TAGS = new Set([
 ]);
 
 export function getProviderType(provider: SearchProvider): ProviderType {
+  if (provider.providerType) return provider.providerType;
   const lowTags = provider.tags.map((t) => t.toLowerCase().trim());
   for (const t of lowTags) {
-    if (PLACE_TAGS.has(t)) return "place";
+    if (PRACTITIONER_TAGS.has(t)) return "practitioner";
   }
   for (const t of lowTags) {
-    if (PRACTITIONER_TAGS.has(t)) return "practitioner";
+    if (PLACE_TAGS.has(t)) return "place";
   }
   return "place";
 }

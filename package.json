@@ -21,6 +21,7 @@
     "sqlite:import:apify": "node scripts/sqlite/import-apify-providers.mjs",
     "sqlite:migrate:fts": "node scripts/sqlite/migrate-add-fts.mjs",
     "sqlite:migrate:workplace-slug": "node scripts/sqlite/migrate-add-workplace-slug.mjs",
+    "sqlite:migrate:provider-type": "node scripts/sqlite/migrate-add-provider-type.mjs",
     "sqlite:populate:workplace-slug": "node scripts/sqlite/populate-workplace-slug.mjs",
     "sqlite:query:providers": "node scripts/sqlite/query-providers.mjs"
   },

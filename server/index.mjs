@@ -72,13 +72,14 @@ app.get("/api/providers", (c) => {
   try {
     const rows = db
       .prepare(
-        `SELECT raw_json, workplace_slug FROM providers
+        `SELECT raw_json, workplace_slug, provider_type FROM providers
          ORDER BY snippet_count DESC, name COLLATE NOCASE ASC`
       )
       .all();
     const providers = rows.map((r) => {
       const p = JSON.parse(r.raw_json);
       if (r.workplace_slug) p.workplaceSlug = r.workplace_slug;
+      if (r.provider_type) p.providerType = r.provider_type;
       return p;
     });
     return c.json(providers);
@@ -94,12 +95,13 @@ app.get("/api/providers/:slug", (c) => {
   }
   const slug = c.req.param("slug");
   try {
-    const row = db.prepare("SELECT raw_json, workplace_slug FROM providers WHERE slug = ?").get(slug);
+    const row = db.prepare("SELECT raw_json, workplace_slug, provider_type FROM providers WHERE slug = ?").get(slug);
     if (!row) {
       return c.json({ error: "Not found" }, 404);
     }
     const p = JSON.parse(row.raw_json);
     if (row.workplace_slug) p.workplaceSlug = row.workplace_slug;
+    if (row.provider_type) p.providerType = row.provider_type;
     return c.json(p);
   } catch (e) {
     return c.json({ error: e instanceof Error ? e.message : String(e) }, 500);

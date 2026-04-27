@@ -15,6 +15,28 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import Database from "better-sqlite3";
 
+const PLACE_TAGS = new Set([
+  "medical spa", "medspa", "spa", "beauty salon", "day spa", "clinic",
+  "health clinic", "cosmetic surgery clinic", "plastic surgery clinic",
+  "skin care clinic", "surgical center", "medical center", "nail salon",
+  "laser hair removal service", "aesthetics", "aesthetic medicine",
+  "beauty school", "hair salon", "wellness center", "health and wellness centre",
+  "facial spa", "health and beauty shop", "weight loss service", "iv therapy service",
+]);
+
+const PRACTITIONER_TAGS = new Set([
+  "cosmetic surgeon", "dermatologist", "plastic surgeon", "surgeon",
+  "physician", "doctor", "nurse", "aesthetician", "nurse practitioner",
+  "general practitioner", "skin care specialist", "medical doctor",
+]);
+
+function classifyProvider(tags) {
+  const lower = (Array.isArray(tags) ? tags : []).map((t) => String(t).toLowerCase().trim());
+  for (const t of lower) { if (PRACTITIONER_TAGS.has(t)) return "practitioner"; }
+  for (const t of lower) { if (PLACE_TAGS.has(t)) return "place"; }
+  return "place";
+}
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, "..", "..");
 const dbDir = join(projectRoot, "data");
@@ -73,6 +95,7 @@ db.exec(`
     tags_json TEXT NOT NULL,
     specialties_json TEXT NOT NULL,
     snippet_count INTEGER NOT NULL DEFAULT 0,
+    provider_type TEXT CHECK(provider_type IN ('place', 'practitioner')),
     raw_json TEXT NOT NULL
   );
 
@@ -117,8 +140,8 @@ db.exec(`
 `);
 
 const insertProvider = db.prepare(`
-  INSERT INTO providers (slug, name, location_label, card_sentiment, tags_json, specialties_json, snippet_count, raw_json)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  INSERT INTO providers (slug, name, location_label, card_sentiment, tags_json, specialties_json, snippet_count, provider_type, raw_json)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   ON CONFLICT(slug) DO UPDATE SET
     name = excluded.name,
     location_label = excluded.location_label,
@@ -126,6 +149,7 @@ const insertProvider = db.prepare(`
     tags_json = excluded.tags_json,
     specialties_json = excluded.specialties_json,
     snippet_count = excluded.snippet_count,
+    provider_type = excluded.provider_type,
     raw_json = excluded.raw_json
 `);
 
@@ -152,14 +176,16 @@ const importTx = db.transaction((rows) => {
     if (!slug) continue;
 
     const snippets = Array.isArray(provider?.snippets) ? provider.snippets : [];
+    const tags = Array.isArray(provider?.tags) ? provider.tags : [];
     insertProvider.run(
       slug,
       String(provider?.name ?? "Unknown"),
       provider?.locationLabel ? String(provider.locationLabel) : null,
       provider?.cardSentiment ? String(provider.cardSentiment) : null,
-      JSON.stringify(Array.isArray(provider?.tags) ? provider.tags : []),
+      JSON.stringify(tags),
       JSON.stringify(Array.isArray(provider?.specialties) ? provider.specialties : []),
       snippets.length,
+      classifyProvider(tags),
       JSON.stringify(provider)
     );
 
