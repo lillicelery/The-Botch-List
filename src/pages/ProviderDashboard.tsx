@@ -190,6 +190,7 @@ export default function ProviderDashboard() {
   const displayName = provider?.name ?? getProviderDisplayName(slug);
 
   const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [reviewTab, setReviewTab] = useState<"public" | "site">("public");
 
   useEffect(() => {
     setFilterTags(provider ? [...provider.defaultProcedureFilters] : []);
@@ -366,71 +367,99 @@ export default function ProviderDashboard() {
             rules.
           </p>
 
-          <div className="reviews-filters" data-node-id="30:95">
-            <span className="reviews-filters-label" data-node-id="30:61">
-              Procedure / topic
-            </span>
-            {filterTags.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                className="filter-chip"
-                aria-label={`Remove ${tag} filter`}
-                onClick={() => removeFilter(tag)}
-              >
-                {tag}
-                <span className="filter-chip-x" aria-hidden>
-                  ×
-                </span>
-              </button>
-            ))}
-            {filterTags.length === 0 ? (
-              <span className="reviews-filters-all">Showing all topics</span>
-            ) : null}
+          <div className="reviews-tab-group" role="tablist">
+            <button
+              role="tab"
+              aria-selected={reviewTab === "public"}
+              className={reviewTab === "public" ? "reviews-tab reviews-tab--active" : "reviews-tab"}
+              onClick={() => setReviewTab("public")}
+            >
+              Public reviews
+            </button>
+            <button
+              role="tab"
+              aria-selected={reviewTab === "site"}
+              className={reviewTab === "site" ? "reviews-tab reviews-tab--active" : "reviews-tab"}
+              onClick={() => setReviewTab("site")}
+            >
+              Site reviews
+            </button>
           </div>
 
-          {visibleSnippets.length === 0 ? (
-            <p className="reviews-empty" role="status">
-              No snippets match the remaining topic filters. Remove a chip to see more.
-            </p>
-          ) : (
-            visibleSnippets.map((snippet) => (
-              <article key={snippet.id} className="review-block">
-                <div className="review-head">
-                  <div>
-                    <h3 className="review-user">{snippet.authorLabel}</h3>
-                    <p className="review-meta">
-                      <span className={snippetSentimentClass(snippet.sentiment)}>{snippetSentimentLabel(snippet.sentiment)}</span>
-                      <span>
-                        {" "}
-                        • {snippet.postedRelative} • {snippet.sourceName}
-                      </span>
-                    </p>
-                  </div>
-                  <a
-                    className="review-original-link"
-                    href={snippet.originalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+          {reviewTab === "public" && (
+            <>
+              <div className="reviews-filters" data-node-id="30:95">
+                <span className="reviews-filters-label" data-node-id="30:61">
+                  Procedure / topic
+                </span>
+                {filterTags.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    className="filter-chip"
+                    aria-label={`Remove ${tag} filter`}
+                    onClick={() => removeFilter(tag)}
                   >
-                    View original
-                  </a>
-                </div>
-                <p className="review-body">{snippet.excerpt}</p>
-                <div className="review-foot">
-                  <div className="review-tags">
-                    {snippet.procedureTags.map((t) => (
-                      <span key={t} className="review-tag">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="review-source-row">
-                    <SourceLogo snippet={snippet} />
-                  </div>
-                </div>
-              </article>
-            ))
+                    {tag}
+                    <span className="filter-chip-x" aria-hidden>
+                      ×
+                    </span>
+                  </button>
+                ))}
+                {filterTags.length === 0 ? (
+                  <span className="reviews-filters-all">Showing all topics</span>
+                ) : null}
+              </div>
+
+              {visibleSnippets.length === 0 ? (
+                <p className="reviews-empty" role="status">
+                  No snippets match the remaining topic filters. Remove a chip to see more.
+                </p>
+              ) : (
+                visibleSnippets.map((snippet) => (
+                  <article key={snippet.id} className="review-block">
+                    <div className="review-head">
+                      <div>
+                        <h3 className="review-user">{snippet.authorLabel}</h3>
+                        <p className="review-meta">
+                          <span className={snippetSentimentClass(snippet.sentiment)}>{snippetSentimentLabel(snippet.sentiment)}</span>
+                          <span>
+                            {" "}
+                            • {snippet.postedRelative} • {snippet.sourceName}
+                          </span>
+                        </p>
+                      </div>
+                      {!snippet.originalUrl.includes("maps/search") && (
+                        <a
+                          className="review-original-link"
+                          href={snippet.originalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View original
+                        </a>
+                      )}
+                    </div>
+                    <p className="review-body">{snippet.excerpt}</p>
+                    <div className="review-foot">
+                      <div className="review-tags">
+                        {snippet.procedureTags.map((t) => (
+                          <span key={t} className="review-tag">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </article>
+                ))
+              )}
+            </>
+          )}
+
+          {reviewTab === "site" && (
+            <p className="reviews-empty">
+              Site reviews coming soon.
+            </p>
           )}
         </section>
 
