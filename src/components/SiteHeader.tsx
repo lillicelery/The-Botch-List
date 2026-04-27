@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../lib/auth";
 import "./SiteHeader.css";
 
 export type SiteHeaderActiveNav = "search" | "compare";
@@ -8,6 +9,8 @@ export interface SiteHeaderProps {
 }
 
 export default function SiteHeader({ activeNav }: SiteHeaderProps) {
+  const { status, signOut } = useAuth();
+
   return (
     <header className="site-header" data-name="Navigation (Global)" data-node-id="23:602">
       <div className="site-header__inner">
@@ -37,9 +40,15 @@ export default function SiteHeader({ activeNav }: SiteHeaderProps) {
             Compare
           </Link>
         </nav>
-        <a href="#sign-in" className="site-header__signin">
-          Sign In
-        </a>
+        {status === "authenticated" ? (
+          <button type="button" className="site-header__signin site-header__signout-btn" onClick={signOut}>
+            Sign Out
+          </button>
+        ) : (
+          <Link to="/auth" className="site-header__signin">
+            Sign In
+          </Link>
+        )}
       </div>
     </header>
   );
