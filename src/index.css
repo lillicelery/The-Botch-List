@@ -36,27 +36,9 @@
   --font: "Inter", system-ui, sans-serif;
 }
 
-[data-theme="dark"] {
-  --page-bg: #0c1d23;
-  --text-primary: #e6f3f4;
-  --text-secondary: rgba(230, 243, 244, 0.82);
-  --text-muted: rgba(230, 243, 244, 0.58);
-  --text-soft: rgba(230, 243, 244, 0.4);
-  --panel-bg: rgba(15, 45, 52, 0.66);
-  --panel-border: rgba(113, 173, 181, 0.28);
-  --panel-hover-bg: rgba(20, 58, 66, 0.78);
-  --panel-hover-border: rgba(113, 173, 181, 0.46);
-  --header-border: rgba(113, 173, 181, 0.22);
-  --accent: #5ec1c6;
-  --accent-strong: #47afb5;
-  --accent-contrast: #082127;
-  --button-muted-text: rgba(230, 243, 244, 0.66);
-  --button-muted-border: rgba(113, 173, 181, 0.36);
-  --slider-line: rgba(113, 173, 181, 0.36);
-}
-
 body {
   margin: 0;
+  min-width: 660px;
   min-height: 100vh;
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;
