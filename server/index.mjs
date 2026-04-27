@@ -23,14 +23,21 @@ const providersDbPath = process.env.BOTCH_DB_PATH?.trim() || join(projectRoot, "
 const authDbPath = process.env.BOTCH_AUTH_DB_PATH?.trim() || join(projectRoot, "data", "auth.db");
 const port = Math.max(1, Number(process.env.BOTCH_API_PORT || 8787));
 const appOrigin = process.env.BOTCH_APP_ORIGIN?.trim() || "http://127.0.0.1:5173";
+const appPublicBaseUrl = process.env.BOTCH_APP_PUBLIC_URL?.trim() || appOrigin;
 const isProd = process.env.NODE_ENV === "production";
+const resendApiKey = process.env.RESEND_API_KEY?.trim() || "";
+const authEmailFrom = process.env.BOTCH_AUTH_EMAIL_FROM?.trim() || "";
 const sessionCookieName = "botch_session";
 const csrfCookieName = "botch_csrf";
 const sessionTtlMs = 1000 * 60 * 60 * 8;
+const resetTokenTtlMs = 1000 * 60 * 30;
 const sessions = new Map();
 const failedAttempts = new Map();
+const forgotAttempts = new Map();
 const maxFailedAttempts = 6;
 const lockoutWindowMs = 1000 * 60 * 15;
+const maxForgotAttempts = 4;
+const forgotWindowMs = 1000 * 60 * 15;
 
 let providersDbInstance = null;
 let authDbInstance = null;
@@ -59,6 +66,18 @@ function getAuthDb() {
       password_hash TEXT NOT NULL,
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
+
+    CREATE TABLE IF NOT EXISTS password_reset_tokens (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      token_hash TEXT NOT NULL,
+      expires_at TEXT NOT NULL,
+      used_at TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_hash ON password_reset_tokens(token_hash);
   `);
   return authDbInstance;
 }
@@ -135,6 +154,64 @@ function registerFailedAttempt(clientKey) {
 
 function clearFailedAttempts(clientKey) {
   failedAttempts.delete(clientKey);
+}
+
+function tooManyForgotAttempts(clientKey) {
+  const entry = forgotAttempts.get(clientKey);
+  if (!entry) return false;
+  if (Date.now() > entry.lockedUntil) {
+    forgotAttempts.delete(clientKey);
+    return false;
+  }
+  return entry.count >= maxForgotAttempts;
+}
+
+function registerForgotAttempt(clientKey) {
+  const now = Date.now();
+  const current = forgotAttempts.get(clientKey);
+  if (!current || now > current.lockedUntil) {
+    forgotAttempts.set(clientKey, {
+      count: 1,
+      lockedUntil: now + forgotWindowMs,
+    });
+    return;
+  }
+  current.count += 1;
+  current.lockedUntil = now + forgotWindowMs;
+  forgotAttempts.set(clientKey, current);
+}
+
+function clearForgotAttempts(clientKey) {
+  forgotAttempts.delete(clientKey);
+}
+
+function sha256(value) {
+  return crypto.createHash("sha256").update(value).digest("hex");
+}
+
+function isResetEmailConfigured() {
+  return Boolean(resendApiKey && authEmailFrom);
+}
+
+async function sendResetEmail(email, resetLink) {
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: authEmailFrom,
+      to: [email],
+      subject: "Reset your Botch List password",
+      text: `Reset your password using this link (valid for 30 minutes): ${resetLink}`,
+      html: `<p>Reset your password using the link below. It is valid for 30 minutes.</p><p><a href="${resetLink}">${resetLink}</a></p>`,
+    }),
+  });
+  if (!response.ok) {
+    const body = await response.text().catch(() => "");
+    throw new Error(`Resend error (${response.status}): ${body}`);
+  }
 }
 
 function pruneExpiredSessions() {
@@ -304,6 +381,107 @@ app.post("/api/auth/signup", async (c) => {
   const passwordHash = await bcrypt.hash(password, 12);
   authDb.prepare("INSERT INTO users (email, password_hash) VALUES (?, ?)").run(email, passwordHash);
   return c.json({ ok: true }, 201);
+});
+
+app.post("/api/auth/forgot-password", async (c) => {
+  const clientKey = getClientKey(c);
+  if (tooManyForgotAttempts(clientKey)) {
+    return c.json({ error: "Too many reset requests. Try again later." }, 429);
+  }
+  if (!isResetEmailConfigured()) {
+    return c.json({ error: "Reset email provider is not configured." }, 503);
+  }
+
+  const body = await c.req.json().catch(() => null);
+  const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
+
+  registerForgotAttempt(clientKey);
+  if (!isValidEmail(email)) {
+    return c.json({ ok: true });
+  }
+
+  const authDb = getAuthDb();
+  const user = authDb.prepare("SELECT id, email FROM users WHERE email = ?").get(email);
+  if (!user) {
+    return c.json({ ok: true });
+  }
+
+  const token = secureRandomToken(32);
+  const tokenHash = sha256(token);
+  const expiresAt = new Date(Date.now() + resetTokenTtlMs).toISOString();
+  authDb
+    .prepare("INSERT INTO password_reset_tokens (user_id, token_hash, expires_at) VALUES (?, ?, ?)")
+    .run(user.id, tokenHash, expiresAt);
+
+  // Keep only most recent active reset token per user.
+  authDb
+    .prepare(
+      `DELETE FROM password_reset_tokens
+       WHERE user_id = ?
+         AND id NOT IN (
+           SELECT id FROM password_reset_tokens
+           WHERE user_id = ? AND used_at IS NULL
+           ORDER BY created_at DESC
+           LIMIT 1
+         )`
+    )
+    .run(user.id, user.id);
+
+  const resetLink = `${appPublicBaseUrl}/reset-password?token=${encodeURIComponent(token)}`;
+  try {
+    await sendResetEmail(user.email, resetLink);
+    clearForgotAttempts(clientKey);
+  } catch (error) {
+    console.error("Failed to send reset email", error);
+    return c.json({ error: "Unable to send reset email right now." }, 502);
+  }
+
+  return c.json({ ok: true });
+});
+
+app.post("/api/auth/reset-password", async (c) => {
+  const body = await c.req.json().catch(() => null);
+  const token = typeof body?.token === "string" ? body.token.trim() : "";
+  const password = typeof body?.password === "string" ? body.password : "";
+
+  if (!token) {
+    return c.json({ error: "Reset token is required." }, 400);
+  }
+  if (!isStrongPassword(password)) {
+    return c.json({ error: "Password must use at least 10 characters with uppercase, lowercase, and a number." }, 400);
+  }
+
+  const tokenHash = sha256(token);
+  const authDb = getAuthDb();
+  const resetRow = authDb
+    .prepare(
+      `SELECT rt.id, rt.user_id, u.email
+       FROM password_reset_tokens rt
+       JOIN users u ON u.id = rt.user_id
+       WHERE rt.token_hash = ?
+         AND rt.used_at IS NULL
+         AND datetime(rt.expires_at) > datetime('now')
+       ORDER BY rt.created_at DESC
+       LIMIT 1`
+    )
+    .get(tokenHash);
+
+  if (!resetRow) {
+    return c.json({ error: "This reset link is invalid or expired." }, 400);
+  }
+
+  const newHash = await bcrypt.hash(password, 12);
+  authDb.transaction(() => {
+    authDb.prepare("UPDATE users SET password_hash = ? WHERE id = ?").run(newHash, resetRow.user_id);
+    authDb.prepare("UPDATE password_reset_tokens SET used_at = datetime('now') WHERE id = ?").run(resetRow.id);
+  })();
+
+  // Invalidate active sessions for this account after password change.
+  for (const [sessionToken, session] of sessions.entries()) {
+    if (session.email === resetRow.email) sessions.delete(sessionToken);
+  }
+
+  return c.json({ ok: true });
 });
 
 app.post("/api/auth/signout", (c) => {

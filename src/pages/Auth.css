@@ -103,6 +103,18 @@
   outline-offset: 0;
 }
 
+.auth-inline-link {
+  justify-self: start;
+  margin-top: 2px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.auth-inline-link:hover {
+  text-decoration: underline;
+}
+
 .auth-error {
   margin: 4px 0 0;
   color: #b91c1c;

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:all": "concurrently --names \"api,vite\" --prefix-colors \"cyan,green\" \"node --watch server/index.mjs\" \"vite\"",
-    "server:dev": "node --watch server/index.mjs",
+    "dev:all": "concurrently --names \"api,vite\" --prefix-colors \"cyan,green\" \"node --env-file=.env --watch server/index.mjs\" \"vite\"",
+    "server:dev": "node --env-file=.env --watch server/index.mjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "apify:maps": "node --env-file=.env scripts/apify/run.mjs",

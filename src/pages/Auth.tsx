@@ -148,6 +148,11 @@ export default function Auth() {
                   onChange={(event) => setPassword(event.target.value)}
                   required
                 />
+                {mode === "signin" ? (
+                  <Link to="/forgot-password" className="auth-inline-link">
+                    Forgot password?
+                  </Link>
+                ) : null}
 
                 {error ? (
                   <p
