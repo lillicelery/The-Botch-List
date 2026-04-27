@@ -28,6 +28,7 @@ export default function Landing() {
           className="shader-fill"
           colors={["#eef8f8", "#c3d3d8", "#5ec1c6", "#d4f0f0", "#2b8f95"]}
           speed={0.3}
+          maxPixelCount={921_600}
         />
         <MeshGradient
           className="shader-fill"
@@ -35,6 +36,7 @@ export default function Landing() {
           colors={["#eef8f8", "#ffffff", "#47afb5", "#b0d8da"]}
           speed={0.15}
           distortion={0.2}
+          maxPixelCount={921_600}
         />
 
         <div style={{ position: "relative", zIndex: 1 }}>
