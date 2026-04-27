@@ -55,4 +55,6 @@ export interface SearchProvider {
   snippets: PatientSnippet[];
   /** Slug of the place this practitioner works at, if known. */
   workplaceSlug?: string;
+  /** Explicit type set in the database — takes priority over tag inference. */
+  providerType?: "place" | "practitioner";
 }
