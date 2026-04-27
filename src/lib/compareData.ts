@@ -1,10 +1,11 @@
 import type { CompareProvider, CompareRowKey } from "../types/compare";
+import type { SearchProvider } from "../types/provider";
 
 export const COMPARE_ROWS: ReadonlyArray<{ key: CompareRowKey; label: string }> = [
   { key: "sentiment", label: "Overall Sentiment" },
-  { key: "experience", label: "Years Experience" },
-  { key: "insurance", label: "Accepts Insurance" },
-  { key: "telehealth", label: "Telehealth" },
+  { key: "snippets", label: "Snippets Collected" },
+  { key: "topConcern", label: "Top Concern" },
+  { key: "location", label: "Location" },
 ];
 
 export const COMPARE_PROVIDERS: CompareProvider[] = [
@@ -12,24 +13,50 @@ export const COMPARE_PROVIDERS: CompareProvider[] = [
     nodeId: "6:428",
     name: "Dr. Elena Vance, MD",
     role: "Facial plastic & rhinoplasty",
+    bookingUrl: "/search",
     bookVariant: "primary",
     values: {
       sentiment: { text: "Mostly Positive", tone: "strong" },
-      experience: { text: "14 Years", tone: "default" },
-      insurance: { text: "Yes (Major)", tone: "default" },
-      telehealth: { text: "Consults available", tone: "medium" },
+      snippets: { text: "124", tone: "default" },
+      topConcern: { text: "Scar visibility", tone: "default" },
+      location: { text: "Seattle, WA", tone: "medium" },
     },
   },
   {
     nodeId: "6:453",
     name: "Harbor Aesthetics",
     role: "Medical spa • injectables & body contouring",
+    bookingUrl: "/search",
     bookVariant: "outline",
     values: {
       sentiment: { text: "Okay", tone: "strong" },
-      experience: { text: "9 Years", tone: "default" },
-      insurance: { text: "Limited", tone: "default" },
-      telehealth: { text: "Not offered", tone: "muted" },
+      snippets: { text: "87", tone: "default" },
+      topConcern: { text: "Pricing clarity", tone: "default" },
+      location: { text: "Bellevue, WA", tone: "muted" },
     },
   },
 ];
+
+function sentimentTone(sentiment: SearchProvider["cardSentiment"]): "strong" | "default" | "muted" {
+  if (sentiment === "Very Positive" || sentiment === "Positive") return "strong";
+  if (sentiment === "Negative" || sentiment === "Very Negative") return "muted";
+  return "default";
+}
+
+export function toCompareProvider(provider: SearchProvider, index: number): CompareProvider {
+  const bookingUrl = `/provider/${provider.slug}`;
+
+  return {
+    nodeId: `dynamic-${provider.slug}`,
+    name: provider.name,
+    role: provider.metaLine,
+    bookingUrl,
+    bookVariant: index === 0 ? "primary" : "outline",
+    values: {
+      sentiment: { text: provider.cardSentiment, tone: sentimentTone(provider.cardSentiment) },
+      snippets: { text: String(provider.stats.snippetsCollected), tone: "default" },
+      topConcern: { text: provider.stats.topConcern, tone: "default" },
+      location: { text: provider.locationLabel, tone: "medium" },
+    },
+  };
+}

@@ -1,5 +1,4 @@
 import { FormEvent } from "react";
-import { iconLocation, iconSearch } from "../lib/figma-assets";
 import "./SearchBar.css";
 
 export interface SearchBarProps {
@@ -34,7 +33,10 @@ export default function SearchBar({
     >
       <div className="search-bar-form__field">
         <span className="search-bar-form__icon" aria-hidden>
-          <img src={iconSearch} alt="" width={20} height={20} />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.2" />
+            <path d="M11 11L14 14" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+          </svg>
         </span>
         <input
           type="search"
@@ -48,7 +50,10 @@ export default function SearchBar({
       <div className="search-bar-form__divider" aria-hidden />
       <div className="search-bar-form__field">
         <span className="search-bar-form__icon" aria-hidden>
-          <img src={iconLocation} alt="" width={20} height={20} />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6C3.5 9 8 14.5 8 14.5C8 14.5 12.5 9 12.5 6C12.5 3.5 10.5 1.5 8 1.5Z" stroke="currentColor" strokeWidth="1.2" />
+            <circle cx="8" cy="6" r="1.5" stroke="currentColor" strokeWidth="1.2" />
+          </svg>
         </span>
         <input
           type="text"
