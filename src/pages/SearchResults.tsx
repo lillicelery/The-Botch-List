@@ -1,5 +1,5 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { FormEvent, startTransition, useEffect, useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import SiteHeader from "../components/SiteHeader";
 import { useProvidersData } from "../lib/ProvidersDataContext";
@@ -24,7 +24,6 @@ function sentimentBadgeClass(sentiment: string): string {
 }
 
 export default function SearchResults() {
-  const navigate = useNavigate();
   const { providers, status } = useProvidersData();
   const [searchParams, setSearchParams] = useSearchParams();
   const qParam = searchParams.get("q") ?? "";
@@ -65,25 +64,31 @@ export default function SearchResults() {
   }
 
   function toggleSpecialty(value: string) {
-    setSidebarFilters((prev) => {
-      const set = new Set(prev.specialties);
-      if (set.has(value)) set.delete(value);
-      else set.add(value);
-      return { ...prev, specialties: [...set] };
+    startTransition(() => {
+      setSidebarFilters((prev) => {
+        const set = new Set(prev.specialties);
+        if (set.has(value)) set.delete(value);
+        else set.add(value);
+        return { ...prev, specialties: [...set] };
+      });
     });
   }
 
   function toggleRating(option: (typeof RATING_FILTER_OPTIONS)[number]) {
-    setSidebarFilters((prev) => {
-      const set = new Set(prev.ratings);
-      if (set.has(option)) set.delete(option);
-      else set.add(option);
-      return { ...prev, ratings: [...set] };
+    startTransition(() => {
+      setSidebarFilters((prev) => {
+        const set = new Set(prev.ratings);
+        if (set.has(option)) set.delete(option);
+        else set.add(option);
+        return { ...prev, ratings: [...set] };
+      });
     });
   }
 
   function resetSidebarFilters() {
-    setSidebarFilters({ specialties: [], ratings: [] });
+    startTransition(() => {
+      setSidebarFilters({ specialties: [], ratings: [] });
+    });
   }
 
   return (
@@ -227,20 +232,11 @@ export default function SearchResults() {
               </p>
             ) : (
               filteredProviders.map((p) => (
-                <article
+                <Link
                   key={p.slug}
+                  to={`/provider/${p.slug}`}
                   className="result-card"
                   data-name="Result Card"
-                  role="link"
-                  tabIndex={0}
-                  title="View provider"
-                  onClick={() => navigate(`/provider/${p.slug}`)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      navigate(`/provider/${p.slug}`);
-                    }
-                  }}
                 >
                   <div className="result-card-inner">
                     <div className="result-thumb" aria-hidden />
@@ -266,7 +262,7 @@ export default function SearchResults() {
                       <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
                     </div>
                   </div>
-                </article>
+                </Link>
               ))
             )}
           </div>
