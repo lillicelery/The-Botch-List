@@ -4,9 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import { ProvidersDataProvider } from "./lib/ProvidersDataContext";
-import { initializeTheme } from "./lib/theme";
-
-initializeTheme();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

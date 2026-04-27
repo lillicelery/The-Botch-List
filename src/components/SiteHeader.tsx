@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { applyTheme, getPreferredTheme, type ThemeMode } from "../lib/theme";
 import "./SiteHeader.css";
 
 export type SiteHeaderActiveNav = "search" | "compare";
@@ -10,18 +8,6 @@ export interface SiteHeaderProps {
 }
 
 export default function SiteHeader({ activeNav }: SiteHeaderProps) {
-  const [theme, setTheme] = useState<ThemeMode>("light");
-
-  useEffect(() => {
-    setTheme(getPreferredTheme());
-  }, []);
-
-  function toggleTheme() {
-    const next: ThemeMode = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    applyTheme(next);
-  }
-
   return (
     <header className="site-header" data-name="Navigation (Global)" data-node-id="23:602">
       <div className="site-header__inner">
@@ -54,9 +40,6 @@ export default function SiteHeader({ activeNav }: SiteHeaderProps) {
         <a href="#sign-in" className="site-header__signin">
           Sign In
         </a>
-        <button type="button" className="site-header__theme-toggle" onClick={toggleTheme}>
-          {theme === "dark" ? "Light" : "Dark"} Mode
-        </button>
       </div>
     </header>
   );
