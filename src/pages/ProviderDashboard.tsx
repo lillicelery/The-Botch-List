@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
-import { dashboardSourceFacebook, dashboardSourceReddit } from "../lib/figma-assets";
 import { useProvidersData } from "../lib/ProvidersDataContext";
 import { getProviderDisplayName } from "../lib/providersStatic";
 import { getProviderType } from "../lib/providerType";
@@ -153,35 +152,6 @@ function SentimentDonut({
   );
 }
 
-function SourceLogo({ snippet }: { snippet: PatientSnippet }) {
-  if (snippet.sourceLogo === "reddit") {
-    return (
-      <img
-        className="review-source-icon"
-        src={dashboardSourceReddit}
-        alt=""
-        width={56}
-        height={20}
-      />
-    );
-  }
-  if (snippet.sourceLogo === "facebook") {
-    return (
-      <img
-        className="review-source-icon review-source-icon--fb"
-        src={dashboardSourceFacebook}
-        alt=""
-        width={43}
-        height={23}
-      />
-    );
-  }
-  return (
-    <span className="review-source-fallback" title={snippet.sourceName}>
-      {snippet.sourceName}
-    </span>
-  );
-}
 
 export default function ProviderDashboard() {
   const { slug } = useParams<{ slug: string }>();
