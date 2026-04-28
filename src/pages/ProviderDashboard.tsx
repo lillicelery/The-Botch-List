@@ -4,6 +4,7 @@ import SiteHeader from "../components/SiteHeader";
 import { useProvidersData } from "../lib/ProvidersDataContext";
 import { getProviderDisplayName } from "../lib/providersStatic";
 import { getProviderType } from "../lib/providerType";
+import { useCompareSelection } from "../lib/useCompareSelection";
 import type { PatientSnippet, SearchProvider, SnippetSentiment } from "../types/provider";
 import "./ProviderDashboard.css";
 
@@ -157,6 +158,7 @@ export default function ProviderDashboard() {
   const { slug } = useParams<{ slug: string }>();
   const { bySlug, byWorkplace, status } = useProvidersData();
   const provider = useMemo(() => (slug ? bySlug.get(slug) : undefined), [bySlug, slug]);
+  const { isSelected, toggle, atMax } = useCompareSelection();
   const displayName = provider?.name ?? getProviderDisplayName(slug);
 
   const [filterTags, setFilterTags] = useState<string[]>([]);
@@ -235,9 +237,26 @@ export default function ProviderDashboard() {
 
       <main className="provider-main">
         <header className="provider-hero">
-          <h1 className="provider-name" data-node-id="10:191">
-            {provider.name}
-          </h1>
+          <div className="provider-hero__top">
+            <h1 className="provider-name" data-node-id="10:191">
+              {provider.name}
+            </h1>
+            {(() => {
+              const selected = isSelected(provider.slug);
+              const disabled = atMax && !selected;
+              return (
+                <button
+                  type="button"
+                  className={`provider-compare-btn${selected ? " provider-compare-btn--active" : ""}${disabled ? " provider-compare-btn--disabled" : ""}`}
+                  onClick={() => toggle(provider.slug)}
+                  disabled={disabled}
+                  title={disabled ? "Max 3 providers selected" : undefined}
+                >
+                  {selected ? "✓ Added to Compare" : "+ Add to Compare"}
+                </button>
+              );
+            })()}
+          </div>
           <p className="provider-tagline" data-node-id="10:199">
             Aggregated snippets from public posts and reviews, with links to originals
           </p>
