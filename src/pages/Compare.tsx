@@ -1,12 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
 import { COMPARE_ROWS, toCompareProvider } from "../lib/compareData";
 import { compareMetricClass } from "../lib/compareMetricClass";
 import { useProvidersData } from "../lib/ProvidersDataContext";
+import { useCompareSelection } from "../lib/useCompareSelection";
 import "./Compare.css";
-
-const COMPARE_SELECTION_STORAGE_KEY = "compare:selectedProviders";
 
 function isFeaturedColumn(index: number): boolean {
   return index === 0;
@@ -15,24 +14,8 @@ function isFeaturedColumn(index: number): boolean {
 export default function Compare() {
   const navigate = useNavigate();
   const { bySlug, providers, status } = useProvidersData();
-  const [selectedSlugs, setSelectedSlugs] = useState<string[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const raw = window.localStorage.getItem(COMPARE_SELECTION_STORAGE_KEY);
-      if (!raw) return [];
-      const parsed: unknown = JSON.parse(raw);
-      if (!Array.isArray(parsed)) return [];
-      return parsed.filter((v): v is string => typeof v === "string").slice(0, 3);
-    } catch {
-      return [];
-    }
-  });
+  const { slugs: selectedSlugs, toggle, atMax } = useCompareSelection();
   const [providerSearch, setProviderSearch] = useState("");
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(COMPARE_SELECTION_STORAGE_KEY, JSON.stringify(selectedSlugs));
-  }, [selectedSlugs]);
 
   const dynamicProviders = selectedSlugs
     .map((slug, i) => {
@@ -56,13 +39,13 @@ export default function Compare() {
   }, [addableProviders, providerSearch]);
 
   function addProvider(slug: string) {
-    if (!slug || selectedSlugs.includes(slug) || selectedSlugs.length >= 3) return;
-    setSelectedSlugs((prev) => [...prev, slug]);
+    if (!slug || selectedSlugs.includes(slug) || atMax) return;
+    toggle(slug);
     setProviderSearch("");
   }
 
   function removeProvider(slug: string) {
-    setSelectedSlugs((prev) => prev.filter((s) => s !== slug));
+    toggle(slug);
   }
 
   return (
@@ -89,12 +72,12 @@ export default function Compare() {
             value={providerSearch}
             onChange={(e) => setProviderSearch(e.target.value)}
             placeholder="Search provider by name or location"
-            disabled={status !== "ready" || addableProviders.length === 0 || selectedSlugs.length >= 3}
+            disabled={status !== "ready" || addableProviders.length === 0 || atMax}
           />
           {status === "ready" &&
           providerSearch.trim().length > 0 &&
           addableProviders.length > 0 &&
-          selectedSlugs.length < 3 ? (
+          !atMax ? (
             <div className="compare-search-results" role="listbox" aria-label="Matching providers">
               {filteredAddableProviders.map((provider) => (
                 <button
@@ -109,7 +92,7 @@ export default function Compare() {
               ))}
             </div>
           ) : null}
-          {selectedSlugs.length >= 3 ? <span className="compare-controls-note">Max 3 providers</span> : null}
+          {atMax ? <span className="compare-controls-note">Max 3 providers</span> : null}
         </div>
         {status === "ready" && compareProviders.length === 0 ? (
           <div className="compare-empty-state" role="status">

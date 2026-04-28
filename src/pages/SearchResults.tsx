@@ -9,6 +9,7 @@ import {
   RATING_FILTER_OPTIONS,
   type SidebarFilterState,
 } from "../lib/searchFilters";
+import { useCompareSelection } from "../lib/useCompareSelection";
 import "./SearchResults.css";
 
 function getInitials(name: string): string {
@@ -28,6 +29,7 @@ function sentimentBadgeClass(sentiment: string): string {
 
 export default function SearchResults() {
   const { providers, status } = useProvidersData();
+  const { isSelected, toggle, atMax } = useCompareSelection();
   const [searchParams, setSearchParams] = useSearchParams();
   const qParam = searchParams.get("q") ?? "";
   const locParam = searchParams.get("loc") ?? "";
@@ -202,41 +204,58 @@ export default function SearchResults() {
                 No providers match your search and filters.
               </p>
             ) : (
-              filteredProviders.map((p) => (
-                <Link
-                  key={p.slug}
-                  to={`/provider/${p.slug}`}
-                  className="result-card"
-                  data-name="Result Card"
-                >
-                  <div className="result-card-inner">
-                    <div className="result-thumb" aria-hidden>
-                      <span className="result-thumb-initials">{getInitials(p.name)}</span>
-                    </div>
-                    <div className="result-body">
-                      <div className="result-row-top">
-                        <div>
-                          <h2 className="result-name">{p.name}</h2>
-                          <p className="result-meta">{p.metaLine}</p>
+              filteredProviders.map((p) => {
+                const selected = isSelected(p.slug);
+                const disabled = atMax && !selected;
+                return (
+                  <Link
+                    key={p.slug}
+                    to={`/provider/${p.slug}`}
+                    className={`result-card${selected ? " result-card--selected" : ""}`}
+                    data-name="Result Card"
+                  >
+                    <div className="result-card-inner">
+                      <div className="result-thumb" aria-hidden>
+                        <span className="result-thumb-initials">{getInitials(p.name)}</span>
+                      </div>
+                      <div className="result-body">
+                        <div className="result-row-top">
+                          <div>
+                            <h2 className="result-name">{p.name}</h2>
+                            <p className="result-meta">{p.metaLine}</p>
+                          </div>
+                        </div>
+                        <p className="result-desc">{p.summary}</p>
+                        <div className="result-footer">
+                          <div className="result-tags">
+                            {p.tags.map((tag) => (
+                              <span key={tag} className="result-tag">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                      <p className="result-desc">{p.summary}</p>
-                      <div className="result-footer">
-                        <div className="result-tags">
-                          {p.tags.map((tag) => (
-                            <span key={tag} className="result-tag">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                      <div className="provider-actions">
+                        <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
+                        <label
+                          className={`compare-checkbox${disabled ? " compare-checkbox--disabled" : ""}`}
+                          title={disabled ? "Max 3 providers" : selected ? "Remove from compare" : "Add to compare"}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selected}
+                            disabled={disabled}
+                            onChange={() => toggle(p.slug)}
+                          />
+                          <span>Compare</span>
+                        </label>
                       </div>
                     </div>
-                    <div className="provider-actions">
-                      <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))
+                  </Link>
+                );
+              })
             )}
           </div>
         </div>

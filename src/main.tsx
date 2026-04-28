@@ -5,13 +5,16 @@ import App from "./App";
 import "./index.css";
 import { ProvidersDataProvider } from "./lib/ProvidersDataContext";
 import { AuthProvider } from "./lib/auth";
+import { CompareSelectionProvider } from "./lib/CompareSelectionProvider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <ProvidersDataProvider>
-          <App />
+          <CompareSelectionProvider>
+            <App />
+          </CompareSelectionProvider>
         </ProvidersDataProvider>
       </AuthProvider>
     </BrowserRouter>
