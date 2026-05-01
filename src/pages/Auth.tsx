@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
-import { useAuth } from "../lib/auth";
+import { useAuth, type UserRole } from "../lib/auth";
 import "./Auth.css";
 
 function isValidEmail(email: string): boolean {
@@ -19,6 +19,7 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [signupRole, setSignupRole] = useState<UserRole>("user");
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -38,7 +39,7 @@ export default function Auth() {
     const result =
       mode === "signin"
         ? await signIn(normalizedEmail, password)
-        : await signUp(normalizedEmail, password);
+        : await signUp(normalizedEmail, password, signupRole);
     if (!result.ok) {
       setError(result.error ?? "Sign-in failed. Check your credentials and try again.");
       return;
@@ -122,6 +123,33 @@ export default function Auth() {
                   ? "Keep access to saved providers and comparison workflows."
                   : "Register with your email and secure password to start using Botch List."}
               </p>
+
+              {mode === "signup" && (
+                <div className="auth-role-section">
+                  <p className="auth-role-label">Account type</p>
+                  <div className="auth-mode-switch auth-role-switch" role="group" aria-label="Account type">
+                    <button
+                      type="button"
+                      className={`auth-mode-btn${signupRole === "user" ? " auth-mode-btn--active" : ""}`}
+                      onClick={() => setSignupRole("user")}
+                    >
+                      Regular User
+                    </button>
+                    <button
+                      type="button"
+                      className={`auth-mode-btn${signupRole === "provider" ? " auth-mode-btn--active" : ""}`}
+                      onClick={() => setSignupRole("provider")}
+                    >
+                      Provider / Business
+                    </button>
+                  </div>
+                  {signupRole === "provider" && (
+                    <p className="auth-role-hint">
+                      Provider accounts can claim and manage business listings.
+                    </p>
+                  )}
+                </div>
+              )}
               <form className="auth-form" onSubmit={onSubmit} noValidate>
                 <label className="auth-label" htmlFor="email">
                   Email

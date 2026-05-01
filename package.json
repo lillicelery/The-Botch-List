@@ -22,9 +22,11 @@
     "sqlite:migrate:fts": "node scripts/sqlite/migrate-add-fts.mjs",
     "sqlite:migrate:workplace-slug": "node scripts/sqlite/migrate-add-workplace-slug.mjs",
     "sqlite:populate:workplace-slug": "node scripts/sqlite/populate-workplace-slug.mjs",
-    "sqlite:query:providers": "node scripts/sqlite/query-providers.mjs"
+    "sqlite:query:providers": "node scripts/sqlite/query-providers.mjs",
+    "ai:summaries": "node --env-file=.env scripts/ai/generate-summaries.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.1",
     "@hono/node-server": "^1.19.14",
     "@paper-design/shaders-react": "^0.0.76",
     "apify-client": "^2.22.3",
@@ -34,7 +36,8 @@
     "hono": "^4.12.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.14.0"
+    "react-router-dom": "^7.14.0",
+    "stripe": "^22.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

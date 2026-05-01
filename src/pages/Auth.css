@@ -167,3 +167,24 @@
   color: var(--text-primary);
   border-color: var(--accent);
 }
+
+.auth-role-section {
+  margin-top: 20px;
+}
+
+.auth-role-label {
+  margin: 0 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.auth-role-switch {
+  margin-bottom: 8px;
+}
+
+.auth-role-hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}

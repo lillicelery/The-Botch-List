@@ -57,4 +57,6 @@ export interface SearchProvider {
   workplaceSlug?: string;
   /** Explicit type set in the database — takes priority over tag inference. */
   providerType?: "place" | "practitioner";
+  /** AI-generated prose summary of patient reviews. Set by scripts/ai/generate-summaries.mjs. */
+  aiSummary?: string;
 }
