@@ -9,7 +9,7 @@ export interface SiteHeaderProps {
 }
 
 export default function SiteHeader({ activeNav }: SiteHeaderProps) {
-  const { status, signOut } = useAuth();
+  const { status, userRole, subscriptions, signOut } = useAuth();
 
   return (
     <header className="site-header" data-name="Navigation (Global)" data-node-id="23:602">
@@ -41,9 +41,19 @@ export default function SiteHeader({ activeNav }: SiteHeaderProps) {
           </Link>
         </nav>
         {status === "authenticated" ? (
-          <button type="button" className="site-header__signin site-header__signout-btn" onClick={signOut}>
-            Sign Out
-          </button>
+          <div className="site-header__auth-actions">
+            {userRole === "provider" && subscriptions.some((s) => s.status === "active") && (
+              <Link
+                to={`/provider-portal/${subscriptions.find((s) => s.status === "active")?.providerSlug}`}
+                className="site-header__link"
+              >
+                My Portal
+              </Link>
+            )}
+            <button type="button" className="site-header__signin site-header__signout-btn" onClick={signOut}>
+              Sign Out
+            </button>
+          </div>
         ) : (
           <Link to="/auth" className="site-header__signin">
             Sign In

@@ -108,6 +108,12 @@
   appearance: none;
 }
 
+.site-header__auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 @media (max-width: 640px) {
   .site-header__logo {
     gap: 6px;

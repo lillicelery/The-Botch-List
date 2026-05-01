@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
+import { useAuth } from "../lib/auth";
 import { useProvidersData } from "../lib/ProvidersDataContext";
 import { getProviderDisplayName } from "../lib/providersStatic";
 import { getProviderType } from "../lib/providerType";
@@ -159,6 +160,8 @@ export default function ProviderDashboard() {
   const { bySlug, byWorkplace, status } = useProvidersData();
   const provider = useMemo(() => (slug ? bySlug.get(slug) : undefined), [bySlug, slug]);
   const { isSelected, toggle, atMax } = useCompareSelection();
+  const { status: authStatus, userRole, claims, subscriptions } = useAuth();
+  const navigate = useNavigate();
   const displayName = provider?.name ?? getProviderDisplayName(slug);
 
   const [filterTags, setFilterTags] = useState<string[]>([]);
@@ -260,6 +263,76 @@ export default function ProviderDashboard() {
           <p className="provider-tagline" data-node-id="10:199">
             Aggregated snippets from public posts and reviews, with links to originals
           </p>
+          {(() => {
+            if (!slug) return null;
+            const myClaim = claims.find((c) => c.providerSlug === slug);
+            const mySub = subscriptions.find((s) => s.providerSlug === slug);
+            const isActiveSub = mySub?.status === "active";
+
+            if (isActiveSub) return null;
+
+            if (authStatus !== "authenticated") {
+              return (
+                <p className="provider-claim-banner provider-claim-banner--neutral">
+                  Is this your business?{" "}
+                  <Link to={`/claim/${slug}`} className="provider-claim-link">
+                    Claim this listing
+                  </Link>
+                </p>
+              );
+            }
+
+            if (userRole === "user") {
+              return (
+                <p className="provider-claim-banner provider-claim-banner--neutral">
+                  Own this business?{" "}
+                  <Link to="/auth" className="provider-claim-link">
+                    Create a Provider account
+                  </Link>{" "}
+                  to claim it.
+                </p>
+              );
+            }
+
+            if (!myClaim) {
+              return (
+                <p className="provider-claim-banner provider-claim-banner--neutral">
+                  Is this your business?{" "}
+                  <Link to={`/claim/${slug}`} className="provider-claim-link">
+                    Claim this listing →
+                  </Link>
+                </p>
+              );
+            }
+
+            if (myClaim.status === "pending_verification") {
+              return (
+                <div className="provider-claim-banner provider-claim-banner--pending">
+                  <span>Claim pending — check <strong>{myClaim.businessEmail}</strong> for your verification link.</span>
+                  <button
+                    type="button"
+                    className="provider-claim-link"
+                    onClick={() => navigate(`/claim/${slug}`)}
+                  >
+                    Resend email
+                  </button>
+                </div>
+              );
+            }
+
+            if (myClaim.status === "verified") {
+              return (
+                <div className="provider-claim-banner provider-claim-banner--verified">
+                  <span>Claim verified!</span>
+                  <Link to="/claim-verified" className="provider-claim-link">
+                    Activate full features — $49/month →
+                  </Link>
+                </div>
+              );
+            }
+
+            return null;
+          })()}
         </header>
 
         <section className="stats-grid" data-name="Stats Grid" data-node-id="10:201" aria-label="Key statistics">
@@ -294,17 +367,12 @@ export default function ProviderDashboard() {
               &nbsp;
             </p>
           </article>
-          <article className="stat-card" data-node-id="10:232">
-            <p className="stat-label" data-node-id="10:234">
-              Top concern
-            </p>
-            <p className="stat-value stat-value--text" data-node-id="10:236">
-              {stats.topConcern}
-            </p>
-            <p className="stat-foot" aria-hidden>
-              &nbsp;
-            </p>
-          </article>
+          {provider.aiSummary && (
+            <article className="stat-card stat-card--ai">
+              <p className="stat-label">AI summary</p>
+              <p className="ai-summary-text">{provider.aiSummary}</p>
+            </article>
+          )}
         </section>
 
         <div className="charts-row">

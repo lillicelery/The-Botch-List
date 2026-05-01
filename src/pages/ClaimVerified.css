@@ -1,0 +1,6 @@
+.claim-verified-note {
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
