@@ -335,6 +335,39 @@
   margin-bottom: 14px;
 }
 
+.result-desc--ai {
+  font-style: italic;
+}
+
+.result-sentiment-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.result-sentiment-bar {
+  flex: 1;
+  height: 5px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--text-primary) 10%, transparent);
+  overflow: hidden;
+}
+
+.result-sentiment-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.result-sentiment-stats {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .result-tags {
   display: flex;
   flex-wrap: wrap;
