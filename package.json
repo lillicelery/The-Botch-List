@@ -10,6 +10,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "apify:maps": "node --env-file=.env scripts/apify/run.mjs",
+    "apify:maps:ny": "bash scripts/apify/fetch-ny.sh",
     "apify:map": "node scripts/apify/map-to-providers.mjs",
     "yelp:fetch": "node --env-file=.env scripts/yelp/run.mjs",
     "yelp:map": "node scripts/yelp/map-to-providers.mjs",
