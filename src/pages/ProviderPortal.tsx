@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
 import { useAuth } from "../lib/auth";
@@ -54,6 +54,14 @@ function ResponseForm({
   const [text, setText] = useState(existing ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const prevOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (open && !prevOpenRef.current) {
+      setText(existing ?? "");
+    }
+    prevOpenRef.current = open;
+  }, [open, existing]);
   const { slug } = useParams<{ slug: string }>();
 
   async function submit(e: FormEvent) {
@@ -144,7 +152,7 @@ const EMPTY_PROFILE: ProfileData = {
   procedures: [], priceRanges: {},
 };
 
-function ProfileEditor({ slug }: { slug: string }) {
+function ProfileEditor({ slug, onDisplayNameChange }: { slug: string; onDisplayNameChange?: (name: string) => void }) {
   const [form, setForm] = useState<ProfileData>(EMPTY_PROFILE);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -154,7 +162,7 @@ function ProfileEditor({ slug }: { slug: string }) {
     fetch(`/api/portal/${slug}/profile`, { credentials: "include" })
       .then((r) => r.json())
       .then((data: Partial<ProfileData>) => {
-        setForm({
+        const loaded: ProfileData = {
           displayName: data.displayName ?? "",
           address: data.address ?? "",
           hours: data.hours ?? "",
@@ -165,7 +173,9 @@ function ProfileEditor({ slug }: { slug: string }) {
           credentials: data.credentials ?? "",
           procedures: data.procedures ?? [],
           priceRanges: data.priceRanges ?? {},
-        });
+        };
+        setForm(loaded);
+        onDisplayNameChange?.(loaded.displayName);
       })
       .catch(() => null)
       .finally(() => setLoading(false));
@@ -227,6 +237,7 @@ function ProfileEditor({ slug }: { slug: string }) {
         setSaveMsg({ ok: false, text: data.error ?? "Save failed." });
       } else {
         setSaveMsg({ ok: true, text: "Profile saved." });
+        onDisplayNameChange?.(form.displayName);
       }
     } catch {
       setSaveMsg({ ok: false, text: "Network error." });
@@ -341,6 +352,7 @@ export default function ProviderPortal() {
   const [cancelConfirm, setCancelConfirm] = useState(false);
   const [canceling, setCanceling] = useState(false);
   const [portalTab, setPortalTab] = useState<"analytics" | "profile" | "subscription">("analytics");
+  const [profileDisplayName, setProfileDisplayName] = useState<string>("");
 
   const provider = slug ? bySlug.get(slug) : undefined;
   const myClaim = claims.find((c) => c.providerSlug === slug);
@@ -449,7 +461,7 @@ export default function ProviderPortal() {
         {/* Hero */}
         <header className="portal-hero">
           <div className="portal-hero__top">
-            <h1 className="portal-provider-name">{provider?.name ?? slug}</h1>
+            <h1 className="portal-provider-name">{profileDisplayName || (provider?.name ?? slug)}</h1>
             <span className="portal-verified-badge">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
                 <circle cx="7" cy="7" r="7" fill="#0d9488" />
@@ -581,7 +593,7 @@ export default function ProviderPortal() {
           <section className="portal-section" aria-labelledby="profile-heading">
             <h2 className="portal-section-title" id="profile-heading">Edit Profile</h2>
             <p className="portal-section-lead">This information appears publicly on your provider page.</p>
-            <ProfileEditor slug={slug} />
+            <ProfileEditor slug={slug} onDisplayNameChange={setProfileDisplayName} />
           </section>
         )}
 
