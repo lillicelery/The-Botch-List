@@ -43,6 +43,11 @@ export default function SiteHeader({ activeNav }: SiteHeaderProps) {
                   My Portal
                 </Link>
               )}
+              {userRole === "user" && (
+                <Link to="/saved" className="site-header__link">
+                  Saved
+                </Link>
+              )}
               <button type="button" className="site-header__signin site-header__signout-btn" onClick={signOut}>
                 Sign Out
               </button>

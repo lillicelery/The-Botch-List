@@ -1,5 +1,6 @@
 import { FormEvent, startTransition, useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import SaveButton from "../components/SaveButton";
 import SearchBar from "../components/SearchBar";
 import SiteHeader from "../components/SiteHeader";
 import { useProvidersData } from "../lib/ProvidersDataContext";
@@ -253,6 +254,7 @@ export default function SearchResults() {
                       </div>
                       <div className="provider-actions">
                         <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
+                        <SaveButton providerSlug={p.slug} />
                         <label
                           className={`compare-checkbox${disabled ? " compare-checkbox--disabled" : ""}`}
                           title={disabled ? "Max 3 providers" : selected ? "Remove from compare" : "Add to compare"}

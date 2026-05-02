@@ -382,6 +382,170 @@
   color: var(--text-secondary);
 }
 
+/* Tab bar */
+.portal-tab-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--panel-border);
+  margin-bottom: 8px;
+}
+
+.portal-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "DM Sans", sans-serif;
+  color: var(--text-muted);
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color 0.15s;
+}
+
+.portal-tab:hover {
+  color: var(--text-primary);
+}
+
+.portal-tab--active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.portal-section-lead {
+  margin: -8px 0 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Profile form */
+.portal-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.portal-profile-section {
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  background: var(--panel-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.portal-profile-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  padding: 0;
+  border: none;
+}
+
+.portal-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.portal-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.portal-field-input,
+.portal-field-textarea {
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--panel-bg) 92%, transparent);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: "DM Sans", sans-serif;
+  padding: 8px 12px;
+}
+
+.portal-field-textarea {
+  resize: vertical;
+}
+
+.portal-field-input:focus,
+.portal-field-textarea:focus {
+  border-color: var(--accent);
+  outline: 2px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  outline-offset: 0;
+}
+
+.portal-field-hint {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.portal-field-input--price {
+  max-width: 220px;
+}
+
+/* Procedure checkboxes */
+.portal-procedure-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 6px 12px;
+}
+
+.portal-proc-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.portal-proc-label input {
+  accent-color: var(--accent);
+}
+
+/* Price range rows */
+.portal-price-range-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.portal-price-range-label {
+  min-width: 160px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Save message */
+.portal-save-msg {
+  margin: 0;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.portal-save-msg--ok {
+  background: color-mix(in srgb, #46d616 12%, transparent);
+  color: #166534;
+}
+
+.portal-save-msg--err {
+  background: color-mix(in srgb, #ef4444 10%, transparent);
+  color: #b91c1c;
+}
+
 @media (max-width: 640px) {
   .portal-main {
     padding: 24px 20px 60px;

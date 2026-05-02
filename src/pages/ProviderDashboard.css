@@ -58,6 +58,114 @@
   background: var(--accent);
 }
 
+.provider-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.provider-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: color-mix(in srgb, #0d9488 12%, transparent);
+  border: 1px solid color-mix(in srgb, #0d9488 30%, transparent);
+  color: #0d9488;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Provider info section */
+.provider-info-section {
+  background: var(--panel-bg, #fff);
+  border: 1px solid var(--panel-border, #e2e8f0);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.provider-info-title {
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary, #1e293b);
+}
+
+.provider-info-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.provider-info-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.provider-info-row {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-secondary, #475569);
+  line-height: 1.5;
+}
+
+.provider-info-row a {
+  color: var(--accent, #6366f1);
+  text-decoration: none;
+}
+
+.provider-info-row a:hover {
+  text-decoration: underline;
+}
+
+.provider-info-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted, #64748b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  min-width: 72px;
+  flex-shrink: 0;
+}
+
+.provider-info-bio,
+.provider-info-credentials {
+  font-size: 14px;
+  color: var(--text-secondary, #475569);
+  line-height: 1.6;
+}
+
+.provider-info-bio p,
+.provider-info-credentials p {
+  margin: 4px 0 0;
+}
+
+.provider-info-procedures .provider-info-label {
+  margin-bottom: 8px;
+}
+
+.provider-info-proc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.provider-proc-price {
+  font-size: 11px;
+  color: var(--text-muted, #64748b);
+  font-weight: 400;
+}
+
 .provider-claim-banner {
   display: flex;
   align-items: center;
