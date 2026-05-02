@@ -15,6 +15,7 @@
     "yelp:fetch": "node --env-file=.env scripts/yelp/run.mjs",
     "yelp:map": "node scripts/yelp/map-to-providers.mjs",
     "reddit:fetch": "node --env-file=.env scripts/reddit/fetch.mjs",
+    "reddit:apify": "node --env-file=.env scripts/reddit/apify-fetch.mjs",
     "reddit:map": "node scripts/reddit/map-to-providers.mjs",
     "data:prune-cosmetic-snippets": "node scripts/prune-non-cosmetic-snippets.mjs",
     "data:deduplicate": "node scripts/common/deduplicate.mjs",
