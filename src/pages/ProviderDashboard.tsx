@@ -261,7 +261,7 @@ export default function ProviderDashboard() {
             })()}
           </div>
           <p className="provider-tagline" data-node-id="10:199">
-            Aggregated snippets from public posts and reviews, with links to originals
+            Aggregated snippets from public posts and reviews.
           </p>
           {(() => {
             if (!slug) return null;
@@ -476,16 +476,13 @@ export default function ProviderDashboard() {
                 visibleSnippets.map((snippet) => (
                   <article key={snippet.id} className="review-block">
                     <div className="review-head">
-                      <div>
-                        <h3 className="review-user">{snippet.authorLabel}</h3>
-                        <p className="review-meta">
-                          <span className={snippetSentimentClass(snippet.sentiment)}>{snippetSentimentLabel(snippet.sentiment)}</span>
-                          <span>
-                            {" "}
-                            • {snippet.postedRelative} • {snippet.sourceName}
-                          </span>
-                        </p>
-                      </div>
+                      <p className="review-meta">
+                        <span className={snippetSentimentClass(snippet.sentiment)}>{snippetSentimentLabel(snippet.sentiment)}</span>
+                        <span>
+                          {" "}
+                          • {snippet.postedRelative} • {snippet.sourceName}
+                        </span>
+                      </p>
                       {!snippet.originalUrl.includes("maps/search") && (
                         <a
                           className="review-original-link"

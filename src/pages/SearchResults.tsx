@@ -36,7 +36,7 @@ export default function SearchResults() {
   const locParam = searchParams.get("loc") ?? "";
 
   const [query, setQuery] = useState(qParam);
-  const [location, setLocation] = useState(locParam || "Florida");
+  const [location, setLocation] = useState(locParam || "");
   const [sidebarFilters, setSidebarFilters] = useState<SidebarFilterState>({
     specialties: [],
     ratings: [],
@@ -44,7 +44,7 @@ export default function SearchResults() {
 
   useEffect(() => {
     setQuery(qParam);
-    setLocation(locParam || "Florida");
+    setLocation(locParam || "");
   }, [qParam, locParam]);
 
   const filteredProviders = useMemo(() => {
@@ -226,9 +226,6 @@ export default function SearchResults() {
                             <p className="result-meta">{p.metaLine}</p>
                           </div>
                         </div>
-                        {p.aiSummary && (
-                          <p className="result-desc result-desc--ai">{p.aiSummary}</p>
-                        )}
                         <div className="result-sentiment-bar-wrap">
                           <div className="result-sentiment-bar">
                             <div
@@ -241,6 +238,9 @@ export default function SearchResults() {
                             {p.sentimentBreakdown.negative > 0 && ` · ${p.sentimentBreakdown.negative}% concerns`}
                           </span>
                         </div>
+                        {p.aiSummary && (
+                          <p className="result-desc result-desc--ai">{p.aiSummary}</p>
+                        )}
                         <div className="result-footer">
                           <div className="result-tags">
                             {p.tags.map((tag) => (
