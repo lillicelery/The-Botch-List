@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../lib/auth";
 import "./SaveButton.css";
 
@@ -8,14 +7,13 @@ interface SaveButtonProps {
 
 export default function SaveButton({ providerSlug }: SaveButtonProps) {
   const { status, savedProviders, saveProvider, unsaveProvider } = useAuth();
-  const navigate = useNavigate();
   const isSaved = savedProviders.includes(providerSlug);
 
   function handleClick(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (status !== "authenticated") {
-      navigate("/auth");
+      alert("You need to sign in to use this feature.");
       return;
     }
     if (isSaved) {

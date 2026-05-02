@@ -67,7 +67,7 @@ function norm(s: string): string {
 }
 
 /** Procedure/topic filters: match tags, snippet procedure tags, defaults, specialties, and listing text. */
-function matchesProcedureFilters(provider: SearchProvider, selected: string[]): boolean {
+export function matchesProcedureFilters(provider: SearchProvider, selected: string[]): boolean {
   if (selected.length === 0) return true;
 
   const tagLike = new Set(

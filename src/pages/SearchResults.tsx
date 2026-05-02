@@ -7,6 +7,7 @@ import { useProvidersData } from "../lib/ProvidersDataContext";
 import { COSMETIC_PROCEDURE_FILTER_OPTIONS } from "../lib/cosmeticProcedureFilters";
 import {
   filterSearchProviders,
+  matchesProcedureFilters,
   RATING_FILTER_OPTIONS,
   type SidebarFilterState,
 } from "../lib/searchFilters";
@@ -52,6 +53,13 @@ export default function SearchResults() {
     if (status === "loading") return [];
     return filterSearchProviders(providers, qParam, locParam, sidebarFilters);
   }, [status, providers, qParam, locParam, sidebarFilters]);
+
+  const activeFilterOptions = useMemo(
+    () => COSMETIC_PROCEDURE_FILTER_OPTIONS.filter((label) =>
+      providers.some((p) => matchesProcedureFilters(p, [label]))
+    ),
+    [providers]
+  );
 
   function onSearch(e: FormEvent) {
     e.preventDefault();
@@ -130,7 +138,7 @@ export default function SearchResults() {
                 aria-labelledby="filter-procedure"
                 aria-describedby="filter-procedure-hint"
               >
-                {COSMETIC_PROCEDURE_FILTER_OPTIONS.map((label) => (
+                {activeFilterOptions.map((label) => (
                   <li key={label}>
                     <label className="filter-option">
                       <input
@@ -169,6 +177,7 @@ export default function SearchResults() {
               </ul>
             </div>
 
+            {/* Distance filter — later feature
             <div className="filter-section distance-section" data-node-id="6:110">
               <p className="filter-label" id="filter-distance">
                 Distance
@@ -187,6 +196,7 @@ export default function SearchResults() {
                 <span>Anywhere</span>
               </div>
             </div>
+            */}
           </aside>
 
           <div className="results-list" data-name="Results Grid" data-node-id="6:128">

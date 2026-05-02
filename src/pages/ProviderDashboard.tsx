@@ -181,12 +181,25 @@ export default function ProviderDashboard() {
 
   const [reviewTab, setReviewTab] = useState<"public" | "site">("public");
   const [providerProfile, setProviderProfile] = useState<ProviderProfile | null>(null);
+  const [providerNotes, setProviderNotes] = useState<Map<string, string>>(new Map());
 
   useEffect(() => {
     if (!slug) return;
     fetch(`/api/providers/${encodeURIComponent(slug)}/profile`)
       .then((r) => r.json())
       .then((data: ProviderProfile) => setProviderProfile(data))
+      .catch(() => null);
+  }, [slug]);
+
+  useEffect(() => {
+    if (!slug) return;
+    fetch(`/api/providers/${encodeURIComponent(slug)}/notes`)
+      .then((r) => r.json())
+      .then((data: { snippetId: string; noteText: string }[]) => {
+        if (Array.isArray(data)) {
+          setProviderNotes(new Map(data.map((n) => [n.snippetId, n.noteText])));
+        }
+      })
       .catch(() => null);
   }, [slug]);
 
@@ -550,6 +563,12 @@ export default function ProviderDashboard() {
                       )}
                     </div>
                     <p className="review-body">{snippet.excerpt}</p>
+                    {providerNotes.get(snippet.id) && (
+                      <div className="provider-note">
+                        <span className="provider-note-label">Provider's note</span>
+                        <p className="provider-note-text">{providerNotes.get(snippet.id)}</p>
+                      </div>
+                    )}
                   </article>
                 ))}
 

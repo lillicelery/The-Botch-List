@@ -1030,6 +1030,16 @@ app.delete("/api/saved-providers/:slug", (c) => {
 
 // ── Provider Profiles ─────────────────────────────────────────────────────────
 
+app.get("/api/providers/:slug/notes", (c) => {
+  const slug = c.req.param("slug");
+  const authDb = getAuthDb();
+  if (!authDb) return c.json([]);
+  const rows = authDb
+    .prepare("SELECT snippet_id, response_text FROM provider_responses WHERE provider_slug = ?")
+    .all(slug);
+  return c.json(rows.map((r) => ({ snippetId: r.snippet_id, noteText: r.response_text })));
+});
+
 app.get("/api/providers/:slug/profile", (c) => {
   const slug = c.req.param("slug");
   const authDb = getAuthDb();

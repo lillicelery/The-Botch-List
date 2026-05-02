@@ -245,7 +245,7 @@
 .features {
   padding: 0 48px 72px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
 
@@ -293,6 +293,19 @@
   line-height: 1.6;
 }
 
+.feat-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.feat-link:hover {
+  text-decoration: underline;
+}
+
 .footer {
   padding: 28px 48px;
   border-top: 1px solid var(--header-border);
@@ -325,7 +338,7 @@
 
 @media (max-width: 960px) {
   .features {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .stats {
@@ -346,6 +359,10 @@
 }
 
 @media (max-width: 720px) {
+
+  .features {
+    grid-template-columns: 1fr;
+  }
 
   .nav,
   .hero,

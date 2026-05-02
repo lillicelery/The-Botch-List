@@ -90,7 +90,7 @@ function ResponseForm({
     <div className="portal-response-section">
       {existing && !open ? (
         <div className="portal-response-saved">
-          <p className="portal-response-label">Your response:</p>
+          <p className="portal-response-label">Provider's note:</p>
           <p className="portal-response-text">{existing}</p>
           <button type="button" className="portal-link-btn" onClick={() => setOpen(true)}>
             Edit
@@ -104,12 +104,12 @@ function ResponseForm({
             maxLength={2000}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Write a professional response to this review…"
+            placeholder="Write a note to display alongside this review on The Botch List…"
           />
           {error && <p className="portal-response-error">{error}</p>}
           <div className="portal-response-actions">
             <button type="submit" className="portal-btn portal-btn--primary" disabled={saving}>
-              {saving ? "Saving…" : "Save response"}
+              {saving ? "Saving…" : "Save note"}
             </button>
             <button type="button" className="portal-btn portal-btn--ghost" onClick={() => setOpen(false)}>
               Cancel
@@ -118,7 +118,7 @@ function ResponseForm({
         </form>
       ) : (
         <button type="button" className="portal-link-btn" onClick={() => setOpen(true)}>
-          + Add response
+          + Add provider's note
         </button>
       )}
     </div>

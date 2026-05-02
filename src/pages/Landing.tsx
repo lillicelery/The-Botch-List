@@ -167,6 +167,21 @@ export default function Landing() {
                 patient sentiment scores.
               </p>
             </article>
+            <article className="feat-card">
+              <div className="feat-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.2" />
+                  <circle cx="9" cy="8" r="2" stroke="currentColor" strokeWidth="1.2" />
+                  <path d="M5 14c0-2 1.8-3 4-3s4 1 4 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                </svg>
+              </div>
+              <h2 className="feat-title">Own Your Reputation</h2>
+              <p className="feat-desc">
+                Your patients are talking. Claim your profile to add your voice, respond to reviews,
+                and build trust before they ever book a consult.
+              </p>
+              <Link className="feat-link" to="/auth">Claim your profile →</Link>
+            </article>
           </section>
         </main>
         </div>
