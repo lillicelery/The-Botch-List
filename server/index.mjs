@@ -137,6 +137,35 @@ function getAuthDb() {
     );
 
     CREATE INDEX IF NOT EXISTS idx_responses_slug ON provider_responses(provider_slug);
+
+    CREATE TABLE IF NOT EXISTS user_saved_providers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      provider_slug TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      UNIQUE(user_id, provider_slug)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_saved_user_id ON user_saved_providers(user_id);
+
+    CREATE TABLE IF NOT EXISTS provider_profiles (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      provider_slug TEXT NOT NULL UNIQUE,
+      user_id INTEGER NOT NULL REFERENCES users(id),
+      display_name TEXT,
+      address TEXT,
+      hours TEXT,
+      phone TEXT,
+      website_url TEXT,
+      booking_url TEXT,
+      bio TEXT,
+      credentials TEXT,
+      procedures_json TEXT,
+      price_ranges_json TEXT,
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_profiles_slug ON provider_profiles(provider_slug);
   `);
 
   // Migrate existing users table to add user_role if the column doesn't exist yet.
@@ -358,7 +387,7 @@ app.use(
   "/*",
   cors({
     origin: [appOrigin, "http://localhost:5173", "http://127.0.0.1:5173"],
-    allowMethods: ["GET", "HEAD", "OPTIONS", "POST"],
+    allowMethods: ["GET", "HEAD", "OPTIONS", "POST", "PUT", "DELETE"],
     allowHeaders: ["Content-Type", "X-CSRF-Token"],
     credentials: true,
   })
@@ -515,7 +544,7 @@ app.post("/api/auth/signin", async (c) => {
   setSessionCookie(c, sessionToken);
   setCsrfCookie(c, csrfToken);
 
-  return c.json({ ok: true, email: user.email, csrfToken });
+  return c.json({ ok: true, email: user.email, csrfToken, userRole: user.user_role || "user" });
 });
 
 app.post("/api/auth/signup", async (c) => {
@@ -920,6 +949,232 @@ app.get("/api/portal/:slug/responses", (c) => {
     responseText: r.response_text,
     createdAt: r.created_at,
   })));
+});
+
+// ── Saved Providers ───────────────────────────────────────────────────────────
+
+const VALID_PROCEDURES = new Set([
+  "BBL", "Blepharoplasty", "Body contouring", "Botox", "Breast augmentation",
+  "Breast lift", "Breast reduction", "Brow lift", "Chin surgery", "Coolsculpting",
+  "Dermal fillers", "Facelift", "Fat transfer", "Gynecomastia", "Lip lift",
+  "Liposuction", "Medical spa", "Mommy makeover", "Neck lift", "Otoplasty",
+  "Rhinoplasty", "Tummy tuck",
+]);
+
+app.get("/api/saved-providers", (c) => {
+  const sessionData = getSessionFromRequest(c);
+  if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
+
+  const authDb = getAuthDb();
+  const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
+  if (!user) return c.json({ error: "User not found." }, 404);
+
+  const rows = authDb
+    .prepare("SELECT provider_slug FROM user_saved_providers WHERE user_id = ? ORDER BY created_at DESC")
+    .all(user.id);
+
+  return c.json({ slugs: rows.map((r) => r.provider_slug) });
+});
+
+app.post("/api/saved-providers", async (c) => {
+  const sessionData = getSessionFromRequest(c);
+  if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
+
+  const csrfHeader = c.req.header("x-csrf-token");
+  const csrfCookie = getCookie(c, csrfCookieName);
+  if (!csrfHeader || !csrfCookie || csrfHeader !== csrfCookie || csrfHeader !== sessionData.session.csrfToken) {
+    return c.json({ error: "Invalid CSRF token" }, 403);
+  }
+
+  const body = await c.req.json().catch(() => null);
+  const providerSlug = typeof body?.providerSlug === "string" ? body.providerSlug.trim() : "";
+  if (!providerSlug) return c.json({ error: "providerSlug is required." }, 400);
+
+  const providersDb = getProvidersDb();
+  if (!providersDb) return c.json({ error: "Provider database unavailable." }, 503);
+  const providerRow = providersDb.prepare("SELECT slug FROM providers WHERE slug = ?").get(providerSlug);
+  if (!providerRow) return c.json({ error: "Provider not found." }, 404);
+
+  const authDb = getAuthDb();
+  const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
+  if (!user) return c.json({ error: "User not found." }, 404);
+
+  authDb
+    .prepare("INSERT INTO user_saved_providers (user_id, provider_slug) VALUES (?, ?) ON CONFLICT DO NOTHING")
+    .run(user.id, providerSlug);
+
+  return c.json({ ok: true });
+});
+
+app.delete("/api/saved-providers/:slug", (c) => {
+  const sessionData = getSessionFromRequest(c);
+  if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
+
+  const csrfHeader = c.req.header("x-csrf-token");
+  const csrfCookie = getCookie(c, csrfCookieName);
+  if (!csrfHeader || !csrfCookie || csrfHeader !== csrfCookie || csrfHeader !== sessionData.session.csrfToken) {
+    return c.json({ error: "Invalid CSRF token" }, 403);
+  }
+
+  const slug = c.req.param("slug");
+  const authDb = getAuthDb();
+  const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
+  if (!user) return c.json({ error: "User not found." }, 404);
+
+  authDb
+    .prepare("DELETE FROM user_saved_providers WHERE user_id = ? AND provider_slug = ?")
+    .run(user.id, slug);
+
+  return c.json({ ok: true });
+});
+
+// ── Provider Profiles ─────────────────────────────────────────────────────────
+
+app.get("/api/providers/:slug/profile", (c) => {
+  const slug = c.req.param("slug");
+  const authDb = getAuthDb();
+  const row = authDb.prepare("SELECT * FROM provider_profiles WHERE provider_slug = ?").get(slug);
+
+  const sub = authDb
+    .prepare("SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND status = 'active'")
+    .get(slug);
+  const isVerified = Boolean(sub);
+
+  if (!row) return c.json({ isVerified });
+
+  let procedures = [];
+  let priceRanges = {};
+  try { procedures = JSON.parse(row.procedures_json || "[]"); } catch { /* ignore */ }
+  try { priceRanges = JSON.parse(row.price_ranges_json || "{}"); } catch { /* ignore */ }
+
+  return c.json({
+    isVerified,
+    displayName: row.display_name ?? null,
+    address: row.address ?? null,
+    hours: row.hours ?? null,
+    phone: row.phone ?? null,
+    websiteUrl: row.website_url ?? null,
+    bookingUrl: row.booking_url ?? null,
+    bio: row.bio ?? null,
+    credentials: row.credentials ?? null,
+    procedures,
+    priceRanges,
+  });
+});
+
+app.get("/api/portal/:slug/profile", (c) => {
+  const sessionData = getSessionFromRequest(c);
+  if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
+
+  const slug = c.req.param("slug");
+  const authDb = getAuthDb();
+  const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
+  if (!user) return c.json({ error: "User not found." }, 404);
+
+  const sub = authDb
+    .prepare("SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ? AND status = 'active'")
+    .get(slug, user.id);
+  if (!sub) return c.json({ error: "Active subscription required." }, 403);
+
+  const row = authDb.prepare("SELECT * FROM provider_profiles WHERE provider_slug = ?").get(slug);
+  if (!row) return c.json({});
+
+  let procedures = [];
+  let priceRanges = {};
+  try { procedures = JSON.parse(row.procedures_json || "[]"); } catch { /* ignore */ }
+  try { priceRanges = JSON.parse(row.price_ranges_json || "{}"); } catch { /* ignore */ }
+
+  return c.json({
+    displayName: row.display_name ?? "",
+    address: row.address ?? "",
+    hours: row.hours ?? "",
+    phone: row.phone ?? "",
+    websiteUrl: row.website_url ?? "",
+    bookingUrl: row.booking_url ?? "",
+    bio: row.bio ?? "",
+    credentials: row.credentials ?? "",
+    procedures,
+    priceRanges,
+  });
+});
+
+app.put("/api/portal/:slug/profile", async (c) => {
+  const sessionData = getSessionFromRequest(c);
+  if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
+
+  const csrfHeader = c.req.header("x-csrf-token");
+  const csrfCookie = getCookie(c, csrfCookieName);
+  if (!csrfHeader || !csrfCookie || csrfHeader !== csrfCookie || csrfHeader !== sessionData.session.csrfToken) {
+    return c.json({ error: "Invalid CSRF token" }, 403);
+  }
+
+  const slug = c.req.param("slug");
+  const authDb = getAuthDb();
+  const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
+  if (!user) return c.json({ error: "User not found." }, 404);
+
+  const sub = authDb
+    .prepare("SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ? AND status = 'active'")
+    .get(slug, user.id);
+  if (!sub) return c.json({ error: "Active subscription required." }, 403);
+
+  const body = await c.req.json().catch(() => null);
+  if (!body || typeof body !== "object") return c.json({ error: "Invalid request body." }, 400);
+
+  // Validate procedures if provided
+  let proceduresJson = null;
+  if (body.procedures !== undefined) {
+    if (!Array.isArray(body.procedures)) return c.json({ error: "procedures must be an array." }, 400);
+    for (const p of body.procedures) {
+      if (!VALID_PROCEDURES.has(p)) return c.json({ error: `Invalid procedure: ${p}` }, 400);
+    }
+    proceduresJson = JSON.stringify(body.procedures);
+  }
+
+  // Validate priceRanges if provided
+  let priceRangesJson = null;
+  if (body.priceRanges !== undefined) {
+    if (typeof body.priceRanges !== "object" || Array.isArray(body.priceRanges)) {
+      return c.json({ error: "priceRanges must be an object." }, 400);
+    }
+    priceRangesJson = JSON.stringify(body.priceRanges);
+  }
+
+  const str = (v) => (typeof v === "string" ? v.trim() : undefined);
+  const fields = {
+    display_name: str(body.displayName),
+    address: str(body.address),
+    hours: str(body.hours),
+    phone: str(body.phone),
+    website_url: str(body.websiteUrl),
+    booking_url: str(body.bookingUrl),
+    bio: str(body.bio),
+    credentials: str(body.credentials),
+    procedures_json: proceduresJson ?? undefined,
+    price_ranges_json: priceRangesJson ?? undefined,
+  };
+
+  // Only include fields that were actually provided
+  const updateFields = Object.entries(fields).filter(([, v]) => v !== undefined);
+  if (updateFields.length === 0) return c.json({ ok: true });
+
+  const existing = authDb.prepare("SELECT id, user_id FROM provider_profiles WHERE provider_slug = ?").get(slug);
+
+  if (existing) {
+    if (existing.user_id !== user.id) return c.json({ error: "Forbidden." }, 403);
+    const setClauses = updateFields.map(([col]) => `${col} = ?`).join(", ");
+    const values = updateFields.map(([, v]) => v);
+    authDb
+      .prepare(`UPDATE provider_profiles SET ${setClauses}, updated_at = datetime('now') WHERE provider_slug = ?`)
+      .run(...values, slug);
+  } else {
+    const cols = ["provider_slug", "user_id", ...updateFields.map(([col]) => col)].join(", ");
+    const placeholders = Array(2 + updateFields.length).fill("?").join(", ");
+    const values = [slug, user.id, ...updateFields.map(([, v]) => v)];
+    authDb.prepare(`INSERT INTO provider_profiles (${cols}) VALUES (${placeholders})`).run(...values);
+  }
+
+  return c.json({ ok: true });
 });
 
 // ── Billing (Stripe) ──────────────────────────────────────────────────────────

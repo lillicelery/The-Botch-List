@@ -1,0 +1,119 @@
+.saved-page {
+  min-height: 100vh;
+  background: var(--bg, #f8fafc);
+}
+
+.saved-main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.saved-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.saved-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary, #1e293b);
+  margin: 0;
+}
+
+.saved-count {
+  font-size: 0.875rem;
+  color: var(--text-muted, #64748b);
+}
+
+.saved-loading {
+  color: var(--text-muted, #64748b);
+}
+
+.saved-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted, #64748b);
+}
+
+.saved-empty-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1.25rem;
+  background: var(--accent, #6366f1);
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.saved-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.saved-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 8px;
+  padding: 0.875rem 1rem;
+  gap: 1rem;
+}
+
+.saved-item__link {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.saved-item__link:hover .saved-item__name {
+  color: var(--accent, #6366f1);
+}
+
+.saved-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.saved-item__name {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-primary, #1e293b);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.saved-item__meta {
+  font-size: 0.8125rem;
+  color: var(--text-muted, #64748b);
+}
+
+.saved-item__remove {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.8125rem;
+  color: var(--text-muted, #64748b);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.saved-item__remove:hover {
+  color: #e11d48;
+  border-color: #e11d48;
+}

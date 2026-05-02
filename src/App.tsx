@@ -8,6 +8,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ProviderDashboard from "./pages/ProviderDashboard";
 import ProviderPortal from "./pages/ProviderPortal";
 import ResetPassword from "./pages/ResetPassword";
+import SavedProviders from "./pages/SavedProviders";
 import SearchResults from "./pages/SearchResults";
 import CompareBar from "./components/CompareBar";
 
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/search" element={<SearchResults />} />
         <Route path="/compare" element={<Compare />} />
+        <Route path="/saved" element={<SavedProviders />} />
         <Route path="/provider/:slug" element={<ProviderDashboard />} />
         <Route path="/claim/:slug" element={<ClaimBusiness />} />
         <Route path="/claim-verified" element={<ClaimVerified />} />

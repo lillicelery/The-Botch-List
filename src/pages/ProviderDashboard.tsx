@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import SaveButton from "../components/SaveButton";
 import SiteHeader from "../components/SiteHeader";
 import { useAuth } from "../lib/auth";
 import { useProvidersData } from "../lib/ProvidersDataContext";
@@ -155,6 +156,20 @@ function SentimentDonut({
 }
 
 
+interface ProviderProfile {
+  isVerified?: boolean;
+  displayName?: string | null;
+  address?: string | null;
+  hours?: string | null;
+  phone?: string | null;
+  websiteUrl?: string | null;
+  bookingUrl?: string | null;
+  bio?: string | null;
+  credentials?: string | null;
+  procedures?: string[];
+  priceRanges?: Record<string, string>;
+}
+
 export default function ProviderDashboard() {
   const { slug } = useParams<{ slug: string }>();
   const { bySlug, byWorkplace, status } = useProvidersData();
@@ -165,6 +180,15 @@ export default function ProviderDashboard() {
   const displayName = provider?.name ?? getProviderDisplayName(slug);
 
   const [reviewTab, setReviewTab] = useState<"public" | "site">("public");
+  const [providerProfile, setProviderProfile] = useState<ProviderProfile | null>(null);
+
+  useEffect(() => {
+    if (!slug) return;
+    fetch(`/api/providers/${encodeURIComponent(slug)}/profile`)
+      .then((r) => r.json())
+      .then((data: ProviderProfile) => setProviderProfile(data))
+      .catch(() => null);
+  }, [slug]);
 
   const listSentimentBreakdown = useMemo(
     () => sentimentCountsFromSnippets(provider?.snippets ?? []),
@@ -229,22 +253,28 @@ export default function ProviderDashboard() {
           <div className="provider-hero__top">
             <h1 className="provider-name" data-node-id="10:191">
               {provider.name}
+              {providerProfile?.isVerified && (
+                <span className="provider-verified-badge" title="Verified Provider">Verified</span>
+              )}
             </h1>
-            {(() => {
-              const selected = isSelected(provider.slug);
-              const disabled = atMax && !selected;
-              return (
-                <button
-                  type="button"
-                  className={`provider-compare-btn${selected ? " provider-compare-btn--active" : ""}${disabled ? " provider-compare-btn--disabled" : ""}`}
-                  onClick={() => toggle(provider.slug)}
-                  disabled={disabled}
-                  title={disabled ? "Max 3 providers selected" : undefined}
-                >
-                  {selected ? "✓ Added to Compare" : "+ Add to Compare"}
-                </button>
-              );
-            })()}
+            <div className="provider-hero__actions">
+              <SaveButton providerSlug={provider.slug} />
+              {(() => {
+                const selected = isSelected(provider.slug);
+                const disabled = atMax && !selected;
+                return (
+                  <button
+                    type="button"
+                    className={`provider-compare-btn${selected ? " provider-compare-btn--active" : ""}${disabled ? " provider-compare-btn--disabled" : ""}`}
+                    onClick={() => toggle(provider.slug)}
+                    disabled={disabled}
+                    title={disabled ? "Max 3 providers selected" : undefined}
+                  >
+                    {selected ? "✓ Added to Compare" : "+ Add to Compare"}
+                  </button>
+                );
+              })()}
+            </div>
           </div>
           {provider.tags.length > 0 && (
             <div className="provider-topic-tags">
@@ -327,6 +357,70 @@ export default function ProviderDashboard() {
             return null;
           })()}
         </header>
+
+        {providerProfile && (
+          providerProfile.displayName ||
+          providerProfile.address ||
+          providerProfile.phone ||
+          providerProfile.hours ||
+          providerProfile.websiteUrl ||
+          providerProfile.bookingUrl ||
+          providerProfile.bio ||
+          providerProfile.credentials ||
+          (providerProfile.procedures && providerProfile.procedures.length > 0)
+        ) && (
+          <section className="provider-info-section" aria-labelledby="provider-info-heading">
+            <h2 className="provider-info-title" id="provider-info-heading">Provider Information</h2>
+            <div className="provider-info-body">
+              {(providerProfile.address || providerProfile.phone || providerProfile.hours || providerProfile.websiteUrl || providerProfile.bookingUrl) && (
+                <div className="provider-info-contact">
+                  {providerProfile.address && (
+                    <p className="provider-info-row"><span className="provider-info-label">Address</span>{providerProfile.address}</p>
+                  )}
+                  {providerProfile.phone && (
+                    <p className="provider-info-row"><span className="provider-info-label">Phone</span><a href={`tel:${providerProfile.phone}`}>{providerProfile.phone}</a></p>
+                  )}
+                  {providerProfile.hours && (
+                    <p className="provider-info-row"><span className="provider-info-label">Hours</span>{providerProfile.hours}</p>
+                  )}
+                  {providerProfile.websiteUrl && (
+                    <p className="provider-info-row"><span className="provider-info-label">Website</span><a href={providerProfile.websiteUrl} target="_blank" rel="noopener noreferrer">{providerProfile.websiteUrl}</a></p>
+                  )}
+                  {providerProfile.bookingUrl && (
+                    <p className="provider-info-row"><span className="provider-info-label">Book</span><a href={providerProfile.bookingUrl} target="_blank" rel="noopener noreferrer">Book a consultation</a></p>
+                  )}
+                </div>
+              )}
+              {providerProfile.bio && (
+                <div className="provider-info-bio">
+                  <p className="provider-info-label">About</p>
+                  <p>{providerProfile.bio}</p>
+                </div>
+              )}
+              {providerProfile.credentials && (
+                <div className="provider-info-credentials">
+                  <p className="provider-info-label">Credentials</p>
+                  <p>{providerProfile.credentials}</p>
+                </div>
+              )}
+              {providerProfile.procedures && providerProfile.procedures.length > 0 && (
+                <div className="provider-info-procedures">
+                  <p className="provider-info-label">Procedures offered</p>
+                  <div className="provider-info-proc-tags">
+                    {providerProfile.procedures.map((proc) => (
+                      <span key={proc} className="provider-topic-tag">
+                        {proc}
+                        {providerProfile.priceRanges?.[proc] && (
+                          <span className="provider-proc-price"> · {providerProfile.priceRanges[proc]}</span>
+                        )}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         <section className="stats-grid" data-name="Stats Grid" data-node-id="10:201" aria-label="Key statistics">
           <article className="stat-card" data-node-id="10:202">

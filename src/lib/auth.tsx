@@ -24,10 +24,13 @@ interface AuthContextValue {
   userRole: UserRole | null;
   claims: ProviderClaim[];
   subscriptions: ProviderSubscription[];
+  savedProviders: string[];
   signIn: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
   signUp: (email: string, password: string, userRole?: UserRole) => Promise<{ ok: boolean; error?: string }>;
   signOut: () => Promise<void>;
   refreshMe: () => Promise<void>;
+  saveProvider: (slug: string) => Promise<void>;
+  unsaveProvider: (slug: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -47,21 +50,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [claims, setClaims] = useState<ProviderClaim[]>([]);
   const [subscriptions, setSubscriptions] = useState<ProviderSubscription[]>([]);
+  const [savedProviders, setSavedProviders] = useState<string[]>([]);
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
   const refreshMe = useCallback(async () => {
     try {
-      const res = await fetch("/api/auth/me", { credentials: "include" });
-      if (!res.ok) return;
-      const data = (await res.json()) as {
-        email: string;
-        userRole: UserRole;
-        claims: ProviderClaim[];
-        subscriptions: ProviderSubscription[];
-      };
-      setUserRole(data.userRole);
-      setClaims(data.claims ?? []);
-      setSubscriptions(data.subscriptions ?? []);
+      const [meRes, savedRes] = await Promise.all([
+        fetch("/api/auth/me", { credentials: "include" }),
+        fetch("/api/saved-providers", { credentials: "include" }),
+      ]);
+      if (meRes.ok) {
+        const data = (await meRes.json()) as {
+          email: string;
+          userRole: UserRole;
+          claims: ProviderClaim[];
+          subscriptions: ProviderSubscription[];
+        };
+        setUserRole(data.userRole);
+        setClaims(data.claims ?? []);
+        setSubscriptions(data.subscriptions ?? []);
+      }
+      if (savedRes.ok) {
+        const savedData = (await savedRes.json()) as { slugs: string[] };
+        setSavedProviders(savedData.slugs ?? []);
+      }
     } catch {
       // Non-critical — silently ignore
     }
@@ -88,13 +100,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUserRole(payload.userRole ?? "user");
           setCsrfToken(payload.csrfToken ?? readCsrfTokenFromCookie());
           setStatus("authenticated");
-          // Load full profile (claims + subscriptions) in background
-          fetch("/api/auth/me", { credentials: "include" })
-            .then((r) => r.json())
-            .then((data: { claims?: ProviderClaim[]; subscriptions?: ProviderSubscription[] }) => {
+          // Load full profile (claims + subscriptions + saved) in background
+          Promise.all([
+            fetch("/api/auth/me", { credentials: "include" }).then((r) => r.json()),
+            fetch("/api/saved-providers", { credentials: "include" }).then((r) => r.json()),
+          ])
+            .then(([meData, savedData]: [{ claims?: ProviderClaim[]; subscriptions?: ProviderSubscription[] }, { slugs?: string[] }]) => {
               if (!active) return;
-              setClaims(data.claims ?? []);
-              setSubscriptions(data.subscriptions ?? []);
+              setClaims(meData.claims ?? []);
+              setSubscriptions(meData.subscriptions ?? []);
+              setSavedProviders(savedData.slugs ?? []);
             })
             .catch(() => null);
           return;
@@ -103,6 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUserRole(null);
         setClaims([]);
         setSubscriptions([]);
+        setSavedProviders([]);
         setCsrfToken(null);
         setStatus("idle");
       } catch {
@@ -111,6 +127,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUserRole(null);
         setClaims([]);
         setSubscriptions([]);
+        setSavedProviders([]);
         setCsrfToken(null);
         setStatus("idle");
       }
@@ -136,10 +153,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setStatus("idle");
         return { ok: false, error: "Sign-in failed. Check your credentials and try again." };
       }
-      const payload = (await response.json()) as { email: string; csrfToken?: string };
+      const payload = (await response.json()) as { email: string; csrfToken?: string; userRole?: UserRole };
       setUserEmail(payload.email);
+      setUserRole(payload.userRole ?? "user");
       setCsrfToken(payload.csrfToken ?? readCsrfTokenFromCookie());
       setStatus("authenticated");
+      // Load claims, subscriptions, saved providers in background
+      refreshMe().catch(() => null);
       return { ok: true };
     } catch {
       setStatus("idle");
@@ -188,8 +208,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUserRole(null);
     setClaims([]);
     setSubscriptions([]);
+    setSavedProviders([]);
     setCsrfToken(null);
     setStatus("idle");
+  }
+
+  async function saveProvider(slug: string) {
+    const headerToken = csrfToken ?? readCsrfTokenFromCookie();
+    setSavedProviders((prev) => (prev.includes(slug) ? prev : [...prev, slug]));
+    try {
+      await fetch("/api/saved-providers", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json", ...(headerToken ? { "X-CSRF-Token": headerToken } : {}) },
+        body: JSON.stringify({ providerSlug: slug }),
+      });
+    } catch {
+      setSavedProviders((prev) => prev.filter((s) => s !== slug));
+    }
+  }
+
+  async function unsaveProvider(slug: string) {
+    const headerToken = csrfToken ?? readCsrfTokenFromCookie();
+    setSavedProviders((prev) => prev.filter((s) => s !== slug));
+    try {
+      const res = await fetch(`/api/saved-providers/${encodeURIComponent(slug)}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: headerToken ? { "X-CSRF-Token": headerToken } : {},
+      });
+      if (!res.ok) {
+        setSavedProviders((prev) => (prev.includes(slug) ? prev : [...prev, slug]));
+      }
+    } catch {
+      setSavedProviders((prev) => (prev.includes(slug) ? prev : [...prev, slug]));
+    }
   }
 
   const value = useMemo(
@@ -199,12 +252,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       userRole,
       claims,
       subscriptions,
+      savedProviders,
       signIn,
       signUp,
       signOut,
       refreshMe,
+      saveProvider,
+      unsaveProvider,
     }),
-    [status, userEmail, userRole, claims, subscriptions, refreshMe]
+    [status, userEmail, userRole, claims, subscriptions, savedProviders, refreshMe]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
