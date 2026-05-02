@@ -14,10 +14,6 @@
   border-bottom: 1px solid var(--header-border);
 }
 
-.compare-page .site-header__link--compare {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
 
 .compare-main {
   flex: 1;
@@ -168,7 +164,7 @@
 .compare-label-row span {
   font-size: 13px;
   color: var(--text-primary);
-  font-weight: 300;
+  font-weight: 600;
 }
 
 .compare-cards-wrap {

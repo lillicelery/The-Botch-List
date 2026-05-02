@@ -14,20 +14,8 @@
   border-bottom: 1px solid var(--header-border);
 }
 
-.search-results-page .site-header__logo,
-.search-results-page .site-header__link,
-.search-results-page .site-header__signin {
+.search-results-page .site-header__logo {
   color: var(--text-primary);
-}
-
-.search-results-page .site-header__link {
-  color: var(--text-primary);
-  font-weight: 300;
-}
-
-.search-results-page .site-header__link--search {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
 }
 
 .search-results-main {

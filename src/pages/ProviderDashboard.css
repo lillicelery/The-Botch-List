@@ -121,9 +121,9 @@
 .provider-tagline {
   margin: 0;
   max-width: 520px;
-  font-size: clamp(16px, 2vw, 20px);
+  font-size: 13px;
   font-weight: 400;
-  line-height: 28px;
+  line-height: 20px;
   color: var(--gray-500);
 }
 
@@ -209,9 +209,9 @@
 }
 
 .pie-card {
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
   padding: 24px 20px 28px;
   min-height: 360px;
   display: flex;
@@ -223,7 +223,7 @@
   font-size: 22px;
   font-weight: 400;
   line-height: 28px;
-  color: #828282;
+  color: var(--navy);
 }
 
 .pie-card-subtitle {
@@ -282,7 +282,7 @@
   gap: 10px;
   font-size: 12px;
   line-height: normal;
-  color: #4f4f4f;
+  color: var(--gray-600);
 }
 
 .pie-swatch {
@@ -341,9 +341,9 @@
 }
 
 .reviews-filters-label {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
-  line-height: 24px;
+  line-height: 1;
   color: var(--navy);
   margin-right: 4px;
 }
@@ -352,20 +352,21 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 1.5px 10px 2.5px;
-  border: none;
-  border-radius: 4px;
-  background: var(--gray-100);
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  background: #fff;
   font: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  color: var(--footer-rule);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--gray-500);
   cursor: pointer;
 }
 
 .filter-chip:hover {
-  filter: brightness(0.97);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .filter-chip-x {
@@ -391,13 +392,6 @@
   margin-bottom: 12px;
 }
 
-.review-user {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 28px;
-  color: var(--navy);
-}
 
 .review-meta {
   margin: 0;
@@ -407,12 +401,12 @@
 }
 
 .review-meta-positive {
-  color: #46d616;
+  color: #0d9488;
   font-weight: 500;
 }
 
 .review-meta-okay {
-  color: #bdc016;
+  color: #a16207;
   font-weight: 500;
 }
 
@@ -425,19 +419,20 @@
   flex-shrink: 0;
   padding: 6px 12px;
   border-radius: 4px;
-  background: var(--navy);
+  background: transparent;
+  border: 1px solid var(--border);
   font-size: 12px;
   line-height: 16px;
-  font-weight: 600;
+  font-weight: 500;
   font-family: inherit;
-  color: #fff;
+  color: var(--navy);
   text-decoration: none;
-  border: none;
   cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
 }
 
 .review-original-link:hover {
-  filter: brightness(1.08);
+  border-color: var(--navy);
   text-decoration: none;
 }
 
@@ -467,6 +462,7 @@
   padding: 1.5px 10px 2.5px;
   border-radius: 4px;
   background: var(--gray-100);
+  border: none;
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -566,7 +562,7 @@
 
 .pie-legend-pct {
   font-size: 13px;
-  color: #828282;
+  color: var(--gray-500);
   font-weight: 400;
 }
 
@@ -657,10 +653,9 @@
   max-width: 900px;
   padding: 0 16px;
   text-align: center;
-  font-size: clamp(16px, 2vw, 20px);
+  font-size: 13px;
   font-weight: 400;
-  line-height: 28px;
+  line-height: 20px;
   color: var(--gray-500);
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.08);
 }
 
