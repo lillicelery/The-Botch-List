@@ -22,7 +22,8 @@ function sentimentBadgeClass(sentiment: string): string {
   const base = "sentiment-badge";
   if (sentiment === "Very Positive") return `${base} sentiment-very-positive`;
   if (sentiment === "Positive") return `${base} sentiment-positive`;
-  if (sentiment === "Very Negative" || sentiment === "Negative") return `${base} sentiment-negative`;
+  if (sentiment === "Very Negative") return `${base} sentiment-very-negative`;
+  if (sentiment === "Negative") return `${base} sentiment-negative`;
   if (sentiment === "Okay") return `${base} sentiment-okay`;
   return base;
 }
@@ -257,13 +258,13 @@ export default function SearchResults() {
                           title={disabled ? "Max 3 providers" : selected ? "Remove from compare" : "Add to compare"}
                           onClick={(e) => e.stopPropagation()}
                         >
+                          <span>Compare</span>
                           <input
                             type="checkbox"
                             checked={selected}
                             disabled={disabled}
                             onChange={() => toggle(p.slug)}
                           />
-                          <span>Compare</span>
                         </label>
                       </div>
                     </div>

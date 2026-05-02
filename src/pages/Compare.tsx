@@ -157,9 +157,6 @@ export default function Compare() {
                     <p className="compare-card-role" data-node-id={index === 0 ? "6:434" : "6:459"}>
                       {p.role}
                     </p>
-                  <span className="compare-card-cue" aria-hidden>
-                    View →
-                  </span>
                   </div>
 
                   <div className="compare-card-body" data-node-id={index === 0 ? "6:437" : "6:462"}>

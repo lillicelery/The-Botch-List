@@ -4,7 +4,7 @@ export type CompareRowKey =
   | "topConcern"
   | "location";
 
-export type CompareMetricTone = "strong" | "medium" | "default" | "muted";
+export type CompareMetricTone = "strong" | "medium" | "default" | "muted" | "very-positive" | "positive" | "okay" | "negative" | "very-negative";
 
 export interface CompareMetricCell {
   text: string;

@@ -34,7 +34,7 @@
 .compare-empty-hint {
   margin: -12px 0 20px;
   font-size: 13px;
-  color: var(--text-soft);
+  color: var(--text-primary);
 }
 
 .compare-empty-state {
@@ -43,7 +43,7 @@
   border: 1px dashed var(--panel-border);
   border-radius: 14px;
   background: var(--panel-bg);
-  color: var(--text-soft);
+  color: var(--text-primary);
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@
 
 .compare-controls-label {
   font-size: 12px;
-  color: var(--text-soft);
+  color: var(--text-primary);
   white-space: nowrap;
   line-height: 1;
 }
@@ -112,7 +112,7 @@
 .compare-search-result span {
   display: block;
   margin-top: 2px;
-  color: var(--text-soft);
+  color: var(--text-primary);
   font-size: 12px;
 }
 
@@ -122,7 +122,7 @@
 
 .compare-controls-note {
   font-size: 12px;
-  color: var(--text-soft);
+  color: var(--text-primary);
 }
 
 .compare-title {
@@ -137,7 +137,7 @@
 .compare-subtitle {
   margin: 0;
   font-size: 14px;
-  color: var(--text-soft);
+  color: var(--text-primary);
   font-weight: 300;
 }
 
@@ -167,7 +167,7 @@
 
 .compare-label-row span {
   font-size: 13px;
-  color: var(--text-soft);
+  color: var(--text-primary);
   font-weight: 300;
 }
 
@@ -183,13 +183,15 @@
   border: 1px solid var(--panel-border);
   border-radius: 14px;
   overflow: hidden;
-  transition: border-color 0.2s, background-color 0.2s;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s, transform 0.2s;
   cursor: pointer;
 }
 
 .compare-card:hover {
   border-color: var(--panel-hover-border);
   background: var(--panel-hover-bg);
+  box-shadow: 0 8px 28px rgba(16, 50, 61, 0.12), 0 2px 8px rgba(16, 50, 61, 0.07);
+  transform: scale(1.02);
 }
 
 .compare-card:focus-visible {
@@ -219,15 +221,18 @@
   border: 1px solid var(--panel-border);
   border-radius: 999px;
   background: transparent;
-  color: var(--text-soft);
+  color: var(--text-primary);
   font-size: 11px;
   padding: 4px 8px;
   cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
 .compare-remove:hover {
+  background: var(--accent);
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-contrast);
+  transform: scale(1.08);
 }
 
 .compare-avatar {
@@ -249,34 +254,11 @@
 
 .compare-card-role {
   font-size: 12px;
-  color: var(--text-soft);
+  color: var(--text-primary);
   font-weight: 300;
   margin: 0 0 20px;
 }
 
-.compare-card-cue {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  display: inline-flex;
-  align-items: center;
-  font-size: 11px;
-  color: var(--text-soft);
-  background: color-mix(in srgb, var(--panel-bg) 88%, transparent);
-  border: 1px solid var(--panel-border);
-  border-radius: 999px;
-  padding: 4px 8px;
-  opacity: 0;
-  transform: translateY(2px);
-  transition: opacity 0.18s ease, transform 0.18s ease, color 0.18s ease;
-}
-
-.compare-card:hover .compare-card-cue,
-.compare-card:focus-visible .compare-card-cue {
-  opacity: 1;
-  transform: translateY(0);
-  color: var(--accent);
-}
 
 .compare-card-body {
   display: flex;
@@ -319,7 +301,50 @@
 }
 
 .compare-metric-value--muted {
-  color: var(--text-soft);
+  color: var(--text-primary);
+}
+
+.compare-metric-value--very-positive,
+.compare-metric-value--positive,
+.compare-metric-value--okay,
+.compare-metric-value--negative,
+.compare-metric-value--very-negative {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.compare-metric-value--very-positive {
+  color: #7c3aed;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.compare-metric-value--positive {
+  color: #0d9488;
+  background: rgba(20, 184, 166, 0.12);
+  border: 1px solid rgba(20, 184, 166, 0.3);
+}
+
+.compare-metric-value--okay {
+  color: #a16207;
+  background: rgba(234, 179, 8, 0.12);
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.compare-metric-value--negative {
+  color: #c2410c;
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.compare-metric-value--very-negative {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 @media (max-width: 1100px) {
@@ -359,7 +384,7 @@
   .compare-metric-label {
     display: inline;
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--text-primary);
     margin-right: 12px;
   }
 }

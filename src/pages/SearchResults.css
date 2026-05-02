@@ -21,7 +21,7 @@
 }
 
 .search-results-page .site-header__link {
-  color: var(--text-muted);
+  color: var(--text-primary);
   font-weight: 300;
 }
 
@@ -267,13 +267,14 @@
   padding: 24px;
   margin-bottom: 16px;
   cursor: pointer;
-  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
 .result-card:hover {
   transform: scale(1.02);
   border-color: var(--panel-hover-border);
   background: var(--panel-hover-bg);
+  box-shadow: 0 8px 28px rgba(16, 50, 61, 0.12), 0 2px 8px rgba(16, 50, 61, 0.07);
 }
 
 .result-card:focus-visible {
@@ -322,14 +323,14 @@
 
 .result-meta {
   font-size: 13px;
-  color: var(--text-soft);
+  color: var(--text-primary);
   font-weight: 300;
   margin-bottom: 10px;
 }
 
 .result-desc {
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--text-primary);
   font-weight: 300;
   line-height: 1.6;
   margin-bottom: 14px;
@@ -363,7 +364,7 @@
 
 .result-sentiment-stats {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-primary);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -377,7 +378,7 @@
 .result-tag {
   font-size: 11px;
   font-weight: 400;
-  color: var(--text-muted);
+  color: var(--text-primary);
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
   border-radius: 99px;
@@ -401,27 +402,33 @@
 }
 
 .sentiment-very-positive {
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
-  color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+  background: rgba(139, 92, 246, 0.12);
+  color: #7c3aed;
+  border: 1px solid rgba(139, 92, 246, 0.3);
 }
 
 .sentiment-positive {
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  color: var(--accent-strong);
-  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  background: rgba(20, 184, 166, 0.12);
+  color: #0d9488;
+  border: 1px solid rgba(20, 184, 166, 0.3);
 }
 
 .sentiment-okay {
-  background: color-mix(in srgb, var(--text-primary) 5%, transparent);
-  color: var(--text-muted);
-  border: 1px solid var(--panel-border);
+  background: rgba(234, 179, 8, 0.12);
+  color: #a16207;
+  border: 1px solid rgba(234, 179, 8, 0.3);
 }
 
 .sentiment-negative {
-  background: rgba(220, 38, 38, 0.12);
-  color: #fca5a5;
-  border: 1px solid rgba(248, 113, 113, 0.25);
+  background: rgba(249, 115, 22, 0.12);
+  color: #c2410c;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.sentiment-very-negative {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .result-card--selected {
@@ -436,7 +443,7 @@
   cursor: pointer;
   font-size: 12px;
   font-weight: 400;
-  color: var(--text-soft);
+  color: var(--text-primary);
   user-select: none;
   white-space: nowrap;
 }
