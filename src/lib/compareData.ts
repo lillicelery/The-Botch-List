@@ -37,10 +37,12 @@ export const COMPARE_PROVIDERS: CompareProvider[] = [
   },
 ];
 
-function sentimentTone(sentiment: SearchProvider["cardSentiment"]): "strong" | "default" | "muted" {
-  if (sentiment === "Very Positive" || sentiment === "Positive") return "strong";
-  if (sentiment === "Negative" || sentiment === "Very Negative") return "muted";
-  return "default";
+function sentimentTone(sentiment: SearchProvider["cardSentiment"]): "very-positive" | "positive" | "okay" | "negative" | "very-negative" {
+  if (sentiment === "Very Positive") return "very-positive";
+  if (sentiment === "Positive") return "positive";
+  if (sentiment === "Negative") return "negative";
+  if (sentiment === "Very Negative") return "very-negative";
+  return "okay";
 }
 
 export function toCompareProvider(provider: SearchProvider, index: number): CompareProvider {
