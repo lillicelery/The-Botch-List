@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
 import { useAuth } from "../lib/auth";
@@ -164,22 +164,11 @@ export default function ProviderDashboard() {
   const navigate = useNavigate();
   const displayName = provider?.name ?? getProviderDisplayName(slug);
 
-  const [filterTags, setFilterTags] = useState<string[]>([]);
   const [reviewTab, setReviewTab] = useState<"public" | "site">("public");
 
-  useEffect(() => {
-    setFilterTags(provider ? [...provider.defaultProcedureFilters] : []);
-  }, [provider]);
-
-  const visibleSnippets = useMemo(() => {
-    if (!provider) return [];
-    if (filterTags.length === 0) return provider.snippets;
-    return provider.snippets.filter((s) => s.procedureTags.some((t) => filterTags.includes(t)));
-  }, [provider, filterTags]);
-
   const listSentimentBreakdown = useMemo(
-    () => sentimentCountsFromSnippets(visibleSnippets),
-    [visibleSnippets],
+    () => sentimentCountsFromSnippets(provider?.snippets ?? []),
+    [provider],
   );
   const legendPercents = useMemo(
     () =>
@@ -191,9 +180,6 @@ export default function ProviderDashboard() {
     [listSentimentBreakdown],
   );
 
-  function removeFilter(tag: string) {
-    setFilterTags((prev) => prev.filter((t) => t !== tag));
-  }
 
   if (status === "loading") {
     return (
@@ -260,6 +246,13 @@ export default function ProviderDashboard() {
               );
             })()}
           </div>
+          {provider.tags.length > 0 && (
+            <div className="provider-topic-tags">
+              {provider.tags.map((tag) => (
+                <span key={tag} className="provider-topic-tag">{tag}</span>
+              ))}
+            </div>
+          )}
           <p className="provider-tagline" data-node-id="10:199">
             Aggregated snippets from public posts and reviews.
           </p>
@@ -381,9 +374,7 @@ export default function ProviderDashboard() {
               Sentiment breakdown
             </h2>
             <p className="pie-card-subtitle">
-              {visibleSnippets.length === 0
-                ? "No excerpts match the current topic filters."
-                : `Among the ${visibleSnippets.length} excerpt${visibleSnippets.length === 1 ? "" : "s"} listed in Patient experiences below.`}
+              {`Among the ${provider.snippets.length} excerpt${provider.snippets.length === 1 ? "" : "s"} listed in Patient experiences below.`}
             </p>
             <div className="pie-card-body">
               <div className="pie-visual-wrap" aria-hidden>
@@ -443,37 +434,7 @@ export default function ProviderDashboard() {
             </button>
           </div>
 
-          {reviewTab === "public" && (
-            <>
-              <div className="reviews-filters" data-node-id="30:95">
-                <span className="reviews-filters-label" data-node-id="30:61">
-                  Procedure / topic
-                </span>
-                {filterTags.map((tag) => (
-                  <button
-                    key={tag}
-                    type="button"
-                    className="filter-chip"
-                    aria-label={`Remove ${tag} filter`}
-                    onClick={() => removeFilter(tag)}
-                  >
-                    {tag}
-                    <span className="filter-chip-x" aria-hidden>
-                      ×
-                    </span>
-                  </button>
-                ))}
-                {filterTags.length === 0 ? (
-                  <span className="reviews-filters-all">Showing all topics</span>
-                ) : null}
-              </div>
-
-              {visibleSnippets.length === 0 ? (
-                <p className="reviews-empty" role="status">
-                  No snippets match the remaining topic filters. Remove a chip to see more.
-                </p>
-              ) : (
-                visibleSnippets.map((snippet) => (
+          {reviewTab === "public" && provider.snippets.map((snippet) => (
                   <article key={snippet.id} className="review-block">
                     <div className="review-head">
                       <p className="review-meta">
@@ -495,20 +456,8 @@ export default function ProviderDashboard() {
                       )}
                     </div>
                     <p className="review-body">{snippet.excerpt}</p>
-                    <div className="review-foot">
-                      <div className="review-tags">
-                        {snippet.procedureTags.map((t) => (
-                          <span key={t} className="review-tag">
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
                   </article>
-                ))
-              )}
-            </>
-          )}
+                ))}
 
           {reviewTab === "site" && (
             <p className="reviews-empty">
