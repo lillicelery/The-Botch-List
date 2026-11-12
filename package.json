@@ -9,6 +9,7 @@
     "server:dev": "node --env-file=.env --watch server/index.mjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "seed:demo": "node scripts/seed-demo.mjs",
     "apify:maps": "node --env-file=.env scripts/apify/run.mjs",
     "apify:maps:ny": "bash scripts/apify/fetch-ny.sh",
     "apify:map": "node scripts/apify/map-to-providers.mjs",

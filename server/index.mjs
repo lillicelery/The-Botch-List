@@ -17,6 +17,7 @@ import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import crypto from "node:crypto";
+import { initAuthSchema, VALID_PROCEDURES } from "./authDb.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, "..");
@@ -63,120 +64,7 @@ function getProvidersDb() {
 function getAuthDb() {
   if (authDbInstance) return authDbInstance;
   authDbInstance = new Database(authDbPath);
-  authDbInstance.pragma("journal_mode = WAL");
-  authDbInstance.pragma("foreign_keys = ON");
-  authDbInstance.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      email TEXT NOT NULL UNIQUE,
-      password_hash TEXT NOT NULL,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-
-    CREATE TABLE IF NOT EXISTS password_reset_tokens (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER NOT NULL,
-      token_hash TEXT NOT NULL,
-      expires_at TEXT NOT NULL,
-      used_at TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_hash ON password_reset_tokens(token_hash);
-
-    CREATE TABLE IF NOT EXISTS provider_claims (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      provider_slug TEXT NOT NULL,
-      status TEXT NOT NULL DEFAULT 'pending_verification'
-        CHECK(status IN ('pending_verification','verified','rejected')),
-      business_email TEXT NOT NULL,
-      verif_token_hash TEXT,
-      verif_expires_at TEXT,
-      verif_used_at TEXT,
-      rejection_reason TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-      UNIQUE(provider_slug)
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_claims_user_id    ON provider_claims(user_id);
-    CREATE INDEX IF NOT EXISTS idx_claims_slug       ON provider_claims(provider_slug);
-    CREATE INDEX IF NOT EXISTS idx_claims_verif_hash ON provider_claims(verif_token_hash);
-
-    CREATE TABLE IF NOT EXISTS provider_subscriptions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      provider_slug TEXT NOT NULL,
-      stripe_customer_id TEXT NOT NULL,
-      stripe_subscription_id TEXT,
-      stripe_checkout_session_id TEXT,
-      plan TEXT NOT NULL DEFAULT 'verified' CHECK(plan IN ('verified')),
-      status TEXT NOT NULL DEFAULT 'incomplete'
-        CHECK(status IN ('incomplete','active','past_due','canceled','paused')),
-      current_period_end TEXT,
-      cancel_at_period_end INTEGER NOT NULL DEFAULT 0,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-      UNIQUE(provider_slug)
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_subs_user_id    ON provider_subscriptions(user_id);
-    CREATE INDEX IF NOT EXISTS idx_subs_slug       ON provider_subscriptions(provider_slug);
-    CREATE INDEX IF NOT EXISTS idx_subs_stripe_sub ON provider_subscriptions(stripe_subscription_id);
-
-    CREATE TABLE IF NOT EXISTS provider_responses (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      provider_slug TEXT NOT NULL,
-      snippet_id TEXT NOT NULL,
-      response_text TEXT NOT NULL,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      UNIQUE(provider_slug, snippet_id)
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_responses_slug ON provider_responses(provider_slug);
-
-    CREATE TABLE IF NOT EXISTS user_saved_providers (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      provider_slug TEXT NOT NULL,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      UNIQUE(user_id, provider_slug)
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_saved_user_id ON user_saved_providers(user_id);
-
-    CREATE TABLE IF NOT EXISTS provider_profiles (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      provider_slug TEXT NOT NULL UNIQUE,
-      user_id INTEGER NOT NULL REFERENCES users(id),
-      display_name TEXT,
-      address TEXT,
-      hours TEXT,
-      phone TEXT,
-      website_url TEXT,
-      booking_url TEXT,
-      bio TEXT,
-      credentials TEXT,
-      procedures_json TEXT,
-      price_ranges_json TEXT,
-      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_profiles_slug ON provider_profiles(provider_slug);
-  `);
-
-  // Migrate existing users table to add user_role if the column doesn't exist yet.
-  try {
-    authDbInstance.exec(
-      `ALTER TABLE users ADD COLUMN user_role TEXT NOT NULL DEFAULT 'user' CHECK(user_role IN ('user', 'provider', 'admin'))`
-    );
-  } catch {
-    // Column already exists — safe to ignore.
-  }
-  return authDbInstance;
+  return initAuthSchema(authDbInstance);
 }
 
 const app = new Hono();
@@ -953,14 +841,6 @@ app.get("/api/portal/:slug/responses", (c) => {
 
 // ── Saved Providers ───────────────────────────────────────────────────────────
 
-const VALID_PROCEDURES = new Set([
-  "BBL", "Blepharoplasty", "Body contouring", "Botox", "Breast augmentation",
-  "Breast lift", "Breast reduction", "Brow lift", "Chin surgery", "Coolsculpting",
-  "Dermal fillers", "Facelift", "Fat transfer", "Gynecomastia", "Lip lift",
-  "Liposuction", "Medical spa", "Mommy makeover", "Neck lift", "Otoplasty",
-  "Rhinoplasty", "Tummy tuck",
-]);
-
 app.get("/api/saved-providers", (c) => {
   const sessionData = getSessionFromRequest(c);
   if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
@@ -1255,6 +1135,34 @@ app.post("/api/billing/create-checkout", async (c) => {
   return c.json({ checkoutUrl: checkoutSession.url });
 });
 
+const localSubStatuses = new Set(["incomplete", "active", "past_due", "canceled", "paused"]);
+
+/** Maps Stripe's subscription statuses onto the values allowed by provider_subscriptions.status. */
+function toLocalSubStatus(stripeStatus) {
+  switch (stripeStatus) {
+    case "trialing":
+      return "active";
+    case "unpaid":
+      return "past_due";
+    case "incomplete_expired":
+      return "canceled";
+    default:
+      return localSubStatuses.has(stripeStatus) ? stripeStatus : "incomplete";
+  }
+}
+
+/**
+ * Since Stripe API 2025-03-31.basil the billing period lives on each subscription item,
+ * not on the subscription itself. Falls back to the legacy field for older API versions.
+ */
+function subscriptionPeriodEndIso(sub) {
+  const itemEnds = (sub.items?.data ?? [])
+    .map((item) => item.current_period_end)
+    .filter((n) => typeof n === "number");
+  const end = itemEnds.length > 0 ? Math.max(...itemEnds) : sub.current_period_end;
+  return typeof end === "number" ? new Date(end * 1000).toISOString() : null;
+}
+
 app.post("/api/billing/webhook", async (c) => {
   if (!stripe) return c.json({ error: "Stripe not configured" }, 503);
 
@@ -1279,13 +1187,15 @@ app.post("/api/billing/webhook", async (c) => {
       authDb
         .prepare(
           `UPDATE provider_subscriptions
-           SET stripe_subscription_id = ?, status = 'active',
-               current_period_end = ?, updated_at = datetime('now')
+           SET stripe_subscription_id = ?, status = ?, current_period_end = ?,
+               cancel_at_period_end = ?, updated_at = datetime('now')
            WHERE provider_slug = ? AND user_id = ?`
         )
         .run(
           String(session.subscription),
-          new Date(sub.current_period_end * 1000).toISOString(),
+          toLocalSubStatus(sub.status),
+          subscriptionPeriodEndIso(sub),
+          sub.cancel_at_period_end ? 1 : 0,
           providerSlug,
           Number(userId)
         );
@@ -1297,12 +1207,13 @@ app.post("/api/billing/webhook", async (c) => {
       authDb
         .prepare(
           `UPDATE provider_subscriptions
-           SET status = ?, current_period_end = ?, cancel_at_period_end = ?, updated_at = datetime('now')
+           SET status = ?, current_period_end = COALESCE(?, current_period_end),
+               cancel_at_period_end = ?, updated_at = datetime('now')
            WHERE stripe_subscription_id = ?`
         )
         .run(
-          sub.status,
-          new Date(sub.current_period_end * 1000).toISOString(),
+          toLocalSubStatus(sub.status),
+          subscriptionPeriodEndIso(sub),
           sub.cancel_at_period_end ? 1 : 0,
           sub.id
         );
@@ -1321,8 +1232,6 @@ app.post("/api/billing/webhook", async (c) => {
 });
 
 app.post("/api/billing/cancel", async (c) => {
-  if (!stripe) return c.json({ error: "Stripe not configured." }, 503);
-
   const sessionData = getSessionFromRequest(c);
   if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
 
@@ -1347,7 +1256,17 @@ app.post("/api/billing/cancel", async (c) => {
     .get(providerSlug, user.id);
   if (!sub?.stripe_subscription_id) return c.json({ error: "No active subscription found." }, 404);
 
-  await stripe.subscriptions.update(sub.stripe_subscription_id, { cancel_at_period_end: true });
+  // Subscriptions created by `npm run seed:demo` don't exist in Stripe; cancel them locally only.
+  const isDemoSub = sub.stripe_subscription_id.startsWith("sub_demo_");
+  if (!isDemoSub) {
+    if (!stripe) return c.json({ error: "Stripe not configured." }, 503);
+    try {
+      await stripe.subscriptions.update(sub.stripe_subscription_id, { cancel_at_period_end: true });
+    } catch (err) {
+      console.error("Stripe cancel failed", err);
+      return c.json({ error: "Unable to cancel subscription right now." }, 502);
+    }
+  }
   authDb
     .prepare(
       `UPDATE provider_subscriptions SET cancel_at_period_end = 1, updated_at = datetime('now')
