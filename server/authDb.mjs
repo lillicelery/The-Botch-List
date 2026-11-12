@@ -55,27 +55,6 @@ export function initAuthSchema(db) {
     CREATE INDEX IF NOT EXISTS idx_claims_slug       ON provider_claims(provider_slug);
     CREATE INDEX IF NOT EXISTS idx_claims_verif_hash ON provider_claims(verif_token_hash);
 
-    CREATE TABLE IF NOT EXISTS provider_subscriptions (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      provider_slug TEXT NOT NULL,
-      stripe_customer_id TEXT NOT NULL,
-      stripe_subscription_id TEXT,
-      stripe_checkout_session_id TEXT,
-      plan TEXT NOT NULL DEFAULT 'verified' CHECK(plan IN ('verified')),
-      status TEXT NOT NULL DEFAULT 'incomplete'
-        CHECK(status IN ('incomplete','active','past_due','canceled','paused')),
-      current_period_end TEXT,
-      cancel_at_period_end INTEGER NOT NULL DEFAULT 0,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-      UNIQUE(provider_slug)
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_subs_user_id    ON provider_subscriptions(user_id);
-    CREATE INDEX IF NOT EXISTS idx_subs_slug       ON provider_subscriptions(provider_slug);
-    CREATE INDEX IF NOT EXISTS idx_subs_stripe_sub ON provider_subscriptions(stripe_subscription_id);
-
     CREATE TABLE IF NOT EXISTS provider_responses (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,

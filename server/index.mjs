@@ -12,7 +12,6 @@ import { cors } from "hono/cors";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import Database from "better-sqlite3";
 import bcrypt from "bcrypt";
-import Stripe from "stripe";
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -29,10 +28,6 @@ const appPublicBaseUrl = process.env.BOTCH_APP_PUBLIC_URL?.trim() || appOrigin;
 const isProd = process.env.NODE_ENV === "production";
 const resendApiKey = process.env.RESEND_API_KEY?.trim() || "";
 const authEmailFrom = process.env.BOTCH_AUTH_EMAIL_FROM?.trim() || "";
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY?.trim() || "";
-const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET?.trim() || "";
-const stripeVerifiedPriceId = process.env.STRIPE_VERIFIED_PRICE_ID?.trim() || "";
-const stripe = stripeSecretKey ? new Stripe(stripeSecretKey) : null;
 const sessionCookieName = "botch_session";
 const csrfCookieName = "botch_csrf";
 const sessionTtlMs = 1000 * 60 * 60 * 8;
@@ -372,12 +367,6 @@ app.get("/api/auth/me", (c) => {
     .prepare("SELECT provider_slug, status, business_email FROM provider_claims WHERE user_id = ?")
     .all(user.id);
 
-  const subs = authDb
-    .prepare(
-      "SELECT provider_slug, plan, status, current_period_end, cancel_at_period_end FROM provider_subscriptions WHERE user_id = ?"
-    )
-    .all(user.id);
-
   return c.json({
     email: user.email,
     userRole: user.user_role || "user",
@@ -385,13 +374,6 @@ app.get("/api/auth/me", (c) => {
       providerSlug: row.provider_slug,
       status: row.status,
       businessEmail: row.business_email,
-    })),
-    subscriptions: subs.map((row) => ({
-      providerSlug: row.provider_slug,
-      plan: row.plan,
-      status: row.status,
-      currentPeriodEnd: row.current_period_end,
-      cancelAtPeriodEnd: Boolean(row.cancel_at_period_end),
     })),
   });
 });
@@ -702,22 +684,23 @@ app.get("/api/claims/status/:slug", (c) => {
     .get(slug, user.id);
   if (!claim) return c.json({ claimed: false });
 
-  const sub = authDb
-    .prepare(
-      "SELECT status, current_period_end FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ?"
-    )
-    .get(slug, user.id);
-
   return c.json({
     claimed: true,
     status: claim.status,
     businessEmail: claim.business_email,
-    subscriptionStatus: sub?.status ?? null,
-    subscriptionPeriodEnd: sub?.current_period_end ?? null,
   });
 });
 
 // ── Provider Portal ───────────────────────────────────────────────────────────
+// Free for any account with a verified claim. Paid plans are planned but not implemented.
+
+function hasVerifiedClaim(authDb, slug, userId) {
+  return Boolean(
+    authDb
+      .prepare("SELECT 1 FROM provider_claims WHERE provider_slug = ? AND user_id = ? AND status = 'verified'")
+      .get(slug, userId)
+  );
+}
 
 app.get("/api/portal/:slug/analytics", (c) => {
   const sessionData = getSessionFromRequest(c);
@@ -728,12 +711,9 @@ app.get("/api/portal/:slug/analytics", (c) => {
   const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
   if (!user) return c.json({ error: "User not found." }, 404);
 
-  const sub = authDb
-    .prepare(
-      "SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ? AND status = 'active'"
-    )
-    .get(slug, user.id);
-  if (!sub) return c.json({ error: "Active subscription required." }, 403);
+  if (!hasVerifiedClaim(authDb, slug, user.id)) {
+    return c.json({ error: "A verified claim for this provider is required." }, 403);
+  }
 
   const providersDb = getProvidersDb();
   if (!providersDb) return c.json({ error: "Provider database unavailable." }, 503);
@@ -784,12 +764,9 @@ app.post("/api/portal/:slug/responses", async (c) => {
   const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
   if (!user) return c.json({ error: "User not found." }, 404);
 
-  const sub = authDb
-    .prepare(
-      "SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ? AND status = 'active'"
-    )
-    .get(slug, user.id);
-  if (!sub) return c.json({ error: "Active subscription required." }, 403);
+  if (!hasVerifiedClaim(authDb, slug, user.id)) {
+    return c.json({ error: "A verified claim for this provider is required." }, 403);
+  }
 
   const body = await c.req.json().catch(() => null);
   const snippetId = typeof body?.snippetId === "string" ? body.snippetId.trim() : "";
@@ -821,12 +798,9 @@ app.get("/api/portal/:slug/responses", (c) => {
   const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
   if (!user) return c.json({ error: "User not found." }, 404);
 
-  const sub = authDb
-    .prepare(
-      "SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ? AND status = 'active'"
-    )
-    .get(slug, user.id);
-  if (!sub) return c.json({ error: "Active subscription required." }, 403);
+  if (!hasVerifiedClaim(authDb, slug, user.id)) {
+    return c.json({ error: "A verified claim for this provider is required." }, 403);
+  }
 
   const responses = authDb
     .prepare("SELECT snippet_id, response_text, created_at FROM provider_responses WHERE provider_slug = ? AND user_id = ?")
@@ -915,10 +889,9 @@ app.get("/api/providers/:slug/profile", (c) => {
   const authDb = getAuthDb();
   const row = authDb.prepare("SELECT * FROM provider_profiles WHERE provider_slug = ?").get(slug);
 
-  const sub = authDb
-    .prepare("SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND status = 'active'")
-    .get(slug);
-  const isVerified = Boolean(sub);
+  const isVerified = Boolean(
+    authDb.prepare("SELECT 1 FROM provider_claims WHERE provider_slug = ? AND status = 'verified'").get(slug)
+  );
 
   if (!row) return c.json({ isVerified });
 
@@ -951,10 +924,9 @@ app.get("/api/portal/:slug/profile", (c) => {
   const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
   if (!user) return c.json({ error: "User not found." }, 404);
 
-  const sub = authDb
-    .prepare("SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ? AND status = 'active'")
-    .get(slug, user.id);
-  if (!sub) return c.json({ error: "Active subscription required." }, 403);
+  if (!hasVerifiedClaim(authDb, slug, user.id)) {
+    return c.json({ error: "A verified claim for this provider is required." }, 403);
+  }
 
   const row = authDb.prepare("SELECT * FROM provider_profiles WHERE provider_slug = ?").get(slug);
   if (!row) return c.json({});
@@ -993,10 +965,9 @@ app.put("/api/portal/:slug/profile", async (c) => {
   const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
   if (!user) return c.json({ error: "User not found." }, 404);
 
-  const sub = authDb
-    .prepare("SELECT status FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ? AND status = 'active'")
-    .get(slug, user.id);
-  if (!sub) return c.json({ error: "Active subscription required." }, 403);
+  if (!hasVerifiedClaim(authDb, slug, user.id)) {
+    return c.json({ error: "A verified claim for this provider is required." }, 403);
+  }
 
   const body = await c.req.json().catch(() => null);
   if (!body || typeof body !== "object") return c.json({ error: "Invalid request body." }, 400);
@@ -1055,226 +1026,6 @@ app.put("/api/portal/:slug/profile", async (c) => {
   }
 
   return c.json({ ok: true });
-});
-
-// ── Billing (Stripe) ──────────────────────────────────────────────────────────
-
-app.post("/api/billing/create-checkout", async (c) => {
-  if (!stripe) return c.json({ error: "Stripe is not configured." }, 503);
-  if (!stripeVerifiedPriceId) return c.json({ error: "Stripe price not configured." }, 503);
-
-  const sessionData = getSessionFromRequest(c);
-  if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
-
-  const csrfHeader = c.req.header("x-csrf-token");
-  const csrfCookie = getCookie(c, csrfCookieName);
-  if (!csrfHeader || !csrfCookie || csrfHeader !== csrfCookie || csrfHeader !== sessionData.session.csrfToken) {
-    return c.json({ error: "Invalid CSRF token" }, 403);
-  }
-
-  const body = await c.req.json().catch(() => null);
-  const providerSlug = typeof body?.providerSlug === "string" ? body.providerSlug.trim() : "";
-  if (!providerSlug) return c.json({ error: "providerSlug is required." }, 400);
-
-  const authDb = getAuthDb();
-  const user = authDb.prepare("SELECT id, email FROM users WHERE email = ?").get(sessionData.session.email);
-  if (!user) return c.json({ error: "User not found." }, 404);
-
-  const claim = authDb
-    .prepare("SELECT status FROM provider_claims WHERE provider_slug = ? AND user_id = ?")
-    .get(providerSlug, user.id);
-  if (!claim || claim.status !== "verified") {
-    return c.json({ error: "You must have a verified claim for this provider to subscribe." }, 403);
-  }
-
-  let existingSub = authDb
-    .prepare("SELECT stripe_customer_id, stripe_subscription_id, status FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ?")
-    .get(providerSlug, user.id);
-
-  if (existingSub?.status === "active") {
-    return c.json({ error: "Subscription is already active." }, 409);
-  }
-
-  // Get or create Stripe customer
-  let stripeCustomerId = existingSub?.stripe_customer_id;
-  if (!stripeCustomerId) {
-    const customer = await stripe.customers.create({
-      email: user.email,
-      metadata: { userId: String(user.id) },
-    });
-    stripeCustomerId = customer.id;
-  }
-
-  const checkoutSession = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    customer: stripeCustomerId,
-    line_items: [{ price: stripeVerifiedPriceId, quantity: 1 }],
-    success_url: `${appPublicBaseUrl}/claim-verified?slug=${encodeURIComponent(providerSlug)}&checkout=success`,
-    cancel_url: `${appPublicBaseUrl}/provider/${encodeURIComponent(providerSlug)}?checkout=canceled`,
-    metadata: { providerSlug, userId: String(user.id) },
-    subscription_data: { metadata: { providerSlug, userId: String(user.id) } },
-  });
-
-  if (existingSub) {
-    authDb
-      .prepare(
-        `UPDATE provider_subscriptions
-         SET stripe_customer_id = ?, stripe_checkout_session_id = ?, status = 'incomplete', updated_at = datetime('now')
-         WHERE provider_slug = ? AND user_id = ?`
-      )
-      .run(stripeCustomerId, checkoutSession.id, providerSlug, user.id);
-  } else {
-    authDb
-      .prepare(
-        `INSERT INTO provider_subscriptions (user_id, provider_slug, stripe_customer_id, stripe_checkout_session_id)
-         VALUES (?, ?, ?, ?)`
-      )
-      .run(user.id, providerSlug, stripeCustomerId, checkoutSession.id);
-  }
-
-  return c.json({ checkoutUrl: checkoutSession.url });
-});
-
-const localSubStatuses = new Set(["incomplete", "active", "past_due", "canceled", "paused"]);
-
-/** Maps Stripe's subscription statuses onto the values allowed by provider_subscriptions.status. */
-function toLocalSubStatus(stripeStatus) {
-  switch (stripeStatus) {
-    case "trialing":
-      return "active";
-    case "unpaid":
-      return "past_due";
-    case "incomplete_expired":
-      return "canceled";
-    default:
-      return localSubStatuses.has(stripeStatus) ? stripeStatus : "incomplete";
-  }
-}
-
-/**
- * Since Stripe API 2025-03-31.basil the billing period lives on each subscription item,
- * not on the subscription itself. Falls back to the legacy field for older API versions.
- */
-function subscriptionPeriodEndIso(sub) {
-  const itemEnds = (sub.items?.data ?? [])
-    .map((item) => item.current_period_end)
-    .filter((n) => typeof n === "number");
-  const end = itemEnds.length > 0 ? Math.max(...itemEnds) : sub.current_period_end;
-  return typeof end === "number" ? new Date(end * 1000).toISOString() : null;
-}
-
-app.post("/api/billing/webhook", async (c) => {
-  if (!stripe) return c.json({ error: "Stripe not configured" }, 503);
-
-  const sig = c.req.header("stripe-signature") ?? "";
-  const rawBody = Buffer.from(await c.req.raw.arrayBuffer());
-
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, stripeWebhookSecret);
-  } catch (err) {
-    console.error("Stripe webhook signature verification failed", err);
-    return c.json({ error: "Invalid signature" }, 400);
-  }
-
-  const authDb = getAuthDb();
-
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const { providerSlug, userId } = session.metadata ?? {};
-    if (providerSlug && userId && session.subscription) {
-      const sub = await stripe.subscriptions.retrieve(String(session.subscription));
-      authDb
-        .prepare(
-          `UPDATE provider_subscriptions
-           SET stripe_subscription_id = ?, status = ?, current_period_end = ?,
-               cancel_at_period_end = ?, updated_at = datetime('now')
-           WHERE provider_slug = ? AND user_id = ?`
-        )
-        .run(
-          String(session.subscription),
-          toLocalSubStatus(sub.status),
-          subscriptionPeriodEndIso(sub),
-          sub.cancel_at_period_end ? 1 : 0,
-          providerSlug,
-          Number(userId)
-        );
-    }
-  } else if (event.type === "customer.subscription.updated") {
-    const sub = event.data.object;
-    const { providerSlug } = sub.metadata ?? {};
-    if (providerSlug) {
-      authDb
-        .prepare(
-          `UPDATE provider_subscriptions
-           SET status = ?, current_period_end = COALESCE(?, current_period_end),
-               cancel_at_period_end = ?, updated_at = datetime('now')
-           WHERE stripe_subscription_id = ?`
-        )
-        .run(
-          toLocalSubStatus(sub.status),
-          subscriptionPeriodEndIso(sub),
-          sub.cancel_at_period_end ? 1 : 0,
-          sub.id
-        );
-    }
-  } else if (event.type === "customer.subscription.deleted") {
-    const sub = event.data.object;
-    authDb
-      .prepare(
-        `UPDATE provider_subscriptions SET status = 'canceled', updated_at = datetime('now')
-         WHERE stripe_subscription_id = ?`
-      )
-      .run(sub.id);
-  }
-
-  return c.json({ received: true });
-});
-
-app.post("/api/billing/cancel", async (c) => {
-  const sessionData = getSessionFromRequest(c);
-  if (!sessionData) return c.json({ error: "Not authenticated" }, 401);
-
-  const csrfHeader = c.req.header("x-csrf-token");
-  const csrfCookie = getCookie(c, csrfCookieName);
-  if (!csrfHeader || !csrfCookie || csrfHeader !== csrfCookie || csrfHeader !== sessionData.session.csrfToken) {
-    return c.json({ error: "Invalid CSRF token" }, 403);
-  }
-
-  const body = await c.req.json().catch(() => null);
-  const providerSlug = typeof body?.providerSlug === "string" ? body.providerSlug.trim() : "";
-  if (!providerSlug) return c.json({ error: "providerSlug is required." }, 400);
-
-  const authDb = getAuthDb();
-  const user = authDb.prepare("SELECT id FROM users WHERE email = ?").get(sessionData.session.email);
-  if (!user) return c.json({ error: "User not found." }, 404);
-
-  const sub = authDb
-    .prepare(
-      "SELECT stripe_subscription_id FROM provider_subscriptions WHERE provider_slug = ? AND user_id = ? AND status = 'active'"
-    )
-    .get(providerSlug, user.id);
-  if (!sub?.stripe_subscription_id) return c.json({ error: "No active subscription found." }, 404);
-
-  // Subscriptions created by `npm run seed:demo` don't exist in Stripe; cancel them locally only.
-  const isDemoSub = sub.stripe_subscription_id.startsWith("sub_demo_");
-  if (!isDemoSub) {
-    if (!stripe) return c.json({ error: "Stripe not configured." }, 503);
-    try {
-      await stripe.subscriptions.update(sub.stripe_subscription_id, { cancel_at_period_end: true });
-    } catch (err) {
-      console.error("Stripe cancel failed", err);
-      return c.json({ error: "Unable to cancel subscription right now." }, 502);
-    }
-  }
-  authDb
-    .prepare(
-      `UPDATE provider_subscriptions SET cancel_at_period_end = 1, updated_at = datetime('now')
-       WHERE stripe_subscription_id = ?`
-    )
-    .run(sub.stripe_subscription_id);
-
-  return c.json({ ok: true, cancelAtPeriodEnd: true });
 });
 
 serve({ fetch: app.fetch, port }, (info) => {

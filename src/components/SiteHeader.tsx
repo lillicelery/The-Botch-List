@@ -9,7 +9,8 @@ export interface SiteHeaderProps {
 }
 
 export default function SiteHeader({ activeNav }: SiteHeaderProps) {
-  const { status, userRole, subscriptions, signOut } = useAuth();
+  const { status, userRole, claims, signOut } = useAuth();
+  const verifiedClaim = claims.find((c) => c.status === "verified");
 
   return (
     <header className="site-header" data-name="Navigation (Global)" data-node-id="23:602">
@@ -35,11 +36,8 @@ export default function SiteHeader({ activeNav }: SiteHeaderProps) {
           </nav>
           {status === "authenticated" ? (
             <>
-              {userRole === "provider" && subscriptions.some((s) => s.status === "active") && (
-                <Link
-                  to={`/provider-portal/${subscriptions.find((s) => s.status === "active")?.providerSlug}`}
-                  className="site-header__link"
-                >
+              {userRole === "provider" && verifiedClaim && (
+                <Link to={`/provider-portal/${verifiedClaim.providerSlug}`} className="site-header__link">
                   My Portal
                 </Link>
               )}

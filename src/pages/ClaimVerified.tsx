@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import SiteHeader from "../components/SiteHeader";
 import { useAuth } from "../lib/auth";
@@ -11,46 +11,14 @@ export default function ClaimVerified() {
   const error = searchParams.get("error");
   const already = searchParams.get("already");
 
-  const { refreshMe, subscriptions } = useAuth();
+  const { refreshMe } = useAuth();
   const { bySlug } = useProvidersData();
-  const [checkingOut, setCheckingOut] = useState(false);
-  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   useEffect(() => {
     if (slug) refreshMe();
   }, [slug]);
 
   const provider = slug ? bySlug.get(slug) : undefined;
-  const mySub = subscriptions.find((s) => s.providerSlug === slug);
-  const isActive = mySub?.status === "active";
-
-  async function startCheckout() {
-    if (!slug) return;
-    setCheckingOut(true);
-    setCheckoutError(null);
-    const csrf = readCsrf();
-    try {
-      const res = await fetch("/api/billing/create-checkout", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...(csrf ? { "X-CSRF-Token": csrf } : {}),
-        },
-        body: JSON.stringify({ providerSlug: slug }),
-      });
-      const data = (await res.json()) as { checkoutUrl?: string; error?: string };
-      if (!res.ok || !data.checkoutUrl) {
-        setCheckoutError(data.error ?? "Unable to start checkout. Please try again.");
-        setCheckingOut(false);
-        return;
-      }
-      window.location.href = data.checkoutUrl;
-    } catch {
-      setCheckoutError("Network error. Please try again.");
-      setCheckingOut(false);
-    }
-  }
 
   function renderContent() {
     if (error === "missing_token" || error === "invalid_token") {
@@ -92,60 +60,19 @@ export default function ClaimVerified() {
       );
     }
 
-    if (already) {
-      return (
-        <>
-          <p className="auth-kicker">Already verified</p>
-          <h1 className="auth-title">You&apos;re already verified</h1>
-          <p className="auth-subtitle">
-            Your business claim for <strong>{provider?.name ?? slug}</strong> is already verified.
-          </p>
-          {!isActive && slug && (
-            <div className="auth-actions">
-              <button
-                type="button"
-                className="auth-btn auth-btn--primary"
-                onClick={startCheckout}
-                disabled={checkingOut}
-              >
-                {checkingOut ? "Redirecting…" : "Activate full features — $49/month"}
-              </button>
-            </div>
-          )}
-          {isActive && slug && (
-            <div className="auth-actions">
-              <Link to={`/provider-portal/${slug}`} className="auth-btn auth-btn--primary">
-                Go to Provider Portal
-              </Link>
-            </div>
-          )}
-        </>
-      );
-    }
-
     return (
       <>
-        <p className="auth-kicker">Business claimed</p>
-        <h1 className="auth-title">Claim verified!</h1>
+        <p className="auth-kicker">{already ? "Already verified" : "Business claimed"}</p>
+        <h1 className="auth-title">{already ? "You're already verified" : "Claim verified!"}</h1>
         <p className="auth-subtitle">
-          Your claim for <strong>{provider?.name ?? slug}</strong> has been verified. Activate your
-          verified badge and full provider features for <strong>$49/month</strong>.
+          Your claim for <strong>{provider?.name ?? slug}</strong> is verified. Your listing now shows a
+          verified badge, and you can manage it from the Provider Portal.
         </p>
-        {checkoutError && (
-          <p className="auth-error" role="alert">
-            {checkoutError}
-          </p>
-        )}
         <div className="auth-actions">
           {slug && (
-            <button
-              type="button"
-              className="auth-btn auth-btn--primary"
-              onClick={startCheckout}
-              disabled={checkingOut}
-            >
-              {checkingOut ? "Redirecting to checkout…" : "Activate — $49/month"}
-            </button>
+            <Link to={`/provider-portal/${slug}`} className="auth-btn auth-btn--primary">
+              Go to Provider Portal
+            </Link>
           )}
           {slug && (
             <Link to={`/provider/${slug}`} className="auth-btn auth-btn--ghost">
@@ -154,8 +81,8 @@ export default function ClaimVerified() {
           )}
         </div>
         <p className="claim-verified-note">
-          Features included: verified badge on your listing, respond to patient reviews, analytics
-          dashboard, and priority listing sort.
+          Included free: verified badge, review analytics, responses to patient reviews, and an editable
+          public profile. Paid provider plans are coming soon.
         </p>
       </>
     );
@@ -169,11 +96,4 @@ export default function ClaimVerified() {
       </main>
     </div>
   );
-}
-
-function readCsrf(): string | null {
-  const pair = document.cookie.split("; ").find((p) => p.startsWith("botch_csrf="));
-  if (!pair) return null;
-  const v = pair.slice("botch_csrf=".length);
-  return v ? decodeURIComponent(v) : null;
 }

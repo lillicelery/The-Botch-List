@@ -10,20 +10,11 @@ export interface ProviderClaim {
   businessEmail: string;
 }
 
-export interface ProviderSubscription {
-  providerSlug: string;
-  plan: "verified";
-  status: "incomplete" | "active" | "past_due" | "canceled" | "paused";
-  currentPeriodEnd: string | null;
-  cancelAtPeriodEnd?: boolean;
-}
-
 interface AuthContextValue {
   status: AuthStatus;
   userEmail: string | null;
   userRole: UserRole | null;
   claims: ProviderClaim[];
-  subscriptions: ProviderSubscription[];
   savedProviders: string[];
   signIn: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
   signUp: (email: string, password: string, userRole?: UserRole) => Promise<{ ok: boolean; error?: string }>;
@@ -49,7 +40,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [claims, setClaims] = useState<ProviderClaim[]>([]);
-  const [subscriptions, setSubscriptions] = useState<ProviderSubscription[]>([]);
   const [savedProviders, setSavedProviders] = useState<string[]>([]);
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
@@ -64,11 +54,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email: string;
           userRole: UserRole;
           claims: ProviderClaim[];
-          subscriptions: ProviderSubscription[];
         };
         setUserRole(data.userRole);
         setClaims(data.claims ?? []);
-        setSubscriptions(data.subscriptions ?? []);
       }
       if (savedRes.ok) {
         const savedData = (await savedRes.json()) as { slugs: string[] };
@@ -100,15 +88,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUserRole(payload.userRole ?? "user");
           setCsrfToken(payload.csrfToken ?? readCsrfTokenFromCookie());
           setStatus("authenticated");
-          // Load full profile (claims + subscriptions + saved) in background
+          // Load full profile (claims + saved) in background
           Promise.all([
             fetch("/api/auth/me", { credentials: "include" }).then((r) => r.json()),
             fetch("/api/saved-providers", { credentials: "include" }).then((r) => r.json()),
           ])
-            .then(([meData, savedData]: [{ claims?: ProviderClaim[]; subscriptions?: ProviderSubscription[] }, { slugs?: string[] }]) => {
+            .then(([meData, savedData]: [{ claims?: ProviderClaim[] }, { slugs?: string[] }]) => {
               if (!active) return;
               setClaims(meData.claims ?? []);
-              setSubscriptions(meData.subscriptions ?? []);
               setSavedProviders(savedData.slugs ?? []);
             })
             .catch(() => null);
@@ -117,7 +104,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUserEmail(null);
         setUserRole(null);
         setClaims([]);
-        setSubscriptions([]);
         setSavedProviders([]);
         setCsrfToken(null);
         setStatus("idle");
@@ -126,7 +112,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUserEmail(null);
         setUserRole(null);
         setClaims([]);
-        setSubscriptions([]);
         setSavedProviders([]);
         setCsrfToken(null);
         setStatus("idle");
@@ -158,7 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUserRole(payload.userRole ?? "user");
       setCsrfToken(payload.csrfToken ?? readCsrfTokenFromCookie());
       setStatus("authenticated");
-      // Load claims, subscriptions, saved providers in background
+      // Load claims and saved providers in background
       refreshMe().catch(() => null);
       return { ok: true };
     } catch {
@@ -207,7 +192,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUserEmail(null);
     setUserRole(null);
     setClaims([]);
-    setSubscriptions([]);
     setSavedProviders([]);
     setCsrfToken(null);
     setStatus("idle");
@@ -251,7 +235,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       userEmail,
       userRole,
       claims,
-      subscriptions,
       savedProviders,
       signIn,
       signUp,
@@ -260,7 +243,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       saveProvider,
       unsaveProvider,
     }),
-    [status, userEmail, userRole, claims, subscriptions, savedProviders, refreshMe]
+    [status, userEmail, userRole, claims, savedProviders, refreshMe]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

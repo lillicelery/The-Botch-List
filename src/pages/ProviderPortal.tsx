@@ -333,22 +333,19 @@ function ProfileEditor({ slug }: { slug: string }) {
 
 export default function ProviderPortal() {
   const { slug } = useParams<{ slug: string }>();
-  const { status: authStatus, claims, subscriptions, refreshMe } = useAuth();
+  const { status: authStatus, claims } = useAuth();
   const { bySlug, status: dataStatus } = useProvidersData();
 
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [responses, setResponses] = useState<SavedResponse[]>([]);
-  const [cancelConfirm, setCancelConfirm] = useState(false);
-  const [canceling, setCanceling] = useState(false);
-  const [portalTab, setPortalTab] = useState<"analytics" | "profile" | "subscription">("analytics");
+  const [portalTab, setPortalTab] = useState<"analytics" | "profile" | "plans">("analytics");
 
   const provider = slug ? bySlug.get(slug) : undefined;
   const myClaim = claims.find((c) => c.providerSlug === slug);
-  const mySub = subscriptions.find((s) => s.providerSlug === slug);
-  const isActive = mySub?.status === "active";
+  const isVerified = myClaim?.status === "verified";
 
   useEffect(() => {
-    if (!slug || !isActive) return;
+    if (!slug || !isVerified) return;
     fetch(`/api/portal/${slug}/analytics`, { credentials: "include" })
       .then((r) => r.json())
       .then((data) => setAnalytics(data))
@@ -357,7 +354,7 @@ export default function ProviderPortal() {
       .then((r) => r.json())
       .then((data: SavedResponse[]) => setResponses(Array.isArray(data) ? data : []))
       .catch(() => null);
-  }, [slug, isActive]);
+  }, [slug, isVerified]);
 
   if (authStatus === "loading" || dataStatus === "loading") {
     return (
@@ -394,50 +391,6 @@ export default function ProviderPortal() {
         </main>
       </div>
     );
-  }
-
-  if (!isActive) {
-    return (
-      <div className="portal-page">
-        <SiteHeader />
-        <main className="portal-main">
-          <div className="portal-gate">
-            <p className="auth-kicker">Subscription required</p>
-            <h1 className="portal-gate-title">Activate your portal</h1>
-            <p className="portal-gate-body">
-              Get your verified badge, analytics, and the ability to respond to reviews for{" "}
-              <strong>$49/month</strong>.
-            </p>
-            <Link to={`/claim-verified?slug=${slug}`} className="portal-btn portal-btn--primary">
-              Activate — $49/month
-            </Link>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
-  async function cancelSubscription() {
-    if (!slug) return;
-    setCanceling(true);
-    const csrf = readCsrf();
-    try {
-      await fetch("/api/billing/cancel", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...(csrf ? { "X-CSRF-Token": csrf } : {}),
-        },
-        body: JSON.stringify({ providerSlug: slug }),
-      });
-      await refreshMe();
-      setCancelConfirm(false);
-    } catch {
-      // ignore
-    } finally {
-      setCanceling(false);
-    }
   }
 
   const responseMap = new Map(responses.map((r) => [r.snippetId, r.responseText]));
@@ -481,11 +434,11 @@ export default function ProviderPortal() {
           </button>
           <button
             role="tab"
-            aria-selected={portalTab === "subscription"}
-            className={portalTab === "subscription" ? "portal-tab portal-tab--active" : "portal-tab"}
-            onClick={() => setPortalTab("subscription")}
+            aria-selected={portalTab === "plans"}
+            className={portalTab === "plans" ? "portal-tab portal-tab--active" : "portal-tab"}
+            onClick={() => setPortalTab("plans")}
           >
-            Subscription
+            Plans
           </button>
         </div>
 
@@ -585,45 +538,29 @@ export default function ProviderPortal() {
           </section>
         )}
 
-        {/* Subscription tab */}
-        {portalTab === "subscription" && (
-          <section className="portal-section portal-section--subscription" aria-labelledby="sub-heading">
-            <h2 className="portal-section-title" id="sub-heading">Subscription</h2>
+        {/* Plans tab — paid plans are planned, not implemented */}
+        {portalTab === "plans" && (
+          <section className="portal-section" aria-labelledby="plans-heading">
+            <h2 className="portal-section-title" id="plans-heading">Plans</h2>
             <div className="portal-sub-card">
               <div className="portal-sub-details">
-                <p className="portal-sub-plan">Verified Provider — $49/month</p>
-                {mySub?.currentPeriodEnd && (
-                  <p className="portal-sub-renewal">
-                    {mySub.cancelAtPeriodEnd
-                      ? `Cancels on ${new Date(mySub.currentPeriodEnd).toLocaleDateString()}`
-                      : `Renews on ${new Date(mySub.currentPeriodEnd).toLocaleDateString()}`}
-                  </p>
-                )}
+                <p className="portal-sub-plan">
+                  Free <span className="portal-plan-badge">Current plan</span>
+                </p>
+                <p className="portal-sub-renewal">
+                  Verified badge, review analytics, responses to reviews, and an editable public profile.
+                </p>
               </div>
-              {!mySub?.cancelAtPeriodEnd && (
-                <>
-                  {cancelConfirm ? (
-                    <div className="portal-cancel-confirm">
-                      <p>Cancel at end of billing period?</p>
-                      <button
-                        type="button"
-                        className="portal-btn portal-btn--danger"
-                        onClick={cancelSubscription}
-                        disabled={canceling}
-                      >
-                        {canceling ? "Canceling…" : "Yes, cancel"}
-                      </button>
-                      <button type="button" className="portal-btn portal-btn--ghost" onClick={() => setCancelConfirm(false)}>
-                        Keep subscription
-                      </button>
-                    </div>
-                  ) : (
-                    <button type="button" className="portal-link-btn portal-link-btn--muted" onClick={() => setCancelConfirm(true)}>
-                      Cancel subscription
-                    </button>
-                  )}
-                </>
-              )}
+            </div>
+            <div className="portal-sub-card portal-sub-card--muted">
+              <div className="portal-sub-details">
+                <p className="portal-sub-plan">
+                  Verified Pro <span className="portal-plan-badge portal-plan-badge--soon">Coming soon</span>
+                </p>
+                <p className="portal-sub-renewal">
+                  A paid monthly plan with extra visibility, such as priority placement in search results.
+                </p>
+              </div>
             </div>
           </section>
         )}

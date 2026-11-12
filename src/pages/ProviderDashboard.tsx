@@ -175,7 +175,7 @@ export default function ProviderDashboard() {
   const { bySlug, byWorkplace, status } = useProvidersData();
   const provider = useMemo(() => (slug ? bySlug.get(slug) : undefined), [bySlug, slug]);
   const { isSelected, toggle, atMax } = useCompareSelection();
-  const { status: authStatus, userRole, claims, subscriptions } = useAuth();
+  const { status: authStatus, userRole, claims } = useAuth();
   const navigate = useNavigate();
   const displayName = provider?.name ?? getProviderDisplayName(slug);
 
@@ -289,10 +289,9 @@ export default function ProviderDashboard() {
           {(() => {
             if (!slug) return null;
             const myClaim = claims.find((c) => c.providerSlug === slug);
-            const mySub = subscriptions.find((s) => s.providerSlug === slug);
-            const isActiveSub = mySub?.status === "active";
 
-            if (isActiveSub) return null;
+            // Already claimed and verified by someone else: nothing to offer.
+            if (providerProfile?.isVerified && myClaim?.status !== "verified") return null;
 
             if (authStatus !== "authenticated") {
               return (
@@ -346,9 +345,9 @@ export default function ProviderDashboard() {
             if (myClaim.status === "verified") {
               return (
                 <div className="provider-claim-banner provider-claim-banner--verified">
-                  <span>Claim verified!</span>
-                  <Link to="/claim-verified" className="provider-claim-link">
-                    Activate full features — $49/month →
+                  <span>You manage this listing.</span>
+                  <Link to={`/provider-portal/${slug}`} className="provider-claim-link">
+                    Go to Provider Portal →
                   </Link>
                 </div>
               );

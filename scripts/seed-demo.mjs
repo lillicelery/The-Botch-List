@@ -1,5 +1,5 @@
 /**
- * Seeds demo accounts into the auth DB so the full app can be shown without email or Stripe.
+ * Seeds demo accounts into the auth DB so the full app can be shown without email setup.
  *
  *   npm run seed:demo                 # picks a good demo provider automatically
  *   npm run seed:demo -- --slug <s>   # seed a specific provider
@@ -7,7 +7,7 @@
  *
  * Creates (or resets) two accounts:
  *   - a patient account with a few saved providers
- *   - a provider account with a verified claim, an active "Verified" subscription,
+ *   - a provider account with a verified claim (which unlocks the Provider Portal),
  *     a filled-in profile, and a response to one review
  *
  * Safe to re-run: the demo accounts' data is rebuilt each time. Stop/restart the API afterwards
@@ -99,14 +99,13 @@ const procedures = [
 ];
 const reviewToAnswer = snippets.find((s) => s.sentiment === "Negative") ?? snippets[0];
 const savedSlugs = [slug, ...providerRows.filter((p) => p.slug !== slug).slice(0, 2).map((p) => p.slug)];
-const periodEnd = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString();
 
 authDb.transaction(() => {
   const providerUserId = upsertUser(DEMO_PROVIDER);
   const patientUserId = upsertUser(DEMO_PATIENT);
 
   // Reset everything the demo accounts own, plus anything else attached to the demo slug.
-  for (const table of ["provider_claims", "provider_subscriptions", "provider_responses", "provider_profiles"]) {
+  for (const table of ["provider_claims", "provider_responses", "provider_profiles"]) {
     authDb.prepare(`DELETE FROM ${table} WHERE user_id = ? OR provider_slug = ?`).run(providerUserId, slug);
   }
   authDb.prepare("DELETE FROM user_saved_providers WHERE user_id = ?").run(patientUserId);
@@ -117,15 +116,6 @@ authDb.transaction(() => {
        VALUES (?, ?, 'verified', ?, datetime('now'))`
     )
     .run(providerUserId, slug, DEMO_PROVIDER.email);
-
-  // `sub_demo_` ids are recognised by /api/billing/cancel and never sent to Stripe.
-  authDb
-    .prepare(
-      `INSERT INTO provider_subscriptions
-         (user_id, provider_slug, stripe_customer_id, stripe_subscription_id, status, current_period_end)
-       VALUES (?, ?, 'cus_demo_seed', ?, 'active', ?)`
-    )
-    .run(providerUserId, slug, `sub_demo_${slug}`, periodEnd);
 
   authDb
     .prepare(
