@@ -17,6 +17,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import crypto from "node:crypto";
 import { initAuthSchema, VALID_PROCEDURES } from "./authDb.mjs";
+import { isInServiceArea, SERVICE_STATES } from "./serviceArea.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, "..");
@@ -291,8 +292,19 @@ app.get("/api/health", (c) => {
   }
   try {
     const row = db.prepare("SELECT COUNT(*) AS n FROM providers").get();
+    const servedCount = db
+      .prepare("SELECT location_label FROM providers")
+      .all()
+      .filter((r) => isInServiceArea(r.location_label)).length;
     getAuthDb();
-    return c.json({ ok: true, providerCount: row.n, providersDbPath, authDbPath });
+    return c.json({
+      ok: true,
+      providerCount: row.n,
+      servedCount,
+      serviceStates: SERVICE_STATES ?? "all",
+      providersDbPath,
+      authDbPath,
+    });
   } catch (e) {
     return c.json({ ok: false, reason: e instanceof Error ? e.message : String(e) }, 503);
   }
@@ -306,11 +318,12 @@ app.get("/api/providers", (c) => {
   try {
     const rows = db
       .prepare(
-        `SELECT raw_json, workplace_slug FROM providers
+        `SELECT raw_json, workplace_slug, location_label FROM providers
          ORDER BY snippet_count DESC, name COLLATE NOCASE ASC`
       )
       .all();
-    const providers = rows.map((r) => {
+    // Providers outside the service area stay in the database but aren't shown in the app.
+    const providers = rows.filter((r) => isInServiceArea(r.location_label)).map((r) => {
       const p = JSON.parse(r.raw_json);
       if (r.workplace_slug) p.workplaceSlug = r.workplace_slug;
       return p;

@@ -235,7 +235,14 @@ export default function ProviderDashboard() {
   const providerType = getProviderType(provider);
   const { stats } = provider;
   const [pctNeg, pctGood, pctVeryGood] = legendPercents;
-  const providerMapQuery = `${provider.name} ${provider.locationLabel}`;
+  const hasReviews = provider.snippets.length > 0;
+  const npi = provider.npi;
+  const npiAddress = npi
+    ? [npi.address.line1, npi.address.line2, `${npi.address.city}, ${npi.address.state} ${npi.address.zip}`]
+        .filter(Boolean)
+        .join(", ")
+    : null;
+  const providerMapQuery = npiAddress && !hasReviews ? npiAddress : `${provider.name} ${provider.locationLabel}`;
   const providerMapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(providerMapQuery)}&output=embed`;
 
   const pieLegendRows = [
@@ -421,6 +428,60 @@ export default function ProviderDashboard() {
           </section>
         )}
 
+        {npi && (
+          <section className="provider-info-section" aria-labelledby="provider-record-heading">
+            <h2 className="provider-info-title" id="provider-record-heading">Public record</h2>
+            <div className="provider-info-body">
+              <div className="provider-info-contact">
+                <p className="provider-info-row">
+                  <span className="provider-info-label">Specialty</span>
+                  {npi.specialties.join(" · ")}
+                </p>
+                {npiAddress && (
+                  <p className="provider-info-row">
+                    <span className="provider-info-label">Practice</span>
+                    {npiAddress}
+                  </p>
+                )}
+                {npi.phone && (
+                  <p className="provider-info-row">
+                    <span className="provider-info-label">Phone</span>
+                    <a href={`tel:${npi.phone}`}>{npi.phone}</a>
+                  </p>
+                )}
+                <p className="provider-info-row">
+                  <span className="provider-info-label">NPI</span>
+                  <a
+                    href={`https://npiregistry.cms.hhs.gov/provider-view/${npi.number}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {npi.number}
+                  </a>
+                </p>
+                {npi.nyLicense && (
+                  <p className="provider-info-row">
+                    <span className="provider-info-label">NY license</span>
+                    {npi.nyLicense}
+                  </p>
+                )}
+              </div>
+              <p className="provider-record-links">
+                Check board certification, malpractice payments and disciplinary actions on the{" "}
+                <a href="https://www.nydoctorprofile.com/" target="_blank" rel="noopener noreferrer">
+                  NY State Physician Profile
+                </a>
+                {npi.nyLicense && <> (search by license number {npi.nyLicense})</>}.
+              </p>
+              <p className="provider-record-source">
+                From the CMS NPI Registry, which clinicians keep up to date themselves
+                {npi.lastUpdated && <>; last updated {npi.lastUpdated}</>}.
+              </p>
+            </div>
+          </section>
+        )}
+
+        {hasReviews && (
         <section className="stats-grid" data-name="Stats Grid" data-node-id="10:201" aria-label="Key statistics">
           <article className="stat-card" data-node-id="10:202">
             <p className="stat-label" data-node-id="10:204">
@@ -460,8 +521,10 @@ export default function ProviderDashboard() {
             </article>
           )}
         </section>
+        )}
 
-        <div className="charts-row">
+        <div className={hasReviews ? "charts-row" : "charts-row charts-row--map-only"}>
+          {hasReviews && (
           <div className="pie-card" data-name="Pie Chart" data-node-id="23:320">
             <h2 className="pie-card-title" data-node-id="I23:320;14:1388">
               Sentiment breakdown
@@ -487,6 +550,7 @@ export default function ProviderDashboard() {
               </ul>
             </div>
           </div>
+          )}
 
           <div className="map-panel" data-name="image 4" data-node-id="23:663">
             <iframe
@@ -526,6 +590,10 @@ export default function ProviderDashboard() {
               Site reviews
             </button>
           </div>
+
+          {reviewTab === "public" && !hasReviews && (
+            <p className="reviews-empty">No public reviews collected for this provider yet.</p>
+          )}
 
           {reviewTab === "public" && provider.snippets.map((snippet) => (
                   <article key={snippet.id} className="review-block">

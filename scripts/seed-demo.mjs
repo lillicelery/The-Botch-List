@@ -19,6 +19,7 @@ import { existsSync } from "node:fs";
 import Database from "better-sqlite3";
 import bcrypt from "bcrypt";
 import { initAuthSchema, VALID_PROCEDURES } from "../server/authDb.mjs";
+import { isInServiceArea } from "../server/serviceArea.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, "..");
@@ -46,6 +47,8 @@ const providerRows = providersDb
   .prepare("SELECT slug, raw_json FROM providers ORDER BY snippet_count DESC, name COLLATE NOCASE ASC")
   .all()
   .map((row) => ({ slug: row.slug, data: JSON.parse(row.raw_json) }));
+/** Providers the app actually shows (see server/serviceArea.mjs), used for the auto-picked demo data. */
+const servedRows = providerRows.filter((p) => isInServiceArea(p.data.locationLabel));
 
 /** Best demo candidate: has an AI summary and at least one negative review to respond to. */
 function pickDemoProvider() {
@@ -59,15 +62,15 @@ function pickDemoProvider() {
   }
   const hasNegative = (p) => (p.data.snippets ?? []).some((s) => s.sentiment === "Negative");
   return (
-    providerRows.find((p) => p.data.aiSummary && hasNegative(p)) ??
-    providerRows.find(hasNegative) ??
-    providerRows[0]
+    servedRows.find((p) => p.data.aiSummary && hasNegative(p)) ??
+    servedRows.find(hasNegative) ??
+    servedRows[0]
   );
 }
 
 const provider = pickDemoProvider();
 if (!provider) {
-  console.error("Provider DB is empty.");
+  console.error("No providers in the service area. Import data first, or set BOTCH_SERVICE_STATES=all.");
   process.exit(1);
 }
 const { slug } = provider;
@@ -98,7 +101,7 @@ const procedures = [
   ...new Set(snippets.flatMap((s) => s.procedureTags ?? []).filter((t) => VALID_PROCEDURES.has(t))),
 ];
 const reviewToAnswer = snippets.find((s) => s.sentiment === "Negative") ?? snippets[0];
-const savedSlugs = [slug, ...providerRows.filter((p) => p.slug !== slug).slice(0, 2).map((p) => p.slug)];
+const savedSlugs = [slug, ...servedRows.filter((p) => p.slug !== slug).slice(0, 2).map((p) => p.slug)];
 
 authDb.transaction(() => {
   const providerUserId = upsertUser(DEMO_PROVIDER);

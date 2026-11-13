@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Scrape Google Maps for New York cosmetic providers across NYC boroughs.
-# Runs 12 jobs: 4 locations x 3 search terms.
+# Runs 15 jobs: 5 boroughs x 3 search terms.
 # Output files land in scripts/apify/output/ as usual.
 # Usage: npm run apify:maps:ny
 set -euo pipefail
@@ -10,6 +10,7 @@ LOCATIONS=(
   "Brooklyn, NY, USA"
   "Queens, NY, USA"
   "Bronx, NY, USA"
+  "Staten Island, NY, USA"
 )
 
 SEARCH_TERMS=(

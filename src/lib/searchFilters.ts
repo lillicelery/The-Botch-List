@@ -59,7 +59,7 @@ function matchesQuery(provider: SearchProvider, q: string): boolean {
 
 function matchesRatings(provider: SearchProvider, selected: ResultSentiment[]): boolean {
   if (selected.length === 0) return true;
-  return selected.includes(provider.cardSentiment);
+  return provider.cardSentiment !== null && selected.includes(provider.cardSentiment);
 }
 
 function norm(s: string): string {

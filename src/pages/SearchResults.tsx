@@ -227,18 +227,22 @@ export default function SearchResults() {
                             <p className="result-meta">{p.metaLine}</p>
                           </div>
                         </div>
-                        <div className="result-sentiment-bar-wrap">
-                          <div className="result-sentiment-bar">
-                            <div
-                              className="result-sentiment-bar-fill"
-                              style={{ width: `${p.sentimentBreakdown.good + p.sentimentBreakdown.veryGood}%` }}
-                            />
+                        {p.cardSentiment ? (
+                          <div className="result-sentiment-bar-wrap">
+                            <div className="result-sentiment-bar">
+                              <div
+                                className="result-sentiment-bar-fill"
+                                style={{ width: `${p.sentimentBreakdown.good + p.sentimentBreakdown.veryGood}%` }}
+                              />
+                            </div>
+                            <span className="result-sentiment-stats">
+                              {p.sentimentBreakdown.good + p.sentimentBreakdown.veryGood}% positive
+                              {p.sentimentBreakdown.negative > 0 && ` · ${p.sentimentBreakdown.negative}% concerns`}
+                            </span>
                           </div>
-                          <span className="result-sentiment-stats">
-                            {p.sentimentBreakdown.good + p.sentimentBreakdown.veryGood}% positive
-                            {p.sentimentBreakdown.negative > 0 && ` · ${p.sentimentBreakdown.negative}% concerns`}
-                          </span>
-                        </div>
+                        ) : (
+                          <p className="result-desc">{p.summary}</p>
+                        )}
                         {p.aiSummary && (
                           <p className="result-desc result-desc--ai">{p.aiSummary}</p>
                         )}
@@ -253,7 +257,11 @@ export default function SearchResults() {
                         </div>
                       </div>
                       <div className="provider-actions">
-                        <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
+                        {p.cardSentiment ? (
+                          <span className={sentimentBadgeClass(p.cardSentiment)}>{p.cardSentiment}</span>
+                        ) : (
+                          <span className="sentiment-badge sentiment-none">No reviews yet</span>
+                        )}
                         <SaveButton providerSlug={p.slug} />
                         <label
                           className={`compare-checkbox${disabled ? " compare-checkbox--disabled" : ""}`}

@@ -26,7 +26,9 @@
     "sqlite:migrate:workplace-slug": "node scripts/sqlite/migrate-add-workplace-slug.mjs",
     "sqlite:populate:workplace-slug": "node scripts/sqlite/populate-workplace-slug.mjs",
     "sqlite:query:providers": "node scripts/sqlite/query-providers.mjs",
-    "ai:summaries": "node --env-file=.env scripts/ai/generate-summaries.mjs"
+    "ai:summaries": "node --env-file=.env scripts/ai/generate-summaries.mjs",
+    "npi:fetch": "node scripts/npi/fetch-nyc.mjs",
+    "npi:import": "node scripts/npi/import-nyc.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.91.1",

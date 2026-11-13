@@ -55,7 +55,7 @@ export function toCompareProvider(provider: SearchProvider, index: number): Comp
     bookingUrl,
     bookVariant: index === 0 ? "primary" : "outline",
     values: {
-      sentiment: { text: provider.cardSentiment, tone: sentimentTone(provider.cardSentiment) },
+      sentiment: { text: provider.cardSentiment ?? "No reviews yet", tone: sentimentTone(provider.cardSentiment) },
       snippets: { text: String(provider.stats.snippetsCollected), tone: "default" },
       topConcern: { text: provider.stats.topConcern, tone: "default" },
       location: { text: provider.locationLabel, tone: "medium" },

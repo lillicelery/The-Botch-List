@@ -1,4 +1,5 @@
 import type { SearchProvider } from "../types/provider";
+import { isInServiceArea } from "./serviceArea";
 import apifyProviders from "../data/apifyProviders.json";
 import redditProviders from "../data/redditProviders.json";
 import yelpProviders from "../data/yelpProviders.json";
@@ -22,8 +23,10 @@ function dedupeByName(providers: SearchProvider[]): SearchProvider[] {
   return [...seen.values()];
 }
 
-/** All cosmetic / aesthetic providers, deduplicated across sources. */
-export const ALL_SEARCH_PROVIDERS: SearchProvider[] = dedupeByName([...FROM_APIFY, ...FROM_YELP, ...FROM_REDDIT]);
+/** Cosmetic / aesthetic providers in the service area, deduplicated across sources. */
+export const ALL_SEARCH_PROVIDERS: SearchProvider[] = dedupeByName([...FROM_APIFY, ...FROM_YELP, ...FROM_REDDIT]).filter(
+  (p) => isInServiceArea(p.locationLabel)
+);
 
 const bySlug = new Map(ALL_SEARCH_PROVIDERS.map((p) => [p.slug, p]));
 

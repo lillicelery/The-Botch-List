@@ -419,6 +419,12 @@
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+.sentiment-none {
+  background: transparent;
+  color: var(--gray-600);
+  border: 1px dashed var(--border);
+}
+
 .result-card--selected {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 5%, var(--panel-bg));

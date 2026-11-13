@@ -37,13 +37,30 @@ export interface SentimentBreakdownPct {
   veryGood: number;
 }
 
+/** Public-record data from the CMS NPI Registry. Set by scripts/npi/import-nyc.mjs. */
+export interface NpiRecord {
+  number: string;
+  credential: string | null;
+  /** Registry taxonomy descriptions, e.g. "Plastic Surgery". */
+  specialties: string[];
+  /** New York State medical license number, if the registry lists one. */
+  nyLicense: string | null;
+  address: { line1: string; line2: string | null; city: string; state: string; zip: string };
+  phone: string | null;
+  /** When the clinician last updated their registry entry (YYYY-MM-DD). */
+  lastUpdated: string | null;
+  /** When we fetched it (ISO timestamp). */
+  fetchedAt: string;
+}
+
 export interface SearchProvider {
   slug: string;
   name: string;
   /** e.g. "Cosmetic surgeon • Bellevue, WA" */
   metaLine: string;
   summary: string;
-  cardSentiment: ResultSentiment;
+  /** Null when no reviews have been collected yet. */
+  cardSentiment: ResultSentiment | null;
   tags: string[];
   /** Matches sidebar specialty checkbox `value` when applicable. */
   specialties: string[];
@@ -59,4 +76,6 @@ export interface SearchProvider {
   providerType?: "place" | "practitioner";
   /** AI-generated prose summary of patient reviews. Set by scripts/ai/generate-summaries.mjs. */
   aiSummary?: string;
+  /** Public-record data, when the provider was matched in the NPI Registry. */
+  npi?: NpiRecord;
 }
